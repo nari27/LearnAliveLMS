@@ -207,7 +207,8 @@ function PostList({ boardId }) {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="post-container">
+    <div className="container">
+      <h2 className="title-bar">📌 게시글 목록</h2>
       {showCreatePost ? (
         <AddPostPage
           boardId={boardId}
@@ -221,24 +222,32 @@ function PostList({ boardId }) {
         />
       ) : (
         <>
-          <div>
-            {/* 게시글 추가 버튼 로직 */}
-            {board?.isDefault === 0 && user?.author_role === "professor" && (
-              <button className="add-post-button" onClick={() => setShowCreatePost(true)}>
-                게시글 추가
-              </button>
-            )}
-            {board?.isDefault === 1 && (
-              <button className="add-post-button" onClick={() => setShowCreatePost(true)}>
-                게시글 추가
-              </button>
-            )}
-          </div>
-
+          {/* ✅ 선택된 게시글이 있으면 상세보기로 전환 */}
           {selectedPost ? (
-            <PostDetail post={selectedPost} onBack={() => setSelectedPost(null)}  onLikeToggle={handleLikeToggle}   onUpdate={handleUpdatePost} fetchData={fetchData} />
+            <PostDetail
+              post={selectedPost}
+              onBack={() => setSelectedPost(null)}
+              onLikeToggle={handleLikeToggle}
+              onUpdate={handleUpdatePost}
+              fetchData={fetchData}
+            />
           ) : (
             <>
+              {/* ✅ 게시글 추가 버튼과 검색 영역 */}
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+              <div>
+                {board?.isDefault === 0 && user?.author_role === "professor" && (
+                  <button className="add-post-button" onClick={() => setShowCreatePost(true)}>
+                    게시글 추가
+                  </button>
+                )}
+                {board?.isDefault === 1 && (
+                  <button className="add-post-button" onClick={() => setShowCreatePost(true)}>
+                    게시글 추가
+                  </button>
+                )}
+              </div>
+
               <div>
                 <input
                   type="text"
@@ -248,21 +257,20 @@ function PostList({ boardId }) {
                 />
                 <button onClick={handleSearchClick}>검색</button>
               </div>
+            </div>
 
+              {/* ✅ 필터링된 게시글 */}
               {showFiltered ? (
-                 <FilteredPostList
-                filteredPosts={filteredPosts}  // 필터링된 게시글을 전달
-                handleDelete={handleDelete}  // 삭제 함수 전달
-                // filteredPosts={currentPosts} 
-                onPostClick={handleTitleClick} 
-                paginate={paginate} 
-                currentPage={currentPage} 
-                totalPages={totalPages} 
-                
-              />
+                <FilteredPostList
+                  filteredPosts={filteredPosts}
+                  handleDelete={handleDelete}
+                  onPostClick={handleTitleClick}
+                  paginate={paginate}
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                />
               ) : (
                 <div>
-                  <h2>게시글 목록</h2>
                   <table>
                     <thead>
                       <tr>
