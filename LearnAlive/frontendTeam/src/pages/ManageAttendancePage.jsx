@@ -287,7 +287,7 @@ const ManageAttendancePage = () => {
   };
 
   return (
-    <div className="container">
+    <div className="post-container">
       <h2 className="title-bar">👨‍🏫 출석 관리</h2>
       <Calendar 
         onChange={handleDateChange} 

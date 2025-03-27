@@ -72,11 +72,11 @@ const fetchSchedules = async () => {
 
    // 페이지 로드 시 일정 가져오기& 알람 권한 받기
    useEffect(() => {
-    setTimeout(() => {
-      requestNotificationPermission();
-      fetchSchedules();
-    }, 500); // 0.5초 후 실행
-  },  [user?.userId]);
+    if (!user || !user.userId) return;
+  
+    requestNotificationPermission();
+    fetchSchedules();
+  }, [user]);
 
 
   //--------------------------------
@@ -145,7 +145,7 @@ const handleEventClick = (info) => {
       };
       // 일정 등록 API 호출
       await createSchedule(schedule);
-  
+      await fetchSchedules();   
       // 성공적으로 등록되면 이벤트에 추가
       // setEvents([
       //   ...events,
@@ -161,18 +161,7 @@ const handleEventClick = (info) => {
       //   },
         
       // ]);
-      setEvents([
-        ...events,
-        {
-          title: formData.title,
-          start: selectedDate,  // ✅ 반드시 start로 넣어야 함
-          extendedProps: {
-            alarmTime: formData.alarmTime,
-            mark: formData.mark,
-          },
-          color: formData.color,
-        }
-      ]);
+
       // 폼 초기화 및 모달 닫기
       setFormData({ title: "", content: "", mark: 0, color: "#ffcccc"});
       setIsModalOpen(false);

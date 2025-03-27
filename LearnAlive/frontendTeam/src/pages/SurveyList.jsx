@@ -112,7 +112,7 @@ const SurveyList = ({ boardId }) => {
     console.log("🔄 현재 상태 - selectedSurveyId:", selectedSurveyId, "isCreatingSurvey:", isCreatingSurvey, "showVisualization:", showVisualization, "showResponseStatus:", showResponseStatus, "showUpdate:", showUpdate);
 
   return (
-    <div className="container">
+    <div className="post-container">
       {selectedSurveyId ? (
     showUpdate ? ( 
       <SurveyUpdate surveyId={selectedSurveyId} onSurveyUpdated={handleBackToDetail} onBack={handleBackToDetail} />

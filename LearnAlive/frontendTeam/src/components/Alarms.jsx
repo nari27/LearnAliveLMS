@@ -1,5 +1,5 @@
 import { useEffect, useState  } from 'react';
-import {createTodo,deleteTodo,updateTodo, getTodo } from '../api/scheduleApi'; 
+import {createTodo,deleteTodo,updateTodoCompletion , getTodo } from '../api/scheduleApi'; 
 import { useAuth } from '../context/AuthContext';
 
 const Alams = ({ events }) => {
@@ -98,7 +98,7 @@ const Alams = ({ events }) => {
   
     try {
       // 서버에 업데이트된 상태 반영
-      await updateTodo(updatedTodos[index].id, updatedTodos[index]);
+      await updateTodoCompletion(updatedTodos[index].id, updatedTodos[index]);
       setTodoList(updatedTodos);  // 상태 업데이트
     } catch (error) {
       console.error("투두 업데이트 실패:", error);

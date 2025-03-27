@@ -32,7 +32,7 @@ public class BoardService {
         return boardMapper.getAllBoard(classId);
     }
 	
-	
-	 
-
+	public int findClassIdByBoardId(int boardId) {
+        return boardMapper.findClassIdByBoardId(boardId);
+    }
 }

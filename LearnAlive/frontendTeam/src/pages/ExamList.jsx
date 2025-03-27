@@ -71,7 +71,7 @@ const ExamList = () => {
   if (!user) return <p>로그인 해주세요.</p>;
 
   return (
-    <div>
+    <div className='post-container'>
       {viewMode === 'list' && (
         <>
           <h2>📝 시험 목록</h2>

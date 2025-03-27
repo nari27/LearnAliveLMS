@@ -19,7 +19,7 @@ public interface AttendanceService {
     
     Map<String, Object> studentCheckIn(Attendance request); // 학생 출석 기록
     
-List<Attendance> getAttendanceByStudent(String studentId, String date);
+    List<Attendance> getAttendanceByStudent(String studentId, String date);
     
     // 학생의 월별 출석 기록 조회
     List<Attendance> getMonthlyAttendance(String studentId, String month);

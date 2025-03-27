@@ -133,7 +133,7 @@ const TeamActivity = ({ classId }) => {
     );
   } else {
     return (
-      <div>
+      <div className="post-container">
         <h2>팀 활동 게시글</h2>
         <div style={{ marginBottom: "1rem" }}>
           {!hasUserPost && (

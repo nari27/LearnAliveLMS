@@ -1,5 +1,6 @@
 package com.lms.attendance.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -13,10 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lms.attendance.model.AlarmMessage;
 import com.lms.attendance.model.Exam;
 import com.lms.attendance.model.ExamResult;
 import com.lms.attendance.model.ExamStudentAnswer;
 import com.lms.attendance.model.StudentExamResult;
+import com.lms.attendance.service.AlarmSender;
 import com.lms.attendance.service.ExamService;
 import com.lms.attendance.service.ExamSubmissionService;
 
@@ -28,12 +31,21 @@ import lombok.RequiredArgsConstructor;
 public class ExamController {
     private final ExamService examService;
     private final ExamSubmissionService examSubmissionService;
+    private final AlarmSender alarmSender;
 
     // 새로운 시험 추가 (시험과 질문 포함)
     @PostMapping
     public ResponseEntity<String> createExam(@RequestBody Exam exam) {
         System.out.println("시험 데이터: " + exam); // 전송 데이터 확인
         examService.createExam(exam);  // 시험과 관련된 질문들까지 저장
+        AlarmMessage message = new AlarmMessage(
+                "EXAM",
+                exam.getTitle(),
+                LocalDateTime.now().toString(),
+                exam.getClassId()
+            );
+            alarmSender.sendToUsersInClass(exam.getClassId(), message);
+
         return ResponseEntity.ok("시험이 성공적으로 생성되었습니다.");
     }
 

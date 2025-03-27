@@ -155,4 +155,6 @@ public interface SurveyMapper {
     @Delete("DELETE FROM survey_response WHERE survey_id = #{surveyId}")
     int deleteSurveyResponses(@Param("surveyId") int surveyId);
 
+    @Select("SELECT class_id FROM survey_board WHERE board_id = #{boardId}")
+    Integer findClassIdBySurveyBoardId(@Param("boardId") int boardId);
 }

@@ -9,6 +9,7 @@ import { Bell } from "lucide-react"; // 아이콘 라이브러리 사용
 import "../styles/notification.css"
 import { fetchAlarmList } from "../api/scheduleApi";
 
+
 const Header = () => {
   const { user, login, logout } = useAuth();
   const [userId, setUserId] = useState("");
@@ -18,10 +19,19 @@ const Header = () => {
   const { notifications } = useNotifications();
   const [alarmList, setAlarmList] = useState([]);
   const [open, setOpen] = useState(false);
+  const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
     console.log("현재 로그인한 사용자:", user);
   }, [user]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000); // 매초 갱신
+  
+    return () => clearInterval(interval); // 언마운트 시 제거
+  }, []);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -146,6 +156,18 @@ const Header = () => {
           </div>
         </div>
       )}
+
+      <div style={{
+          backgroundColor: "white",
+          padding: "10px",
+          borderRadius: "14px",
+          fontWeight: "bold",
+          fontSize: "15px",
+          marginRight: "5px",
+          border: "4px solid #1929A4"
+        }}>
+          ⏰ {currentTime.toLocaleTimeString('ko-KR')}
+        </div>
 
       {/* 모달 */}
       {isModalOpen && <FindAccountModal onClose={() => setIsModalOpen(false)} />}
