@@ -3,7 +3,7 @@ import { createExam } from '../api/examApi';
 import { useNavigate, useParams } from 'react-router-dom';
 import '../styles/ExamCreate.css';
 
-const ExamCreate = () => {
+const ExamCreate = ({ onBack }) => {
   const [examTitle, setExamTitle] = useState('');
   const [profId] = useState('');
   const [profName, setProfName] = useState('');
@@ -250,9 +250,9 @@ const ExamCreate = () => {
           <button className="save-btn" onClick={handleSave}>
             시험 저장
           </button>
-          <button className="back-btn" onClick={() => navigate(-1)}>
-            ⬅ 목록으로
-          </button>
+          <button className="back-btn" onClick={onBack}>
+          ⬅ 목록으로
+        </button>
         </div>
       </div>
     </div>

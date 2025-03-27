@@ -71,7 +71,7 @@ public class AuthController {
             }
 
             // 관리자 로그인의 경우 역할을 "ADMIN"으로 설정
-            String role = "ADMIN";
+            String role = "admin";
             String roleInKorean = "관리자";
             return ResponseEntity.ok(Map.of(
                     "success", true,
@@ -91,13 +91,13 @@ public class AuthController {
         }
 
         // 사용자 이름 조회 (관리자는 이름 없음)
-        String name = "ADMIN".equalsIgnoreCase(role) ? null : authService.getUserNameByIdAndRole(request.getUserId(), role);
+        String name = "admin".equalsIgnoreCase(role) ? null : authService.getUserNameByIdAndRole(request.getUserId(), role);
 
         // 역할 한글 변환
         String roleInKorean = switch (role.toLowerCase()) {
-            case "ADMIN" -> "관리자";
-            case "PROFESSOR" -> "교수자";
-            case "STUDENT" -> "학생";
+            case "admin" -> "관리자";
+            case "professor" -> "교수자";
+            case "student" -> "학생";
             default -> "알 수 없음";
         };
 

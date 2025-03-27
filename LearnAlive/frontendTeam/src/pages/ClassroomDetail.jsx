@@ -16,6 +16,7 @@ import ExamList from "./ExamList";
 import ExamCreate from "./ExamCreate";
 import ExamDetail from "./ExamDetail";
 import ExamTake from './ExamTake';
+import TeamActivity from "../components/TeamActivity";
 import "../styles/ClassroomDetail.css";
 import "../styles/post.css";
 
@@ -167,11 +168,14 @@ const ClassroomDetail = () => {
           )
         );
         break;
-      default:
-        setActiveComponent(null);
-    }
-  }, [selectedMenu, classId, boardId, selectedSurveyBoardId, user, selectedExamId]);
-
+        case "teamActivity":
+          setActiveComponent(<TeamActivity classId={classId} />);
+          break;
+        default:
+          setActiveComponent(null);
+      }
+    }, [selectedMenu, classId, boardId, selectedSurveyBoardId, user, selectedExamId]);
+  
   if (!classDetail) return <p>클래스 정보를 불러오는 중...</p>;
 
   return (
@@ -244,6 +248,14 @@ const ClassroomDetail = () => {
               퀴즈
             </button>
           )}
+
+          {/* 새로 추가된 팀 활동 게시판 버튼 */}
+          <button
+            className="menu-button"
+            onClick={() => setSelectedMenu("teamActivity")}
+          >
+            팀 활동
+          </button>
 
 
           {/* 추가 메뉴: 메인으로 */}

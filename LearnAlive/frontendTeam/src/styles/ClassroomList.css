@@ -146,3 +146,48 @@
 .button-checkin:hover {
   background: #1929A4; /* 호버 시 약간 어두운 색 */
 }
+
+.modal-input {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+.modal-content {
+  max-height: 70vh;   /* ✅ 핵심: 콘텐츠 영역 제한 */
+  overflow-y: auto;   /* ✅ 핵심: 내용 많아지면 스크롤 */
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.select-input {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+.classroom-label {
+  font-size: 18px;
+}
+
+.input-group {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.modal-inner-bg {
+  border: 2px solid black;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px;
+}

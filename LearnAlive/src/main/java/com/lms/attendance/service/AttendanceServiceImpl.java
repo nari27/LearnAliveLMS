@@ -110,34 +110,20 @@ public class AttendanceServiceImpl implements AttendanceService {
         return response;
     }
 
-    public List<Attendance> getAttendanceByStudent(int studentId, String date) {
-        List<Attendance> attendanceList = attendanceMapper.findAttendanceByStudent(studentId, date);
-        for (Attendance att : attendanceList) {
-            if (att.getCreatedAt() == null) att.setCreatedAt("");
-            if (att.getUpdatedAt() == null) att.setUpdatedAt("");
-        }
-        return attendanceList;
+    @Override
+    public List<Attendance> getAttendanceByStudent(String studentId, String date) {
+        return attendanceMapper.findAttendanceByStudent(studentId, date);
     }
     
     @Override
     @Transactional
-    public List<Attendance> getMonthlyAttendance(int studentId, String month) {
-        List<Attendance> attendanceList = attendanceMapper.findAttendanceByStudentForMonth(studentId, month);
-        for (Attendance att : attendanceList) {
-            if (att.getCreatedAt() == null) att.setCreatedAt("");
-            if (att.getUpdatedAt() == null) att.setUpdatedAt("");
-        }
-        return attendanceList;
+    public List<Attendance> getMonthlyAttendance(String studentId, String month) {
+        return attendanceMapper.findAttendanceByStudentForMonth(studentId, month);
     }
     
     @Override
     @Transactional
-    public List<Attendance> getPastAttendance(int studentId, String endDate) {
-        List<Attendance> attendanceList = attendanceMapper.findPastAttendanceByStudent(studentId, endDate);
-        for (Attendance att : attendanceList) {
-            if (att.getCreatedAt() == null) att.setCreatedAt("");
-            if (att.getUpdatedAt() == null) att.setUpdatedAt("");
-        }
-        return attendanceList;
+    public List<Attendance> getPastAttendance(String studentId, String endDate) {
+        return attendanceMapper.findPastAttendanceByStudent(studentId, endDate);
     }
 }

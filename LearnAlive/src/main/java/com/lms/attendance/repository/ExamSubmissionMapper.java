@@ -35,7 +35,7 @@ public interface ExamSubmissionMapper {
         @Result(property = "answer3", column = "answer3"),
         @Result(property = "answer4", column = "answer4")
     })
-    List<ExamQuestion> getCorrectAnswer(int examId);
+    List<ExamQuestion> getCorrectAnswer(@Param("examId") int examId);
 
     // 4. 최종 점수 업데이트
     @Update("UPDATE Exam_Submission SET score = #{score} WHERE submission_id = #{submissionId}")
@@ -55,10 +55,10 @@ public interface ExamSubmissionMapper {
         @Result(property = "score", column = "score")
     })
     ExamSubmission getStudentSubmission(@Param("examId") int examId, @Param("studentId") String studentId);
-    
+
     
  // 학생 답변 조회
-    @Select("SELECT * from Exam_Answer WHERE student_id = #{studentId} AND exam_id = #{examId};")
+    @Select("SELECT * FROM Exam_Answer WHERE student_id = #{studentId} AND exam_id = #{examId}")
     @Results({
         @Result(property = "answerId", column = "answer_id"),
         @Result(property = "submissionId", column = "submission_id"),

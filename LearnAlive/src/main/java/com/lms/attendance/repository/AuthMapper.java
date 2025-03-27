@@ -17,7 +17,7 @@ public interface AuthMapper {
         UNION ALL
         SELECT prof_id AS userId, name, 'professor' AS role, password FROM Professor WHERE prof_id = #{userId}
         UNION ALL
-        SELECT admin_id AS userId, NULL AS name, 'ADMIN' AS role, password FROM Admin WHERE admin_id = #{userId}
+        SELECT admin_id AS userId, NULL AS name, 'admin' AS role, password FROM Admin WHERE admin_id = #{userId}
     """)
     @Results({
         @Result(column = "userId", property = "userId"),

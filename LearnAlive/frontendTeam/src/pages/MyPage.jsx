@@ -55,7 +55,7 @@ const MyPage = () => {
           <Link to="/mypage/myclasses"> <button className="menu-button"> 내 강의 조회 </button> </Link>
           <Link to="/mypage/myattendance"> <button className="menu-button"> 출결내역 확인 </button> </Link>
           {user?.role === "student" && (
-            <button className="menu-button"> <Link to="/mypage/mygrades"> <button className="menu-button"> 성적 확인 </button> </Link> </button>
+          <Link to="/mypage/mygrades"> <button className="menu-button"> 성적 확인 </button> </Link>
           )}
           <Link to="/mypage/achievements"> <button className="menu-button"> 업적 </button> </Link>
       </div>

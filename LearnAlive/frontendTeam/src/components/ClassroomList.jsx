@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useState, useEffect } from "react";
-import { fetchClassrooms, addClassroom, deleteClassroom } from "../api/classroomApi";
+import { fetchClassrooms, addClassroom, deleteClassroom, fetchAllClassroomsForAdmin } from "../api/classroomApi";
 import AddClassroomModal from "../components/AddClassroomModal";
 import StudentManagementModal from "../components/StudentManagementModal";
 import "../styles/ClassroomList.css"; // CSS 파일 추가
@@ -13,10 +13,24 @@ const ClassroomList = () => {
   const [showStudentModal, setShowStudentModal] = useState(false);
 
   useEffect(() => {
-    if (user?.userId) {
-      fetchClassrooms(user.userId).then(setClassrooms);
-    }
-  }, [user?.userId]);
+    const fetchData = async () => {
+      if (!user?.userId) return;
+      try {
+        if (user.role === "admin") {
+          const allClasses = await fetchAllClassroomsForAdmin();
+          setClassrooms(allClasses);
+        } else {
+          const myClasses = await fetchClassrooms(user.userId);
+          setClassrooms(myClasses);
+        }
+      } catch (error) {
+        console.error("강의실 불러오기 실패:", error);
+      }
+    };
+  
+    fetchData();
+  }, [user?.userId, user?.role]);
+  
 
   if (!user) {
     return (
@@ -33,16 +47,16 @@ const ClassroomList = () => {
   }
 
   // ✅ 강의실 추가 핸들러
-  const handleAddClassroom = async (className) => {
+  const handleAddClassroom = async (classroomData) => {
     try {
-      await addClassroom({ className, profId: user.userId });
+      await addClassroom(classroomData);  // ✅ 중첩 없이 그대로 전달
       const updatedClassrooms = await fetchClassrooms(user.userId);
       setClassrooms(updatedClassrooms);
       setShowClassroomModal(false); // 모달 닫기
     } catch (error) {
       console.error("강의실 추가 실패:", error);
     }
-  };
+  };  
 
   // ✅ 강의실 삭제 핸들러
   const handleDeleteClassroom = async (classId) => {
@@ -64,12 +78,25 @@ const ClassroomList = () => {
       {/* ✅ "내 강의실"을 배경이 있는 박스로 감싸기 */}
       <div className="classroom-title">내 강의실</div>
 
+      {user.role === "admin" && (
+        <div>
+          <button onClick={() => setShowClassroomModal(true)} className="normal-button">강의실 추가</button>
+          <button onClick={() => setShowStudentModal(true)} className="normal-button">수강생 관리</button>
+        </div>
+      )}
+
       {user.role === "professor" && (
         <div>
           <button onClick={() => setShowClassroomModal(true)} className="normal-button">강의실 추가</button>
           <button onClick={() => setShowStudentModal(true)} className="normal-button">수강생 관리</button>
         </div>
       )}
+      {user.role === "student" && (
+        <Link to="/pre-registration">
+          <button className="normal-button">예비 수강신청</button>
+        </Link>
+      )}
+
       <ul className="classroom-list">
         {classrooms.length > 0 ? (
           classrooms.map((classroom) => (
@@ -80,7 +107,7 @@ const ClassroomList = () => {
                 {classroom.className}
               </Link>
 
-              {user.role === "professor" && (
+              {(user.role === "professor" || user.role === "admin") && (
                 <div className="classroom-buttons">
                   <Link to={`/classroom/${classroom.classId}/settings`}>
                     <button className="normal-button">⚙️시간 설정</button>

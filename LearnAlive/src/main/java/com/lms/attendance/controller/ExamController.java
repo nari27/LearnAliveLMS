@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lms.attendance.model.Exam;
 import com.lms.attendance.model.ExamResult;
 import com.lms.attendance.model.ExamStudentAnswer;
+import com.lms.attendance.model.StudentExamResult;
 import com.lms.attendance.service.ExamService;
 import com.lms.attendance.service.ExamSubmissionService;
 
@@ -38,10 +39,12 @@ public class ExamController {
 
     // 특정 클래스의 시험 목록 가져오기
     @GetMapping
-    public ResponseEntity<List<Exam>> getExams(@RequestParam("classId") int classId) {
-        System.out.println("🔍 요청 받은 classId: " + classId);  // classId 값 확인
-        List<Exam> exams = examService.getExamsByClassId(classId);
-        System.out.println("🔍 가져온 시험 목록: " + exams);  // 가져온 데이터 확인
+    public ResponseEntity<List<Exam>> getExams(
+            @RequestParam("classId") int classId,
+            @RequestParam("studentId") String studentId) {
+        System.out.println("🔍 요청 받은 classId: " + classId + ", studentId: " + studentId);
+        List<Exam> exams = examService.getExamsByClassIdAndStudentId(classId, studentId);
+        System.out.println("🔍 가져온 시험 목록: " + exams);
         return ResponseEntity.ok(exams);
     }
 
@@ -78,20 +81,33 @@ public class ExamController {
     }
 
  // 학생이 시험을 제출
-    @PostMapping("/{examId}/submit")
-    public ResponseEntity<String> submitExam(@PathVariable("examId") int examId, @RequestBody ExamStudentAnswer examStudentAnswer) {
+    @PostMapping("/submit")
+    public ResponseEntity<String> submitExam(@RequestBody ExamStudentAnswer examStudentAnswer) {
         System.out.println("시험 제출 데이터: " + examStudentAnswer);
-        examSubmissionService.submitExam(examStudentAnswer, examId);
+        examSubmissionService.submitExam(examStudentAnswer);
         return ResponseEntity.ok("시험이 성공적으로 제출되었습니다.");
     }
     
-// 시험결과
-    @GetMapping("/examResult/{examId}")
-    public ResponseEntity<ExamResult> getExamResult(@PathVariable int examId, @RequestParam String studentId) {
-    	ExamResult result = examSubmissionService.getExamResult(examId, studentId); 
-    	System.out.println("==== >>>>");
-    	System.out.println(result.getAnswers());
-    	return ResponseEntity.ok(result);
+ // ✅ 특정 학생의 시험 결과 조회 (examId, studentId 모두 RequestParam으로 받기)
+    @GetMapping("/examResult")
+    public ResponseEntity<ExamResult> getExamResult(
+        @RequestParam("examId") int examId, 
+        @RequestParam("studentId") String studentId) {
+        
+        ExamResult result = examSubmissionService.getExamResult(examId, studentId); 
+        System.out.println("==== >>>>");
+        System.out.println(result.getAnswers());
+        return ResponseEntity.ok(result);
     }
 
+    // ✅ 특정 시험에 대한 모든 학생의 시험 결과 조회
+    @GetMapping("/examResultsByExamId")
+    public ResponseEntity<List<StudentExamResult>> getExamResultsByExamId(
+        @RequestParam("examId") int examId) {
+        
+        List<StudentExamResult> results = examService.getExamResultsByExamId(examId);
+        return ResponseEntity.ok(results);
+    }
+
+    
 }
