@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,11 +15,13 @@ import com.lms.attendance.repository.AttendanceMapper;
 public class AttendanceServiceImpl implements AttendanceService {
 
     private final AttendanceMapper attendanceMapper;
+    private final WebSocketService webSocketService;
 
-    public AttendanceServiceImpl(AttendanceMapper attendanceMapper) {
+    public AttendanceServiceImpl(AttendanceMapper attendanceMapper, WebSocketService webSocketService) {
         this.attendanceMapper = attendanceMapper;
+        this.webSocketService = webSocketService;
     }
-
+ 
     // ✅ 특정 날짜 출석 데이터 조회
     @Override
     public List<Attendance> getAttendanceByClassAndDate(int classId, String date) {
@@ -36,8 +39,9 @@ public class AttendanceServiceImpl implements AttendanceService {
     // ✅ 출석 상태 변경
     @Override
     @Transactional
-    public void updateAttendanceState(int attendanceId, String state) {
+    public void updateAttendanceState(int attendanceId, String state, String studentId) {
         attendanceMapper.updateAttendanceState(attendanceId, state);
+        checkAndSendFAlert(studentId); // ✅ 전체 이력 기준 경고 판단
     }
 
     // ✅ 출석 사유 변경
@@ -60,6 +64,7 @@ public class AttendanceServiceImpl implements AttendanceService {
                     attendance.getClassId(),
                     attendance.getDate(),
                     attendance.getState());
+            checkAndSendFAlert(attendance.getStudentId());
         }
     }
 
@@ -126,4 +131,31 @@ public class AttendanceServiceImpl implements AttendanceService {
     public List<Attendance> getPastAttendance(String studentId, String endDate) {
         return attendanceMapper.findPastAttendanceByStudent(studentId, endDate);
     }
+    
+    @Override
+    @Transactional
+ // 출석 이력에 따른 F학점 경고 전송
+    public void checkAndSendFAlert(String studentId) {
+        int absentCount = attendanceMapper.countAbsentsByStudentId(studentId); 
+        int lateCount = attendanceMapper.countLatesByStudentId(studentId);     
+        int virtualAbsents = absentCount + (lateCount / 2);
+
+        System.out.println("👀 알림 체크 대상 학번: " + studentId);
+        System.out.println("📊 결석 횟수: " + absentCount);
+        System.out.println("📊 지각 횟수: " + lateCount);
+        System.out.println("📈 환산된 결석 횟수: " + virtualAbsents);
+
+        if (virtualAbsents >= 2) {
+            System.out.println("🚨 F학점 경고 알림 전송 시작");
+            // WebSocketService를 통해 학생과 교수자에게 알림을 전송하고, DB에 저장
+            webSocketService.sendFGradeWarning(
+                studentId,
+                "현재까지 결석 " + absentCount + "회, 지각 " + lateCount + "회입니다. 출석에 유의하세요!",
+                1 // 예시로 클래스 ID가 1번이라고 가정
+            );
+        } else {
+            System.out.println("✅ F학점 조건 미충족, 알림 전송 생략");
+        }
+    }
+
 }

@@ -50,7 +50,6 @@ const SurveyList = ({ boardId }) => {
       })
       .catch((error) => console.error("❌ 설문조사 목록 갱신 오류:", error));
   };
-  
 
   const handleBackToDetail = () => {
     setShowResponseStatus(false);
@@ -85,13 +84,10 @@ const SurveyList = ({ boardId }) => {
     setShowVisualization(false);
   };
 
-
   const handleDeleteSurvey = async (surveyId) => {
     const success = await deleteSurvey(surveyId);
-    
     if (success) {
       console.log(`🗑️ 설문조사 ${surveyId} 삭제 성공`);
-      
       // ✅ 삭제 후 최신 목록 다시 불러오기
       fetchSurveysByBoard(boardId)
         .then((data) => {
@@ -108,19 +104,18 @@ const SurveyList = ({ boardId }) => {
     ? surveys // ✅ 토글 활성화 시 모든 설문 표시
     : surveys.filter(survey => new Date(survey.endTime) > currentDateTimeKST); // ✅ 종료되지 않은 설문만 표시
 
-
-    console.log("🔄 현재 상태 - selectedSurveyId:", selectedSurveyId, "isCreatingSurvey:", isCreatingSurvey, "showVisualization:", showVisualization, "showResponseStatus:", showResponseStatus, "showUpdate:", showUpdate);
+  console.log("🔄 현재 상태 - selectedSurveyId:", selectedSurveyId, "isCreatingSurvey:", isCreatingSurvey, "showVisualization:", showVisualization, "showResponseStatus:", showResponseStatus, "showUpdate:", showUpdate);
 
   return (
     <div className="post-container">
       {selectedSurveyId ? (
-    showUpdate ? ( 
-      <SurveyUpdate surveyId={selectedSurveyId} onSurveyUpdated={handleBackToDetail} onBack={handleBackToDetail} />
-    ) : showVisualization ? (
-      <SurveyResponseVisualization surveyId={selectedSurveyId} onBack={handleBackToDetail} />
-    ) : showResponseStatus ? (
-      <SurveyResponseStatusList surveyId={selectedSurveyId} onBack={handleBackToDetail} />
-    ) : (
+        showUpdate ? ( 
+          <SurveyUpdate surveyId={selectedSurveyId} onSurveyUpdated={handleBackToDetail} onBack={handleBackToDetail} />
+        ) : showVisualization ? (
+          <SurveyResponseVisualization surveyId={selectedSurveyId} onBack={handleBackToDetail} />
+        ) : showResponseStatus ? (
+          <SurveyResponseStatusList surveyId={selectedSurveyId} onBack={handleBackToDetail} />
+        ) : (
           <SurveyDetail
             surveyId={selectedSurveyId}
             onBack={handleBackToList}
@@ -134,60 +129,77 @@ const SurveyList = ({ boardId }) => {
       ) : (
         <>
           <h2 className="title-bar">📋 설문조사 목록</h2>
-          <br></br>
-          <ul className="survey-list">
+          
           <div style={{ 
-                display: "flex", 
-                justifyContent: "space-between", 
-                alignItems: "center", 
-                marginBottom: "10px",
-                marginTop: "10px",
-                gap: "50px"
-              }}>
-                {isProfessor && (
-                  <button onClick={handleAddSurvey} className="normal-button">💁‍♀️ 설문조사 추가</button>
-                )}
-
-                {/* ✅ 토글은 오른쪽으로 */}
-                <button className="normal-button">
-                <label style={{ display: "flex", alignItems: "center", gap: "10px" }} className="past-survey-label">
-                  <input 
-                    type="checkbox" 
-                    checked={showPastSurveys} 
-                    onChange={() => setShowPastSurveys(!showPastSurveys)} 
-                    className="past-survey-checkbox"
-                  />
-                  지난 설문조사
-                </label>
-              </button>
-              </div>
-             {filteredSurveys.length > 0 ? (
-              filteredSurveys.map((survey) => (
-                <li key={survey.surveyId}>
-                  <span 
-                    style={{ cursor: "pointer"}}
-                    onClick={() => handleSelectSurvey(survey.surveyId)}
-                  >
-                    {survey.title}
-                  </span>
-                  {isProfessor && (
-                    <button 
-                      onClick={() => {
-                        if (window.confirm("정말로 삭제하시겠습니까?")) { // ✅ 확인 메시지
-                          handleDeleteSurvey(survey.surveyId);
-                        }
-                      }}
-                      style={{display: "block", marginLeft: "auto",  backgroundColor: "#363A43"}}
-                    >
-                      삭제
-                    </button>
-                  )}
-                </li>
-              ))
-            ) : (
-              <p className="normal-title">📌 아직 설문조사가 없습니다. 새로 추가해 보세요.</p>
+            display: "flex", 
+            justifyContent: "space-between", 
+            alignItems: "center", 
+            marginBottom: "10px",
+            marginTop: "10px",
+            gap: "50px"
+          }}>
+            {isProfessor && (
+              <button onClick={handleAddSurvey} className="normal-button">💁‍♀️ 설문조사 추가</button>
             )}
-          </ul>
+
+            {/* ✅ 토글은 오른쪽으로 */}
+            <button className="normal-button">
+              <label style={{ display: "flex", alignItems: "center", gap: "10px" }} className="past-survey-label">
+                <input 
+                  type="checkbox" 
+                  checked={showPastSurveys} 
+                  onChange={() => setShowPastSurveys(!showPastSurveys)} 
+                  className="past-survey-checkbox"
+                />
+                지난 설문조사
+              </label>
+            </button>
+          </div>
+
+          {/* ✅ 리스트를 표 형태로 표시 */}
+          {filteredSurveys.length > 0 ? (
+            <table className="survey-table" style={{ width: "100%", marginTop: "1rem" }}>
+              <thead>
+                <tr>
+                  <th>제목</th>
+                  <th>시작 시간</th>
+                  <th>종료 시간</th>
+                  {isProfessor && <th>관리</th>}
+                </tr>
+              </thead>
+              <tbody>
+                {filteredSurveys.map((survey) => (
+                  <tr key={survey.surveyId}>
+                    <td
+                      style={{ cursor: "pointer", fontWeight: "bold" }}
+                      onClick={() => handleSelectSurvey(survey.surveyId)}
+                      className="post-title"
+                    >
+                      {survey.title}
+                    </td>
+                    <td>{survey.startTime}</td>
+                    <td>{survey.endTime}</td>
+                    {isProfessor && (
+                      <td>
+                        <button 
+                          onClick={() => {
+                            if (window.confirm("정말로 삭제하시겠습니까?")) {
+                              handleDeleteSurvey(survey.surveyId);
+                            }
+                          }}
+                          className="delete-button"
+                        >
+                          삭제
+                        </button>
+                      </td>
+                    )}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p className="normal-title">📌 아직 설문조사가 없습니다. 새로 추가해 보세요.</p>
+          )}
         </>
       )}
     </div>

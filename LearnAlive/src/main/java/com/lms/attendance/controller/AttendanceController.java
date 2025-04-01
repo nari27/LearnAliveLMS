@@ -48,14 +48,17 @@ public class AttendanceController {
  // ✅ 출석 상태(state) 변경
     @PutMapping("/{attendanceId}/state")
     public ResponseEntity<?> updateAttendanceState(
-        @PathVariable("attendanceId") int attendanceId, // ← 명시적으로 변수명 추가
+        @PathVariable("attendanceId") int attendanceId,
         @RequestBody Map<String, String> payload
     ) {
         String state = payload.get("state");
-        if (state == null || state.isEmpty()) {
-            return ResponseEntity.badRequest().body("출석 상태 값이 누락되었습니다.");
+        String studentId = payload.get("studentId"); // ✅ 학번도 추출
+
+        if (state == null || state.isEmpty() || studentId == null || studentId.isEmpty()) {
+            return ResponseEntity.badRequest().body("출석 상태 또는 학번이 누락되었습니다.");
         }
-        attendanceService.updateAttendanceState(attendanceId, state);
+
+        attendanceService.updateAttendanceState(attendanceId, state, studentId);
         return ResponseEntity.ok("출석 상태 업데이트 성공");
     }
 
@@ -113,8 +116,8 @@ public class AttendanceController {
         return ResponseEntity.ok(attendanceList);
     }
     
-	 // 지난 출석 데이터 조회 엔드포인트
-	 // 예: GET /api/attendance/student/1/past?endDate=2025-03-18
+ // 지난 출석 데이터 조회 엔드포인트
+ 	 // 예: GET /api/attendance/student/1/past?endDate=2025-03-18
     @GetMapping("/student/{studentId}/past")
     public ResponseEntity<List<Attendance>> getPastAttendance(
             @PathVariable("studentId") String studentId,

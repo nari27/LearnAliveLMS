@@ -142,7 +142,7 @@ const payload = {
               onChange={handleChange} 
               required 
             />
-            <button type="button" onClick={checkStudentId} className="check-button">
+            <button type="button" onClick={checkStudentId} className="normal-button">
               중복 확인
             </button>
           </div>

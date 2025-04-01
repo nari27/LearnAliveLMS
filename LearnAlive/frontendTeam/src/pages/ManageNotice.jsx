@@ -96,7 +96,7 @@ const ManageNotice = () => {
 
         <div style={styles.buttonContainer}>
           {selectedNoticeId ? (
-            <button style={styles.editButton} onClick={handleEdit}>수정</button>
+            <button style={styles.editButton} onClick={handleEdit}>저장</button>
           ) : (
             <button style={styles.addButton} onClick={handleAdd}>추가</button>
           )}
@@ -120,104 +120,131 @@ const ManageNotice = () => {
 };
 
 // 스타일 객체
+// 스타일 객체
 const styles = {
-    container: {
-      maxWidth: "600px",
-      margin: "auto",
-      padding: "20px",
-      fontFamily: "Arial, sans-serif",
-    },
-    heading: {
-      textAlign: "center",
-      color: "#333",
-    },
-    backButton: {
-      marginBottom: "10px",
-      padding: "8px 12px",
-      backgroundColor: "#B0BEC5", // 연한 회색
-      color: "#333",
-      border: "none",
-      cursor: "pointer",
-      borderRadius: "5px",
-    },
-    form: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "10px",
-      marginBottom: "20px",
-    },
-    label: {
-      fontWeight: "bold",
-    },
-    input: {
-      padding: "10px",
-      fontSize: "16px",
-      border: "1px solid #ccc",
-      borderRadius: "5px",
-    },
-    textarea: {
-      padding: "10px",
-      fontSize: "16px",
-      height: "100px",
-      border: "1px solid #ccc",
-      borderRadius: "5px",
-      resize: "none",
-    },
-    buttonContainer: {
-      display: "flex",
-      justifyContent: "center",
-      gap: "10px",
-    },
-    addButton: {
-      padding: "10px 20px",
-      backgroundColor: "#4CAF50", // 부드러운 녹색
-      color: "#333",
-      border: "none",
-      borderRadius: "5px",
-      cursor: "pointer",
-    },
-    editButton: {
-      padding: "10px 20px",
-      backgroundColor: "#008CBA", // 차분한 파란색
-      color: "#fff",
-      border: "none",
-      borderRadius: "5px",
-      cursor: "pointer",
-    },
-    noticeList: {
-      listStyle: "none",
-      padding: "0",
-    },
-    noticeItem: {
-      padding: "15px",
-      marginBottom: "10px",
-      backgroundColor: "#f9f9f9",
-      borderRadius: "5px",
-      boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-    },
-    noticeButtons: {
-      display: "flex",
-      justifyContent: "flex-end",
-      gap: "5px",
-      marginTop: "10px",
-    },
-    selectButton: {
-      padding: "5px 10px",
-      backgroundColor: "#4CAF50",
-      color: "#333",
-      border: "none",
-      borderRadius: "5px",
-      cursor: "pointer",
-    },
-    deleteButton: {
-      padding: "5px 10px",
-      backgroundColor: "#4CAF50",
-      color: "#333",
-      border: "none",
-      borderRadius: "5px",
-      cursor: "pointer",
-    },
-  };
-  
+  container: {
+    maxWidth: "800px",
+    margin: "40px auto",
+    padding: "30px",
+    backgroundColor: "#ffffff",
+    borderRadius: "12px",
+    boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+    fontFamily: "Arial, sans-serif",
+  },
+  heading: {
+    textAlign: "center",
+    color: "#333",
+    marginBottom: "20px",
+    fontSize: "1.8rem",
+  },
+  backButton: {
+    marginBottom: "20px",
+    padding: "10px 15px",
+    backgroundColor: "#d3d3d3", 
+    color: "#333",
+    border: "none",
+    cursor: "pointer",
+    borderRadius: "6px",
+    transition: "background-color 0.3s",
+  },
+  form: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "15px",
+    marginBottom: "30px",
+  },
+  label: {
+    fontWeight: "bold",
+    marginBottom: "5px",
+    fontSize: "1rem",
+  },
+  input: {
+    padding: "12px",
+    fontSize: "1rem",
+    border: "1px solid #ccc",
+    borderRadius: "6px",
+    transition: "border-color 0.2s",
+  },
+  textarea: {
+    padding: "12px",
+    fontSize: "1rem",
+    height: "120px",
+    border: "1px solid #ccc",
+    borderRadius: "6px",
+    resize: "none",
+    transition: "border-color 0.2s",
+  },
+  buttonContainer: {
+    display: "flex",
+    justifyContent: "center",
+    gap: "15px",
+  },
+  addButton: {
+    padding: "10px 25px",
+    backgroundColor: "#4CAF50",
+    color: "white",
+    border: "none",
+    borderRadius: "6px",
+    cursor: "pointer",
+    transition: "background-color 0.3s, transform 0.2s",
+  },
+  editButton: {
+    padding: "10px 25px",
+    backgroundColor: "#007bff",
+    color: "white",
+    border: "none",
+    borderRadius: "6px",
+    cursor: "pointer",
+    transition: "background-color 0.3s, transform 0.2s",
+  },
+  addButtonHover: {
+    backgroundColor: "#388E3C",
+  },
+  editButtonHover: {
+    backgroundColor: "#0069d9",
+  },
+  noticeList: {
+    listStyle: "none",
+    padding: "0",
+    marginTop: "30px",
+  },
+  noticeItem: {
+    padding: "15px",
+    marginBottom: "10px",
+    backgroundColor: "#f4f4f4",
+    borderRadius: "8px",
+    boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
+    transition: "transform 0.2s, box-shadow 0.2s",
+  },
+  noticeItemHover: {
+    transform: "translateY(-2px)",
+    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.15)",
+  },
+  noticeButtons: {
+    display: "flex",
+    justifyContent: "flex-end",
+    gap: "10px",
+    marginTop: "10px",
+  },
+  selectButton: {
+    padding: "6px 12px",
+    backgroundColor: "#007bff",
+    color: "white",
+    border: "none",
+    borderRadius: "6px",
+    cursor: "pointer",
+    transition: "background-color 0.3s",
+  },
+  deleteButton: {
+    padding: "6px 12px",
+    backgroundColor: "#dc3545",
+    color: "white",
+    border: "none",
+    borderRadius: "6px",
+    cursor: "pointer",
+    transition: "background-color 0.3s",
+  },
+};
+
   export default ManageNotice;
   

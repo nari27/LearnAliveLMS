@@ -39,3 +39,23 @@ export const getStudentById = async (studentId) => {
   const response = await axios.get(`${API_URL}/auth/student/${studentId}`);
   return response.data;
 };
+
+// 학습자 아이디 찾기 API
+export const findStudentId = async (name, email) => {
+  const response = await axios.post(
+    `${API_URL}/find-id`,
+    { name, email },
+    { headers: { "Content-Type": "application/json" } }
+  );
+  return response.data;
+};
+
+// 학습자 비밀번호 재설정 API
+export const resetStudentPassword = async (studentId, name, phone, newPassword) => {
+  const response = await axios.post(
+    `${API_URL}/reset-password`,
+    { studentId, name, phone, newPassword }, // 여기서 키 이름이 백엔드와 일치해야 합니다.
+    { headers: { "Content-Type": "application/json" } }
+  );
+  return response.data;
+};

@@ -8,6 +8,7 @@
     align-items: center;
     justify-content: center;
     background-color: #f9f9f9;
+    margin-bottom: 15px;
   }
   
   /* 회원가입 폼: 최대 너비 400px, 중앙 배치 */
@@ -46,7 +47,7 @@
   .submit-button {
     width: 95%;
     padding: 0.7rem;
-    background-color: #2138DF;
+    background-color: #00C1AF;
     color: white;
     border: none;
     border-radius: 4px;
@@ -54,5 +55,17 @@
   }
   
   .submit-button:hover {
-    background-color: #1929A4;
+    background-color: #00887A;
+  }
+
+  .submit-button:disabled {
+    background-color: gray;
+    color: #fff; /* optional: change text color */
+    cursor: not-allowed;
+    /* Remove any hover effects */
+    pointer-events: none;
+  }
+  
+  .submit-button:disabled:hover {
+    background-color: gray;
   }

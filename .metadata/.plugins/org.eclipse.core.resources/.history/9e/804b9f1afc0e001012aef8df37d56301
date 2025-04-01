@@ -1,0 +1,49 @@
+package com.lms.attendance.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Service;
+
+import com.lms.attendance.model.CourseRegistrationCount;
+import com.lms.attendance.model.WarningMessage;
+import com.lms.attendance.repository.CourseMapper;
+
+@Service
+public class WebSocketService {
+
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
+
+    @Autowired
+    private CourseMapper courseMapper;
+
+    // 신청 인원 전체를 다시 조회해서 브로드캐스트
+    public void broadcastUpdatedCounts() {
+        List<CourseRegistrationCount> counts = courseMapper.getPreRegistrationCounts();
+        messagingTemplate.convertAndSend("/topic/registrationCounts", counts);
+    }
+    
+    // ✅ 본 수강신청 인원 브로드캐스트
+    public void broadcastFinalCounts() {
+        List<CourseRegistrationCount> counts = courseMapper.getFinalRegistrationCounts();
+        messagingTemplate.convertAndSend("/topic/finalCounts", counts);
+    }
+    
+    public void sendFGradeWarning(String studentId, String content) {
+        WarningMessage message = new WarningMessage("⚠️ F학점 경고", content);
+
+        // 1. 학생에게 알림 전송 (프론트와 동일한 경로로)
+        messagingTemplate.convertAndSend("/topic/f-alert/" + studentId, message);
+
+        // 2. 교수자에게도 동일하게 전송
+        String professorId = courseMapper.findProfessorIdByStudentId(studentId);
+        if (professorId != null) {
+            messagingTemplate.convertAndSend("/topic/f-alert/" + professorId,
+                new WarningMessage("📢 출석 경고 알림", "학생 " + studentId + "의 출결 상태가 기준치를 초과했습니다."));
+        }
+    }
+
+
+}

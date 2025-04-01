@@ -159,7 +159,7 @@ const ManageAttendancePage = () => {
       await reloadAttendanceData(); 
       } else {
         // ✅ 기존 출석 데이터 업데이트
-        await updateAttendanceState(attendanceId, newState);
+        await updateAttendanceState(attendanceId, newState, studentId);
   
         setAttendanceData((prevData) =>
           prevData.map((record) =>
@@ -305,10 +305,7 @@ const ManageAttendancePage = () => {
           }
         }} 
       />
-      <button onClick={handleDownloadExcel}>엑셀 다운로드</button>
-      <Link to="/">
-        <button>메인으로 돌아가기</button>
-      </Link>
+      <button onClick={handleDownloadExcel} className="normal-button">엑셀 다운로드</button>
   
       {isLoading ? (
         <p className="loading-text">데이터 로딩 중...</p>
@@ -367,17 +364,14 @@ const ManageAttendancePage = () => {
                           <button className="button-cancel" onClick={handleCancelReasonEdit}>
                             취소
                           </button>
-                          <button className="button-delete" onClick={() => handleDeleteReason(record.attendanceId)}>
-                            삭제
-                          </button>
                         </>
                       ) : (
                         <>
                           {record.reason || "없음"}
-                          <button className="button-edit" onClick={() => handleEditReason(record.attendanceId, record.reason)}>수정</button>
+                          <button className="edit-button" onClick={() => handleEditReason(record.attendanceId, record.reason)}>수정</button>
                           </>)
                     ) : column.id === "actions" ? (
-                      <button className="button-delete" onClick={() => handleDeleteAttendance(record.attendanceId)}>삭제</button>
+                      <button className="delete-button" onClick={() => handleDeleteAttendance(record.attendanceId)}>삭제</button>
                     ) : (column.id === 'createdAt' || column.id === 'updatedAt' || column.id === 'date') ? (
                       (record[column.id])
                     ) : (

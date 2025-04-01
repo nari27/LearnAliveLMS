@@ -9,11 +9,15 @@ export const NotificationProvider = ({ children }) => {
     setNotifications((prev) => [msg, ...prev.slice(0, 9)]); // 최대 10개 유지
   };
 
+  const clearNotifications = () => {
+    setNotifications([]); // ✅ 읽음 처리: 실시간 알림 초기화
+  };
   return (
-    <NotificationContext.Provider value={{ notifications, addNotification }}>
+    <NotificationContext.Provider value={{ notifications, addNotification, clearNotifications }}>
       {children}
     </NotificationContext.Provider>
   );
 };
 
 export const useNotifications = () => useContext(NotificationContext);
+

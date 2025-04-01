@@ -10,5 +10,10 @@ public class AlarmList {
     private String type;
     private String title;
     private String createdAt;
-    private boolean isRead;
+    private boolean isRead;  // DB의 is_read 컬럼과 매핑됨
+
+    // setIsRead 메서드를 명시적으로 사용
+    public void setIsRead(boolean isRead) {
+        this.isRead = isRead;
+    }
 }

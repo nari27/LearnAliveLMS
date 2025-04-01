@@ -166,70 +166,96 @@ const TeamActivityPostDetail = ({ post, onBack, refreshPosts }) => {
 
   return (
     <div>
+      <button onClick={onBack} className="back-button" style={{ display: "block", marginLeft: "auto" }}>
+        ⬅ 돌아가기
+      </button>
       <h2>{postData.title}</h2>
+
+      <hr></hr>
       <p><strong>작성자:</strong> {postData.authorName}</p>
       <p><strong>작성일:</strong> {new Date(postData.createdAt).toLocaleString()}</p>
       <p><strong>좋아요:</strong> {postData.likes}</p>
+      <hr></hr>
       <div>
         <p>{postData.content}</p>
       </div>
       <div style={{ margin: "1rem 0" }}>
-        <button onClick={handleLike}>
+        <button onClick={handleLike} className="like-button">
           {liked ? "좋아요 취소" : "👍 좋아요"}
         </button>
         {/* 학생일 때, 작성자도 아니고, 아직 팀 멤버(승인)도 아니라면 신청 버튼을 표시 */}
         {user?.role === "student" && user.userId !== postData.authorId && !attending && !applied && (
-          <button onClick={handleAttend} style={{ marginLeft: "1rem" }}>
+          <button onClick={handleAttend} style={{ marginLeft: "5px" }} className="normal-button">
             참가 신청
           </button>
         )}
         {/* 만약 이미 신청했지만 아직 승인되지 않았다면 신청 완료 버튼(비활성화)을 표시 */}
         {user?.role === "student" && !attending && applied && (
-          <button disabled style={{ marginLeft: "1rem" }}>
+          <button disabled style={{ gap: "5px" }} className="edit-button">
             신청 완료
           </button>
         )}
-        <button onClick={() => setShowMembers(true)} style={{ marginLeft: "1rem" }}>
+        <button onClick={() => setShowMembers(true)} className="normal-button">
           멤버 보기
         </button>
-        {user?.role === "professor" && (
-          <button onClick={handleDelete}>게시글 삭제</button>
-        )}
-        <button onClick={() => onBack(postData)}>뒤로가기</button>
+        <button onClick={() => onBack(postData)} className="delete-button">뒤로가기</button>
       </div>
-      <hr />
-      <div>
-        <h3>댓글</h3>
-        {loadingComments ? (
-          <p>댓글을 불러오는 중...</p>
-        ) : comments.length === 0 ? (
-          <p>댓글이 없습니다.</p>
-        ) : (
-          <ul>
-            {comments.map((comment) => (
-              <li key={comment.commentId}>
-                <p>
-                  <strong>{comment.commenterId}</strong>{" "}
-                  {new Date(comment.createdAt).toLocaleString()}
-                </p>
-                <p>{comment.content}</p>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-      <div>
-        <form onSubmit={handleAddComment}>
-          <textarea
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            placeholder="댓글을 입력하세요"
-            required
-          ></textarea>
-          <br />
-          <button type="submit">댓글 추가</button>
-        </form>
-      </div>
+      <div className="mt-4">
+  <h4 className="mb-3">💬 댓글</h4>
+
+  {loadingComments ? (
+    <div className="text-muted">댓글을 불러오는 중...</div>
+  ) : comments.length === 0 ? (
+    <div className="text-muted">등록된 댓글이 없습니다.</div>
+  ) : (
+    <div className="d-flex flex-column gap-3 mb-4">
+      {comments.map((comment) => (
+        <div
+          key={comment.commentId}
+          className="px-3 py-2"
+          style={{
+            backgroundColor: "#FFE066",        // 💛 말풍선 색상
+            borderRadius: "16px",
+            alignSelf: user?.userId === comment.commenterId ? "end" : "start",
+            maxWidth: "80%",
+            width: "fit-content",              // ✅ 가변 너비 (내용만큼)
+            wordBreak: "break-word",           // ✅ 긴 단어 줄바꿈
+            padding: "12px 16px",              // ✅ 여유 있는 패딩
+            boxShadow: "0 1px 3px rgba(0,0,0,0.1)", // 살짝 그림자
+            marginBottom: "20px"
+          }}
+        >
+          <div className="d-flex justify-content-between align-items-center mb-1" style={{ gap: "10px", marginBottom: '3px'}}>
+            <strong>{comment.commenterId}</strong>
+            <small className="text-muted" style={{ fontSize: "0.8rem", marginLeft: "12px"}}>
+              {new Date(comment.createdAt).toLocaleString()}
+            </small>
+          </div>
+          <div>{comment.content}</div>
+        </div>
+      ))}
+    </div>
+  )}
+
+  {/* 댓글 입력창 */}
+  <form onSubmit={handleAddComment}>
+    <div className="input-group">
+      <input
+        type="text"
+        className="form-control"
+        placeholder="댓글을 입력하세요"
+        value={newComment}
+        onChange={(e) => setNewComment(e.target.value)}
+        required
+      />
+      <button className="btn btn-outline-primary" type="submit">
+        추가
+      </button>
+    </div>
+  </form>
+</div>
+
+
     </div>
   );
 };

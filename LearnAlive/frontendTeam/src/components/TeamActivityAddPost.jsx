@@ -18,51 +18,68 @@ const TeamActivityAddPost = ({ onCancel, onPostCreated }) => {
         classId: parseInt(classId, 10),
         title,
         content,
-        authorId: user?.userId || "",       // AuthProvider에서 제공하는 userId 사용
-        authorName: user?.username || "",         // 'name' 필드를 사용하여 작성자 이름 저장
-        department: "",                       // 별도 관리하거나 빈 문자열로 설정
-        email: "",                            // 별도 관리하거나 빈 문자열로 설정
-        contact: "",                          // 별도 관리하거나 빈 문자열로 설정
+        authorId: user?.userId || "",
+        authorName: user?.username || "",
+        department: "",
+        email: "",
+        contact: "",
         likes: 0,
-        teamMembers: []                       // 초기값은 빈 배열
+        teamMembers: []
       };
       const createdPost = await createTeamActivityPost(newPost);
       onPostCreated(createdPost);
     } catch (error) {
-      console.error("❌ 팀 활동 게시글 추가 오류:", error);
+      console.error("\u274C \ud300 \ud65c\ub3d9 \uac8c\uc2dc\uae00 \ucd94\uac00 \uc624\ub958:", error);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div>
-      <h2>팀 활동 게시글 작성</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>제목:</label>
+    <div className="p-4 d-flex flex-column align-items-center">
+      <h3 className="fw-bold mb-4 w-100 text-start">📄 팀 활동 게시글 작성</h3>
+
+      <form onSubmit={handleSubmit} className="w-100 d-flex flex-column align-items-center gap-3">
+        {/* 제목 */}
+        <div className="w-100" style={{ maxWidth: "95%", marginBottom: "1rem" }}>
+          <label className="form-label d-block" style={{ fontSize: "1.1rem", fontWeight: "600", marginBottom: "0.5rem" }}>
+            제목
+          </label>
           <input
             type="text"
+            className="form-control w-100"
+            style={{ height: "48px", fontSize: "1rem", maxWidth: '100%', marginTop: "8px" }}
+            placeholder="제목을 입력하세요"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
           />
         </div>
-        <div>
-          <label>내용:</label>
+
+        {/* 내용 */}
+        <div className="w-100" style={{ maxWidth: "95%", marginBottom: "1rem" }}>
+          <label className="form-label d-block fw-semibold" style={{ fontSize: "1.1rem", fontWeight: "600", marginBottom: "0.5rem" }}>내용</label>
           <textarea
+            className="form-control w-100"
+            style={{ maxWidth: "99%", marginTop: "8px" }}
+            placeholder="내용을 입력하세요"
+            rows="12"
             value={content}
             onChange={(e) => setContent(e.target.value)}
             required
-          ></textarea>
+          />
         </div>
-        <div>
-          <button type="submit" disabled={loading}>
-            {loading ? "추가 중..." : "추가"}
-          </button>
-          <button type="button" onClick={onCancel}>
-            취소
-          </button>
+
+        {/* 버튼 */}
+        <div className="d-flex justify-content-center gap-2 w-100">
+          <div style={{ width: "95%", display: "flex", justifyContent: "center", gap: "1rem" }}>
+            <button type="submit" className="normal-button" disabled={loading}>
+              {loading ? "추가 중..." : "작성"}
+            </button>
+            <button type="button" className="delete-button" onClick={onCancel}>
+              취소
+            </button>
+          </div>
         </div>
       </form>
     </div>

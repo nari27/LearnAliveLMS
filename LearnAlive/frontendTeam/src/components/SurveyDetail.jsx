@@ -485,7 +485,7 @@ const addEditedQuestion = () => {
                 }))
               );
             }}
-            className="normal-button"
+            className="edit-button"
           >
             ✏️ 설문 수정
           </button>
@@ -525,7 +525,7 @@ const addEditedQuestion = () => {
                 </div>
               ) : (
                 <div>
-                  <button onClick={() => setEditingTime(true)} className="normal-button">
+                  <button onClick={() => setEditingTime(true)} className="edit-button">
                     설문 시간 수정
                   </button>
                 </div>
@@ -683,7 +683,7 @@ const addEditedQuestion = () => {
                         </button>
                       </div>
                     ))}
-                    <button onClick={() => addEditedOption(q.questionId)} className="survey-add-button">
+                    <button onClick={() => addEditedOption(q.questionId)} className="normal-button">
                       + 선택지 추가
                     </button>
                   </div>
@@ -803,7 +803,7 @@ const addEditedQuestion = () => {
               </div>
             ))}
             {/* 수정 모드일 때 전체 질문 아래에 문항 추가 버튼 */}
-            <button onClick={addEditedQuestion} className="survey-add-button">
+            <button onClick={addEditedQuestion} className="normal-button">
               + 질문 추가
             </button>
           </>
@@ -902,14 +902,14 @@ const addEditedQuestion = () => {
             className="submit-edit-button" 
             disabled={isSubmitting}
           >
-            {isSubmitting ? "제출 중..." : "✅ 수정 완료"}
+            {isSubmitting ? "제출 중..." : "수정 완료"}
           </button>
           {!isSubmitting && (
             <button 
               onClick={() => setIsEditing(false)} 
               className="submit-cancel-button"
             >
-              ❌ 취소
+              취소
             </button>
           )}
         </>

@@ -152,20 +152,24 @@ const ExamCreate = ({ onBack }) => {
   return (
     <div>
       <div className="exam-container">
+      <button onClick={onBack} className="back-button" style={{ display: "block", marginLeft: "auto" }}>
+        ⬅ 돌아가기
+      </button>
         <h2>📝 시험 만들기</h2>
+        <br></br>
         <input
           type="text"
           placeholder="담당교수 입력"
           value={profName}
           onChange={(e) => setProfName(e.target.value)}
-          className="input-field"
+          className="Qinput-field"
         />
         <input
           type="text"
           placeholder="시험 제목 입력"
           value={examTitle}
           onChange={(e) => setExamTitle(e.target.value)}
-          className="input-field"
+          className="Qinput-field"
         />
         <div className="date-picker-container">
           <label>시작 시간:</label>
@@ -174,7 +178,7 @@ const ExamCreate = ({ onBack }) => {
             ref={startTimeRef}
             value={startTime}
             onChange={(e) => setStartTime(e.target.value)}
-            className="input-field"
+            className="Qinput-field"
           />
         </div>
         <div className="date-picker-container">
@@ -184,7 +188,7 @@ const ExamCreate = ({ onBack }) => {
             ref={endTimeRef}
             value={endTime}
             onChange={(e) => setEndTime(e.target.value)}
-            className="input-field"
+            className="Qinput-field"
           />
         </div>
         🔔 알림: 20문항을 생성하세요.
@@ -208,20 +212,21 @@ const ExamCreate = ({ onBack }) => {
               onChange={(e) =>
                 handleQuestionTitleChange(qIndex, e.target.value)
               }
-              className="question-input"
+              className="Qinput-field"
             />
 
             <textarea
               placeholder="문제 입력"
               value={question.text}
               onChange={(e) => handleQuestionTextChange(qIndex, e.target.value)}
-              className="question-input"
+              className="Qinput-field"
             />
 
             {question.options.map((option, oIndex) => (
               <div key={oIndex} className="choice-box">
                 <input
                   type="radio"
+                  className="Qradio-1"
                   name={`correct-answer-${qIndex}`}
                   checked={question.correctAnswer === oIndex + 1}
                   onChange={() => handleCorrectAnswerChange(qIndex, oIndex)}
@@ -233,13 +238,13 @@ const ExamCreate = ({ onBack }) => {
                   onChange={(e) =>
                     handleOptionChange(qIndex, oIndex, e.target.value)
                   }
-                  className="choice-input"
+                  className="Qinput-field"
                 />
               </div>
             ))}
           </div>
         ))}
-        <button className="add-question-btn" onClick={addQuestion}>
+        <button className="normal-button" onClick={addQuestion}>
           + 문제 추가
         </button>
         <br></br>
@@ -247,12 +252,9 @@ const ExamCreate = ({ onBack }) => {
         <br></br>
         <br></br>
         <div>
-          <button className="save-btn" onClick={handleSave}>
+          <button className="submit-button" onClick={handleSave}>
             시험 저장
           </button>
-          <button className="back-btn" onClick={onBack}>
-          ⬅ 목록으로
-        </button>
         </div>
       </div>
     </div>

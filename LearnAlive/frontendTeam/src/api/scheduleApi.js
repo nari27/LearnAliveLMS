@@ -82,3 +82,11 @@ export const createSchedule = async (schedule) => {
   export const updateTodoCompletion = async (todoId, updatedData) => {
     return axios.put(`${API_BASE_URL}/todos/${todoId}/complete`, updatedData);
   };
+
+  // 🔄 알림 읽음 처리
+export const markAllAlarmsAsRead = async (userId) => {
+  const res = await fetch(`http://localhost:8080/api/alarms/read/${userId}`, {
+    method: "PUT",
+  });
+  if (!res.ok) throw new Error("알림 읽음 처리 실패");
+};

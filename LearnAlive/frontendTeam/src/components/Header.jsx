@@ -7,7 +7,9 @@ import NotificationListener from "./NotificationListener";
 import { useNotifications } from "../context/NotificationContext";
 import { Bell } from "lucide-react"; // 아이콘 라이브러리 사용
 import "../styles/notification.css"
-import { fetchAlarmList } from "../api/scheduleApi";
+import { fetchAlarmList, markAllAlarmsAsRead  } from "../api/scheduleApi";
+import MessageModal from './MessageModal'; 
+
 
 
 const Header = () => {
@@ -15,23 +17,30 @@ const Header = () => {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);  // 모달 상태 추가
   const navigate = useNavigate();
-  const { notifications } = useNotifications();
+  const { notifications, clearNotifications  } = useNotifications();
   const [alarmList, setAlarmList] = useState([]);
   const [open, setOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [hasUnread, setHasUnread] = useState(false);
 
   useEffect(() => {
     console.log("현재 로그인한 사용자:", user);
   }, [user]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000); // 매초 갱신
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setCurrentTime(new Date());
+  //   }, 1000); // 매초 갱신
   
-    return () => clearInterval(interval); // 언마운트 시 제거
-  }, []);
+  //   return () => clearInterval(interval); // 언마운트 시 제거
+  // }, []);
+
+  useEffect(() => {
+    const hasUnread = alarmList.some((n) => n.isRead === false || n.isRead === 0 || n.isRead === "0");
+    setHasUnread(hasUnread);
+  }, [alarmList]); // ✅ alarmList가 바뀔 때마다 실행
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -49,12 +58,20 @@ const Header = () => {
     setPassword(""); // 비밀번호 입력 필드 초기화
   };
 
+  // 쪽지 모달 열기
+  const openMessageModal = () => {
+    setIsMessageModalOpen(true);  // 모달 상태를 true로 설정하여 열기
+  };
+
   const handleToggle = async () => {
-    setOpen(!open);
-    if (!open && user) {
+    const nextOpen = !open;
+    setOpen(nextOpen);
+  
+    // 알림 창을 여는 순간에만 읽음 처리 + 리스트 갱신
+    if (nextOpen && user) {
       try {
+        await markAllAlarmsAsRead(user.userId);
         const data = await fetchAlarmList(user.userId);
-        console.log("📥 받아온 알림 목록:", data);
         setAlarmList(data);
       } catch (error) {
         console.error("🔻 알림 목록 불러오기 실패", error);
@@ -76,6 +93,13 @@ const Header = () => {
       <button className="mypage-btn" onClick={() => navigate("/mypage")}>마이페이지</button>
       <button onClick={() => window.location.href = "/calendar"}>📅</button>
 
+      {/* 쪽지 버튼 */}
+          <button
+            className="message-btn"
+            onClick={openMessageModal}  // 클릭 시 모달 열기
+          >
+            📨
+          </button>
       <div className="divider"></div>
 
       {/* 관리자 전용 버튼 */}
@@ -97,11 +121,11 @@ const Header = () => {
       )}
 
       {/* 알림 영역 */}
-      {user?.userId && <NotificationListener userId={user.userId} />}
+      {user?.userId && <NotificationListener userId={user.userId} updateAlarms={setAlarmList} />}
       <div className="notification-area">
         <button onClick={handleToggle} className="bell-button">
           <Bell />
-          {notifications.length > 0 && <span className="badge" />}
+          {alarmList.some((n) => !n.isRead) && <span className="badge" />}
         </button>
         {open && (
           <div className="notification-panel">
@@ -122,6 +146,7 @@ const Header = () => {
       ) : (
         // 로그인 전 화면
         <div className="login-container">  {/* ✅ 기존 CSS 유지 */}
+        <button className="home-button" onClick={() => navigate("/")}>🏠 홈</button>
           <form onSubmit={handleLogin} className="login-form">  {/* ✅ 기존 CSS 유지 */}
             <input
               type="text"
@@ -171,6 +196,12 @@ const Header = () => {
 
       {/* 모달 */}
       {isModalOpen && <FindAccountModal onClose={() => setIsModalOpen(false)} />}
+      {isMessageModalOpen && (
+        <MessageModal
+          isOpen={isMessageModalOpen}  // 모달 상태 전달
+          onClose={() => setIsMessageModalOpen(false)}  // 모달 닫기
+        />
+      )}
     </header>
   );
 };

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchExamDetail, updateExam, deleteExam } from '../api/examApi';
-import "../styles/ExamDetail.css";
+import '../styles/ExamDetail.css';
 
 const ExamDetail = ({ examId: propExamId, onUpdated, onBack }) => {
   const { examId: paramExamId } = useParams();
@@ -96,10 +96,10 @@ const ExamDetail = ({ examId: propExamId, onUpdated, onBack }) => {
       setIsEditing(false);
       alert('시험 정보가 업데이트되었습니다.');
       if (onUpdated) onUpdated(); // 부모에게 리로드 요청
-  } catch (error) {
-    console.error('❌ 시험 수정 실패:', error);
-    alert('시험 수정에 실패했습니다.');
-  }
+    } catch (error) {
+      console.error('❌ 시험 수정 실패:', error);
+      alert('시험 수정에 실패했습니다.');
+    }
   };
 
   const handleDelete = async () => {
@@ -118,6 +118,9 @@ const ExamDetail = ({ examId: propExamId, onUpdated, onBack }) => {
 
   return (
     <div className="exam-container">
+      <button onClick={onBack} className="back-button" style={{ display: "block", marginLeft: "auto" }}>
+        ⬅ 돌아가기
+      </button>
       <h2 className="exam-title">시험 상세보기</h2>
 
       <div className="exam-info">
@@ -176,53 +179,55 @@ const ExamDetail = ({ examId: propExamId, onUpdated, onBack }) => {
           )}
         </div>
       </div>
-
+      <br></br>
       <h3 className="question-title-1">시험 문제 ({questions.length}문항)</h3>
       <div className="question-list">
         {questions.length > 0 ? (
           questions.map((question, index) => (
-            <div key={question.questionId} className="question-card">
-              <h4 className="question-number">Q{index + 1}.</h4>
-              {isEditing ? (
-                <textarea
-                  type="title"
-                  placeholder="문제 제목 입력"
-                  name="questionTitle"
-                  className="question-title"
-                  value={question.questionTitle}
-                  onChange={(e) =>
-                    handleQuestionChange(index, 'questionTitle', e.target.value)
-                  }
-                />
-              ) : (
-                <p className="question-title-1">{question.questionTitle}</p>
-              )}
-
+            <div key={question.questionId} className="Qcard">
+              <div className="Qtitle">
+                <h4 className="Qnumber">Q{index + 1}.</h4>
+                {isEditing ? (
+                  <textarea
+                    type="title"
+                    placeholder="문제 제목 입력"
+                    value={question.questionTitle}
+                    onChange={(e) =>
+                      handleQuestionChange(
+                        index,
+                        'questionTitle',
+                        e.target.value
+                      )
+                    }
+                  />
+                ) : (
+                  <p>{question.questionTitle}</p>
+                )}
+              </div>
               {isEditing ? (
                 <textarea
                   type="text"
-                  name="questionText"
+                  className="Qtext"
                   placeholder="문제 입력"
-                  className="question-text"
                   value={question.questionText}
                   onChange={(e) =>
                     handleQuestionChange(index, 'questionText', e.target.value)
                   }
                 />
               ) : (
-                <p className="question-text-1">{question.questionText}</p>
+                <p className="Qtext">{question.questionText}</p>
               )}
 
-              <div className="question-options">
+              <div>
                 {['answer1', 'answer2', 'answer3', 'answer4'].map(
                   (answer, i) => (
-                    <div key={i} className="option">
+                    <div key={i} className="Qoption">
                       {isEditing ? (
                         <label>
                           <input
                             type="radio"
                             name={`question-${index}`}
-                            className="question-option-input"
+                            className="Qradio"
                             checked={question.correctAnswer === i + 1}
                             onChange={() =>
                               handleCorrectAnswerChange(index, i + 1)
@@ -231,6 +236,7 @@ const ExamDetail = ({ examId: propExamId, onUpdated, onBack }) => {
                           {i + 1}.{' '}
                           <input
                             type="text"
+                            className="Qoption-input"
                             placeholder="선택지 입력"
                             value={question[answer]}
                             onChange={(e) =>
@@ -243,7 +249,7 @@ const ExamDetail = ({ examId: propExamId, onUpdated, onBack }) => {
                           <input
                             type="radio"
                             name={`question-${index}`}
-                            className="question-option-input"
+                            className="Qradio"
                             checked={question.correctAnswer === i + 1}
                             onChange={() =>
                               handleCorrectAnswerChange(index, i + 1)
@@ -257,11 +263,11 @@ const ExamDetail = ({ examId: propExamId, onUpdated, onBack }) => {
                 )}
               </div>
               {isEditing ? (
-                <div className="correct-answer-input">
+                <div className="Qcorrect-answer">
                   <label> ✅ 정답 : {question.correctAnswer}</label>
                 </div>
               ) : (
-                <p className="correct-answer">
+                <p className="Qcorrect-answer">
                   정답:{' '}
                   {
                     [1, 2, 3, 4][question.correctAnswer - 1] // 숫자 기준으로 표시
@@ -287,17 +293,14 @@ const ExamDetail = ({ examId: propExamId, onUpdated, onBack }) => {
           </>
         ) : (
           <>
-            <button className="edit-btn" onClick={() => setIsEditing(true)}>
+            <button className="edit-button" onClick={() => setIsEditing(true)}>
               수정
             </button>
-            <button className="delete-btn" onClick={handleDelete}>
+            <button className="delete-button" onClick={handleDelete}>
               삭제
             </button>
           </>
         )}
-        <button className="back-btn" onClick={onBack}>
-          ⬅ 목록으로
-        </button>
       </div>
     </div>
   );

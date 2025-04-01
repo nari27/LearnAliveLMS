@@ -6,4 +6,5 @@ import lombok.Data;
 public class PreRegistration {
     private String studentId;
     private int classId;
+    private int preset; 
 }

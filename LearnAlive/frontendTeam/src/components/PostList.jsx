@@ -24,7 +24,7 @@ function PostList({ boardId }) {
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
-  const totalPages = Math.ceil(posts.length / postsPerPage); // 전체 페이지 개수
+  const totalPages = Math.max(1, Math.ceil(posts.length / postsPerPage)); // 전체 페이지 개수
   //---------------------------------------------------------------------------
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredPosts, setFilteredPosts] = useState(posts);
@@ -220,42 +220,44 @@ function PostList({ boardId }) {
             📌 {board?.boardName || "알 수 없음"} 게시판
           </h2>
 
-          {/* 게시글 추가 버튼 + 검색창 양쪽 정렬 */}
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginBottom: "16px",
-              flexWrap: "wrap",
-              gap: "10px"
-            }}
-          >
-            {/* 왼쪽: 게시글 추가 버튼 */}
-            <div>
-              {(board?.isDefault === 1 || (board?.isDefault === 0 && user?.role === "professor")) && (
-                <button className="add-post-button" onClick={() => setShowCreatePost(true)}>
-                  게시글 추가
-                </button>
-              )}
-            </div>
+          {/* 게시글 추가 버튼 + 검색창 (📌 목록일 때만 보여야 함) */}
+          {!showCreatePost && !selectedPost && (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: "16px",
+                flexWrap: "wrap",
+                gap: "10px",
+              }}
+            >
+              {/* 왼쪽: 게시글 추가 버튼 */}
+              <div>
+                {(board?.isDefault === 1 || (board?.isDefault === 0 && user?.role === "professor")) && (
+                  <button className="normal-button" onClick={() => setShowCreatePost(true)}>
+                    게시글 추가
+                  </button>
+                )}
+              </div>
 
-            {/* 오른쪽: 검색창 */}
-            <div style={{ display: "flex", gap: "8px" }}>
-              <input
-                type="text"
-                placeholder="검색어 입력"
-                value={searchQuery}
-                onChange={handleSearchChange}
-                style={{
-                  padding: "6px 10px",
-                  borderRadius: "4px",
-                  border: "1px solid #ccc"
-                }}
-              />
-              <button onClick={handleSearchClick}>검색</button>
+              {/* 오른쪽: 검색창 */}
+              <div style={{ display: "flex", gap: "8px" }}>
+                <input
+                  type="text"
+                  placeholder="검색어 입력"
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                  style={{
+                    padding: "6px 10px",
+                    borderRadius: "4px",
+                    border: "1px solid #ccc",
+                  }}
+                />
+                <button onClick={handleSearchClick}>검색</button>
+              </div>
             </div>
-          </div>
+          )}
 
           {selectedPost ? (
             <PostDetail
@@ -284,19 +286,14 @@ function PostList({ boardId }) {
                         <th>ID</th>
                         <th>제목</th>
                         <th>작성자</th>
-                        <th>조회수
-                        <button onClick={() => handleSort("view")}>
-                        정렬 {sortCriteria === "view" && (sortOrder === "asc" ? "🔼" : "🔽")}
-                        </button>
+                        <th style={{ cursor: "pointer" }} onClick={() => handleSort("view")}>
+                          조회수 {sortCriteria === "view" && (sortOrder === "asc" ? "🔼" : "🔽")}
                         </th>
-                        <th>좋아요 <button onClick={() => handleSort("likes")}>
-                            정렬 {sortCriteria === "likes" && (sortOrder === "asc" ? "🔼" : "🔽")}
-                          </button></th>
-                        
-                        <th>작성일
-                        <button onClick={() => handleSort("createdAt")}>
-                        정렬 {sortCriteria === "createdAt" && (sortOrder === "asc" ? "🔼" : "🔽")}
-                          </button>
+                        <th style={{ cursor: "pointer" }} onClick={() => handleSort("likes")}>
+                          좋아요 {sortCriteria === "likes" && (sortOrder === "asc" ? "🔼" : "🔽")}
+                        </th>
+                        <th style={{ cursor: "pointer" }} onClick={() => handleSort("createdAt")}>
+                          작성일 {sortCriteria === "createdAt" && (sortOrder === "asc" ? "🔼" : "🔽")}
                         </th>
                         {(user?.role === "professor" || sortedPosts.some(post => post.authorId === user?.userId)) && <th>관리</th>}
 
@@ -308,7 +305,7 @@ function PostList({ boardId }) {
                         sortedPosts.map((post) => (
                           <tr key={post.postId}>
                             <td>{post.postId}</td>
-                            <td className="post-title" onClick={() => handleTitleClick(post)}>
+                            <td className="post-title" onClick={() => handleTitleClick(post)} >
                               {post.title}
                             </td>
                             <td>{post.author}</td>
@@ -317,7 +314,7 @@ function PostList({ boardId }) {
                             <td>{post.createdAt}</td>
                             {(user?.role === "professor" || user?.userId === post.authorId) && (
                             <td>
-                              <button onClick={() => handleDelete(post.postId)}>삭제</button>
+                              <button onClick={() => handleDelete(post.postId)} className="delete-button">삭제</button>
                             </td>
                           )}
                           </tr>
@@ -331,13 +328,26 @@ function PostList({ boardId }) {
                   </table>
 
                   {/* 페이지 버튼 */}
-                  <div>
-                    {Array.from({ length: totalPages }, (_, index) => (
-                      <button key={index + 1} onClick={() => handlePageChange(index + 1)}>
-                        {index + 1}
-                      </button>
-                    ))}
-                  </div>
+                  <div className="pagination" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px', gap: '10px' }}>
+                  {/* ◀ 이전 버튼 */}
+                  {currentPage > 1 && (
+                    <button onClick={() => setCurrentPage(currentPage - 1)}>
+                      ◀ 이전
+                    </button>
+                  )}
+
+                  {/* 현재 페이지 정보 */}
+                  <span style={{ margin: '0 1rem', fontWeight: 'bold' }}>
+                    [ {currentPage} / {totalPages} ]
+                  </span>
+
+                  {/* 다음 ▶ 버튼 */}
+                  {currentPage < totalPages && (
+                    <button onClick={() => setCurrentPage(currentPage + 1)}>
+                      다음 ▶
+                    </button>
+                  )}
+                </div>
                 </div>
               )}
             </>

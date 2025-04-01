@@ -1,69 +1,69 @@
+/* ClassSettings.css */
+
 .class-settings-container {
-    max-width: 500px;
-    margin: auto;
+    max-width: 600px;
+    margin: 30px auto;
     padding: 20px;
-    text-align: center;
-}
-
-/* ✅ ClassSettings 안에서만 적용 */
-.class-settings-container h2 {
-    font-size: 22px;
-    margin-bottom: 15px;
-    font-weight: bold;
-}
-
-/* ✅ 설정 박스 */
-.settings-box {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
-}
-
-/* ✅ 설정 그룹 */
-.settings-group {
-    margin-bottom: 15px;
-    text-align: left;
-}
-
-.settings-group label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.settings-group input {
+    box-sizing: border-box;
+  }
+  
+  .class-settings-container h2 {
+    text-align: center; /* ✅ 제목 가운데 정렬 */
+  }
+  
+  .settings-box {
     width: 100%;
-    padding: 8px;
-    font-size: 16px;
+    display: block;
+    padding: 20px;
     border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-/* ✅ ClassSettings 전용 버튼 그룹 */
-.class-settings-container .button-group {
-    margin-top: 20px;
+    border-radius: 10px;
+    background: #f9f9f9;
+    box-sizing: border-box;
+  }
+  
+  .settings-group {
+    width: 100%;
+    display: block;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+  }
+  
+  .settings-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .settings-group input[type="time"] {
+    width: 100% !important;
+    max-width: none !important;  /* ✅ 이거 추가!! */
+    appearance: none;
+    -webkit-appearance: none;
+    padding: 10px;
+    font-size: 16px;
+    box-sizing: border-box;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+  }
+  
+  .button-group {
     display: flex;
     justify-content: space-between;
-}
-
-/* ✅ ClassSettings 내 버튼 스타일만 적용 */
-.class-settings-container .button-group button {
-    padding: 10px 15px;
-    border: none;
-    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  .button-group button {
+    flex: 1;
+    margin: 0 5px;
+    padding: 10px;
     font-size: 16px;
-    border-radius: 4px;
-}
-
-/* ✅ 저장 버튼 (파란색) */
-.class-settings-container .button-group .save-button {
-    background: #007bff;
-    color: white;
-}
-
-/* ✅ 취소 버튼 (회색) */
-.class-settings-container .button-group .cancel-button {
-    background: #6c757d;
-    color: white;
-}
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+  }
+  
+  .cancel-button {
+    background-color: #aaa;
+  }
+  

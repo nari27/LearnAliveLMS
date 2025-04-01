@@ -39,4 +39,6 @@
     <fullyQualifiedTypeName name="org.apache.ibatis.annotations.Result"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PostMapping"/>
     <fullyQualifiedTypeName name="org.springframework.stereotype.Service"/>
+    <fullyQualifiedTypeName name="org.apache.logging.log4j.message.Message"/>
+    <fullyQualifiedTypeName name="org.apache.tomcat.util.net.openssl.ciphers.Authentication"/>
 </qualifiedTypeNameHistroy>

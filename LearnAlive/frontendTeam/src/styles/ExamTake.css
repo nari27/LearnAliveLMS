@@ -46,7 +46,7 @@
   margin-top: 30px;
   padding: 8px 12px;
   font-size: 20px;
-  display: flex; 
+  display: flex;
 }
 
 .question-number-1 {
@@ -56,7 +56,7 @@
 
 .question-title-1 {
   margin-top: 5px;
-margin-left: 20px;
+  margin-left: 20px;
 }
 
 .option,
@@ -83,15 +83,14 @@ margin-left: 20px;
 }
 
 .timer-header-1 {
-  gap: 60px;
+  gap: 20px;
   display: flex;
   align-items: center;
 }
 
 .timer-1 {
-  margin-left: 10px;
+  width: 100px; /* 너비 고정 (시간이 변해도 크기 유지) */
   font-size: 23px;
-  padding-top: 0px;
   color: #555;
 }
 
@@ -102,11 +101,11 @@ margin-left: 20px;
 }
 
 .answer-preview-1 {
-  margin-top: 5px;
+  margin-top: 15px;
   display: grid;
   grid-template-columns: repeat(5, 1fr); /* 한 줄에 3개씩 */
   justify-content: center; /* 중앙 정렬 */
-  gap: 10px;
+  gap: 5px;
 }
 
 .answer-item-1 {

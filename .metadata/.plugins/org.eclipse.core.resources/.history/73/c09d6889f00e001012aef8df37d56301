@@ -1,0 +1,40 @@
+package com.lms.attendance.service;
+
+import com.lms.attendance.model.CourseRegistrationCount;
+import com.lms.attendance.repository.CourseMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class WebSocketService {
+
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
+
+    @Autowired
+    private CourseMapper courseMapper;
+
+    // 신청 인원 전체를 다시 조회해서 브로드캐스트
+    public void broadcastUpdatedCounts() {
+        List<CourseRegistrationCount> counts = courseMapper.getPreRegistrationCounts();
+        messagingTemplate.convertAndSend("/topic/registrationCounts", counts);
+    }
+    
+    // ✅ 본 수강신청 인원 브로드캐스트
+    public void broadcastFinalCounts() {
+        List<CourseRegistrationCount> counts = courseMapper.getFinalRegistrationCounts();
+        messagingTemplate.convertAndSend("/topic/finalCounts", counts);
+    }
+    
+    public void sendFGradeWarning(String studentId, String content) {
+        WarningMessage message = new WarningMessage("⚠️ F학점 경고", content);
+        messagingTemplate.convertAndSendToUser(
+            studentId,
+            "/topic/alerts",  // 클라이언트에서 구독할 채널
+            message
+        );
+    }
+}

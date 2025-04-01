@@ -2,7 +2,7 @@
   width: 60%;
   margin: 0 auto;
   padding: 20px;
-  background: #f9f9f9;
+  background: white !important;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   margin-top: 30px;
@@ -36,12 +36,12 @@
   border-radius: 5px;
 }
 
-.correct-answer {
+.Qcorrect-answer {
   color: green;
   font-weight: bold;
-  margin-top: 50px;
-  margin-left: 70px;
+  margin-top: 30px;
   margin-bottom: 70px;
+  margin-left: 50px;
 }
 
 .buttons {
@@ -75,18 +75,6 @@
   color: white;
 }
 
-.question-options input[type='text'] {
-  width: 88%; /* 가로 전체 차지 */
-  margin-left: 10px; /* 왼쪽에 기존 번호 유지 */
-  font-size: 17px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-.option {
-  font-size: 17px;
-  margin-bottom: 15px;
-}
-
 .exam-field input {
   width: 80%;
   margin-right: 10px;
@@ -104,4 +92,51 @@
 
 .exam-info {
   border-radius: 10px;
+}
+
+.Qtitle {
+  display: flex;
+  gap: 10px;
+  font-size: 17px;
+  align-items: center;
+}
+
+.Qnumber {
+  font-size: 25px;
+}
+
+.Qtitle textarea {
+  margin-left: 10px;
+  max-width: 450px; /* 원하는 최대 너비 설정 */
+  min-width: 450px; /* 최소 너비 설정 */
+  padding: 8px; /* 내부 여백 추가 */
+  font-size: 16px; /* 글자 크기 조정 */
+  resize: none; /* 크기 조절 비활성화 (선택 사항) */
+}
+
+.Qtext {
+  white-space: pre-wrap;
+}
+
+.Qtext {
+  margin-left: 55px;
+  max-width: 450px; /* 원하는 최대 너비 설정 */
+  min-width: 450px; /* 최소 너비 설정 */
+  font-size: 16px; /* 글자 크기 조정 */
+  resize: none; /* 크기 조절 비활성화 (선택 사항) */
+}
+
+.Qoption input[type='text'] {
+  width: 88%; /* 가로 전체 차지 */
+  font-size: 17px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  max-width: 350px; /* 원하는 최대 너비 설정 */
+  min-width: 350px; /* 최소 너비 설정 */
+}
+
+.Qradio {
+  max-width: 20px;
+  margin-bottom: 20px;
+  margin-left: 50px;
 }

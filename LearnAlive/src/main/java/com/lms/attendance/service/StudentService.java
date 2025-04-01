@@ -71,4 +71,19 @@ public class StudentService {
         studentMapper.registerStudentToClass(studentId, classId, remarks);
     }
 
+ // ✅ [추가] 학습자 아이디 찾기
+    public Student findStudentByNameAndEmail(String name, String email) {
+        return studentMapper.findStudentByNameAndEmail(name, email);
+    }
+    
+    // ✅ [추가] 학습자 비밀번호 재설정을 위한 정보 조회 (ID, 이름, 전화번호 일치 여부 확인)
+    public Student findByIdAndNameAndPhone(String studentId, String name, String phone) {
+        return studentMapper.findByIdAndNameAndPhone(studentId, name, phone);
+    }
+    
+    // ✅ [추가] 학습자 비밀번호 재설정 (새 비밀번호를 암호화 후 업데이트)
+    public void updateStudentPassword(String studentId, String newPassword) {
+        String encryptedPassword = passwordEncoder.encode(newPassword);
+        studentMapper.updateStudentPassword(studentId, encryptedPassword);
+    }
 }

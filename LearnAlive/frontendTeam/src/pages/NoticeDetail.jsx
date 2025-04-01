@@ -43,12 +43,16 @@ const NoticeDetail = () => {
 // 💡 스타일 객체 정의 (camelCase 사용)
 const styles = {
   noticeDetail: {
+    display: "flex",
+    flexDirection: "column", // 세로 방향 정렬
+    justifyContent: "space-between", // 상단/본문 정렬
     maxWidth: "800px",
     margin: "20px auto",
     padding: "20px",
     background: "#fff",
     borderRadius: "8px",
     boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+    minHeight: "80vh",
   },
   noticeHeader: {
     borderBottom: "2px solid #ddd",
@@ -72,6 +76,7 @@ const styles = {
     padding: "10px",
     background: "#f9f9f9",
     borderRadius: "5px",
+    flexGrow: 1 ,
   },
   loading: {
     textAlign: "center",

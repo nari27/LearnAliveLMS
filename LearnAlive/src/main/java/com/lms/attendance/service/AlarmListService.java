@@ -19,6 +19,12 @@ public class AlarmListService {
     }
 
     public List<AlarmList> getUserAlarms(String userId) {
-        return alarmListMapper.getAlarmsByUserId(userId);
+        List<AlarmList> alarms = alarmListMapper.getAlarmsByUserId(userId);
+        System.out.println("📤 [Service] 가져온 알림 개수: " + alarms.size());
+        return alarms;
+    }
+    
+    public void markAllAsRead(String userId) {
+        alarmListMapper.markAllAsRead(userId);
     }
 }

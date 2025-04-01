@@ -19,6 +19,9 @@ import ExamTake from './ExamTake';
 import TeamActivity from "../components/TeamActivity";
 import "../styles/ClassroomDetail.css";
 import "../styles/post.css";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+
 
 const ClassroomDetail = () => {
   const { classId } = useParams();
@@ -38,7 +41,7 @@ const ClassroomDetail = () => {
   const [selectedSurveyBoardId, setSelectedSurveyBoardId] = useState(null); // 설문조사 게시판 선택 시 사용
   const [selectedExamId, setSelectedExamId] = useState(null); // 시험 게시판에서 선택된 시험 게시물의 ID 관리
   const [activeComponent, setActiveComponent] = useState(null);
-  const [examBoards, setExamBoards] = useState([]); // 퀴즈 게시판 목록
+  const [examBoards, setExamBoards] = useState([]); // 시험 게시판 목록
 
   // 모달 상태
   const [showBoardModal, setShowBoardModal] = useState(false);
@@ -60,19 +63,37 @@ const ClassroomDetail = () => {
 
     fetchExamBoards(classId)
       .then(setExamBoards)
-      .catch((error) => console.error("❌ 퀴즈 게시판 불러오기 오류:", error));
+      .catch((error) => console.error("❌ 시험 게시판 불러오기 오류:", error));
   }, [classId]);
 
   // 일반 게시판 선택 핸들러
   const handleBoardClick = (id) => {
-    setBoardId(id);
-    setSelectedMenu("post");
+    if (selectedMenu === "post" && boardId === id) {
+      // 리렌더링 트리거
+      setActiveComponent(<Post key={Date.now()} boardId={id} />);
+    } else {
+      setBoardId(id);
+      setSelectedMenu("post");
+    }
   };
 
-  // 설문조사 게시판 선택 핸들러
   const handleSelectSurveyBoard = (id) => {
-    setSelectedSurveyBoardId(id);
-    setSelectedMenu("survey");
+    if (selectedMenu === "survey" && selectedSurveyBoardId === id) {
+      setActiveComponent(
+        <SurveyList
+          key={Date.now()} // 강제 리렌더링
+          boardId={id}
+          classId={classId}
+          onBack={() => {
+            setSelectedSurveyBoardId(null);
+            setSelectedMenu(null);
+          }}
+        />
+      );
+    } else {
+      setSelectedSurveyBoardId(id);
+      setSelectedMenu("survey");
+    }
   };
 
     // ✅ 강의실 목록 가져오기
@@ -239,13 +260,13 @@ const ClassroomDetail = () => {
             </button>
           )}
 
-          {/* 퀴즈 게시판 */}
+          {/* 시험 게시판 */}
           {examBoards.length > 0 && (
             <button
               className="menu-button"
               onClick={() => setSelectedMenu("exam")}
             >
-              퀴즈
+              시험
             </button>
           )}
 
@@ -263,19 +284,24 @@ const ClassroomDetail = () => {
             <button className="menu-button btn btn-danger">메인으로</button>
           </Link> */}
 
+          <hr></hr>
           {/* 교수 계정: 게시판 추가/삭제 모달 버튼 */}
           {user.role === "professor" && (
-            <div className="button-group">
+            <div>
               <button
-                className="menu-button"
+                className="menu-add-button"
                 onClick={() => setShowBoardModal(true)}
+                style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
               >
-                + 게시판 추가
+                <AddCircleIcon style={{ fontSize: 22, color: '#2138DE' }} />
+                게시판 추가
               </button>
               <button
-                className="menu-button"
+                className="menu-delete-button"
+                style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
                 onClick={() => setShowDeleteModal(true)}
               >
+                <RemoveCircleIcon style={{ fontSize: 22, color: '#d32f2f' }} />
                 게시판 삭제
               </button>
             </div>
@@ -298,14 +324,14 @@ const ClassroomDetail = () => {
                     .catch((error) => console.error("❌ 설문조사 게시판 추가 오류:", error));
                 } else if (boardData.selectedOption === "quiz") {
                   if (examBoards.length > 0) {
-                    alert("퀴즈 게시판은 이미 존재합니다.");
+                    alert("시험 게시판은 이미 존재합니다.");
                     setShowBoardModal(false);
                     return;
                   }
-                  await createQuizBoard(classId); // 퀴즈 게시판 생성 API 호출
+                  await createQuizBoard(classId); // 시험 게시판 생성 API 호출
                   fetchExamBoards(classId)
-                    .then(setExamBoards) // 퀴즈 목록 갱신
-                    .catch((error) => console.error("❌ 퀴즈 게시판 추가 오류:", error));
+                    .then(setExamBoards) // 시험 목록 갱신
+                    .catch((error) => console.error("❌ 시험 게시판 추가 오류:", error));
                 } else {
                   // 일반 게시판 추가
                   createBoard({ ...boardData, classId })

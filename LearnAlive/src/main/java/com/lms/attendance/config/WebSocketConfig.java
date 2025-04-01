@@ -1,8 +1,19 @@
 package com.lms.attendance.config;
 
+import org.springframework.messaging.Message;
+import org.springframework.security.core.Authentication;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
-import org.springframework.web.socket.config.annotation.*;
+import org.springframework.messaging.simp.stomp.StompCommand;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
+import org.springframework.messaging.support.ChannelInterceptor;
+import org.springframework.messaging.support.MessageHeaderAccessor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
+import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
+import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
 // WebSocket 관련 설정 클래스임을 나타내는 어노테이션
 @Configuration
@@ -38,5 +49,27 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         // 클라이언트에서 서버로 보낼 때 prefix 설정
         // "/app"으로 시작하는 메시지는 컨트롤러(@MessageMapping)로 라우팅됨
         config.setApplicationDestinationPrefixes("/app"); 
+        
+        config.setUserDestinationPrefix("/user");
+    }  
+    
+    @Override
+    public void configureClientInboundChannel(ChannelRegistration registration) {
+        registration.interceptors(new ChannelInterceptor() {
+            @Override
+            public Message<?> preSend(Message<?> message, MessageChannel channel) {
+                StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
+                if (StompCommand.CONNECT.equals(accessor.getCommand())) {
+                    String login = accessor.getLogin(); // 🔥 프론트에서 보낸 login 헤더
+                    if (login != null) {
+                        accessor.setUser(() -> login); // ✅ Principal 등록
+                        System.out.println("✅ [WebSocket 연결] 사용자 설정됨 → " + login);
+                    } else {
+                        System.out.println("❌ [WebSocket 연결] login 헤더 없음");
+                    }
+                }
+                return message;
+            }
+        });
     }
 }

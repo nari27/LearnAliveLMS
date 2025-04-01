@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,5 +23,10 @@ public class AlarmListController {
     @GetMapping("/{userId}")
     public List<AlarmList> getUserAlarms(@PathVariable("userId") String userId) {
         return alarmListService.getUserAlarms(userId);
+    }
+    
+    @PutMapping("/read/{userId}")
+    public void markAlarmsAsRead(@PathVariable("userId") String userId) {
+        alarmListService.markAllAsRead(userId);
     }
 }

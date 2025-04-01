@@ -15,4 +15,6 @@ public class Course {
     private String endTime;
     private int capacity;
     private int remainingSeats;
+    private String courseType;
+    private int preset;
 }

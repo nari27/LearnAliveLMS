@@ -1,0 +1,19 @@
+package com.lms.attendance.model;
+
+import lombok.Data;
+
+@Data
+public class AlarmList {
+    private int alarmId;
+    private String userId;
+    private int classId;
+    private String type;
+    private String title;
+    private String createdAt;
+    private boolean isRead;
+    
+ // Lombok이 제대로 작동하지 않으면 아래와 같이 수동으로 setIsRead 메서드를 추가할 수 있습니다.
+    public void setIsRead(boolean isRead) {
+        this.isRead = isRead;
+    }
+}

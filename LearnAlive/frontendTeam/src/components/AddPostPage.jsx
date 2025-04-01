@@ -1,105 +1,169 @@
 import { useState } from "react";
-// import { useParams, useNavigate } from "react-router-dom";
-import { createPost } from "../api/postApi"; // 게시글 추가 API
-import { useAuth } from "../context/AuthContext"; // AuthContext
+import { createPost } from "../api/postApi";
+import { useAuth } from "../context/AuthContext";
 
-function AddPostPage({ boardId,  onCancle, onPostCreated }) {
-  const { user } = useAuth(); // 로그인된 사용자 정보 가져오기
-  const [title, setTitle] = useState(""); // 게시글 제목 상태
-  const [content, setContent] = useState(""); // 게시글 내용 상태
+function AddPostPage({ boardId, onCancle, onPostCreated }) {
+  const { user } = useAuth();
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
   const [file, setFile] = useState(null);
-
+  const [dragActive, setDragActive] = useState(false);
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
-    // setFilePath(e.target.files[0]);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      setFile(e.dataTransfer.files[0]);
+    }
   };
 
   const handleAddPost = async (e) => {
-    e.preventDefault(); // 폼 제출 시 페이지 리로드 방지
-
+    e.preventDefault();
     if (!boardId) {
       alert("boardId가 없습니다.");
-      return; 
+      return;
     }
 
     const postData = {
-        boardId: boardId, // URL에서 가져온 boardId 
-        authorId: user.userId, // 세션에서 받아온 userId
-        authorRole: user.role, // 세션에서 받아온 role
-        author: user.username, // 로그인된 사용자의 이름
-        title: title, // 게시글 제목
-        content: content, // 게시글 내용
-        // filePath: filePath,
-        // postId: postId,
+      boardId,
+      authorId: user.userId,
+      authorRole: user.role,
+      author: user.username,
+      title,
+      content,
     };
 
     const formData = new FormData();
-    if (file) {
-      formData.append("file", file);
-    }
-    // formData.append("file", file);  // 파일 추가
-    formData.append("post", JSON.stringify(postData));  // 다른 데이터 추가 (Post 객체)
+    if (file) formData.append("file", file);
+    formData.append("post", JSON.stringify(postData));
 
     try {
-      // 게시글 추가 API 호출 - formData X, postData와 file로 호출
-      console.log("보내는 postData:", postData);
-      console.log("보내는 file:", file);
       const response = await createPost(boardId, postData, file);
-      console.log("Response 객체:", response);
-  
       if (response) {
-        console.log("게시글 작성 성공");
-        onPostCreated(response);  // 게시글 작성 후 리스트 갱신
-      } else {
-        console.error("게시글 작성 실패", response);
+        onPostCreated(response);
       }
-      
     } catch (error) {
-      console.error("파일 업로드 오류:", error);
-      if (error.response) {
-          console.error("서버 응답 상태:", error.response.status);
-          console.error("서버 응답 데이터:", error.response.data);
-      } else if (error.request) {
-          console.error("요청은 갔으나 응답 없음:", error.request);
-      } else {
-          console.error("요청 설정 중 오류:", error.message);
-      }
+      console.error("업로드 실패", error);
     }
   };
 
-
   return (
-    
-    <div>
-      <h2>게시글 추가</h2>
-      <form onSubmit={handleAddPost}>
-        <div>
-          <label>제목</label>
+    <div className="p-4 d-flex flex-column align-items-center">
+      <h3 className="fw-bold mb-4 w-100 text-start">📄 게시글 추가</h3>
+
+      <form onSubmit={handleAddPost} className="w-100 d-flex flex-column align-items-center gap-3">
+        {/* 제목 */}
+        <div className="w-100" style={{ maxWidth: "95%", marginBottom: "1rem" }}>
+          <label
+            className="form-label d-block"
+            style={{ fontSize: "1.1rem", fontWeight: "600", marginBottom: "0.5rem" }}
+          >
+            제목
+          </label>
           <input
             type="text"
+            className="form-control w-100"
+            style={{ height: "48px", fontSize: "1rem", maxWidth: '100%', marginTop: "8px" }}
+            placeholder="제목을 입력하세요"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
           />
         </div>
 
-        <div>
-          <label>내용</label>
+        {/* 파일 업로드 */}
+<div className="w-100" style={{ maxWidth: "95%", marginBottom: "1rem" }}>
+  <label
+    className="form-label d-block fw-semibold"
+    style={{ fontSize: "1.1rem", fontWeight: "600", marginBottom: "0.5rem" }}
+  >
+    파일 첨부
+  </label>
+
+  <div
+    className="p-4 rounded text-center bg-light"
+    style={{
+      border: dragActive ? "2px dashed #4caf50" : "2px dashed #ccc",
+      width: "100%",
+      transition: "border 0.2s ease-in-out",
+      marginTop: "8px"
+    }}
+    onDragOver={handleDragOver}
+    onDragLeave={handleDragLeave}
+    onDrop={handleDrop}
+  >
+    {/* 안내 문구 */}
+    <div className="mb-2 text-muted">
+      이곳에 파일을 드래그하거나{" "}
+      <span
+        onClick={() => document.getElementById("fileUpload").click()}
+        style={{ color: "#0d6efd", textDecoration: "underline", cursor: "pointer" }}
+      >
+        파일을 선택하세요.
+      </span>
+    </div>
+
+    {/* 숨겨진 파일 업로드 input */}
+    <input
+      type="file"
+      id="fileUpload"
+      style={{ display: "none" }}
+      onChange={handleFileChange}
+    />
+
+    {/* 선택된 파일명 표시 */}
+    {file && (
+      <div className="mt-2 text-success small">
+        선택된 파일: <strong>{file.name}</strong>
+      </div>
+    )}
+  </div>
+</div>
+
+
+
+        {/* 내용 */}
+        <div className="w-100" style={{ maxWidth: "95%", marginBottom: "1rem" }}>
+          <label className="form-label d-block fw-semibold" style={{ fontSize: "1.1rem", fontWeight: "600", marginBottom: "0.5rem" }}>내용</label>
           <textarea
+            className="form-control w-100"
+            style={{ maxWidth: "99%", marginTop: "8px" }}
+            placeholder="내용을 입력하세요"
+            rows="12"
             value={content}
             onChange={(e) => setContent(e.target.value)}
             required
           />
         </div>
-        <div>
-          <label>파일</label>
-          <input type="file" onChange={handleFileChange} />
+
+        {/* 버튼 */}
+        <div className="d-flex justify-content-center gap-2 w-100">
+          <div style={{ width: "95%", display: "flex", justifyContent: "center", gap: "1rem" }}>
+            <button type="submit" className="normal-button">
+              작성
+            </button>
+            <button type="button" className="delete-button" onClick={onCancle}>
+              취소
+            </button>
+          </div>
         </div>
-        <button type="submit">게시글 작성</button>
-        {/* <button onClick={() => onPostCreated()}>게시글 작성</button>  */}
-        
-        <button onClick={() => onCancle()}>취소</button>
       </form>
     </div>
   );

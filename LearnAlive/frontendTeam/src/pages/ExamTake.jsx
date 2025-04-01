@@ -171,7 +171,7 @@ const ExamTake = ({ examId, classId, onBack, onExamSubmitted }) => {
                     <input
                       type="radio"
                       name={`question-${index}`}
-                      className="question-option-input"
+                      className="Qoption1"
                       value={i + 1}
                       checked={answers[index] === i + 1}
                       onChange={() => handleAnswerChange(index, i + 1)}
@@ -195,9 +195,9 @@ const ExamTake = ({ examId, classId, onBack, onExamSubmitted }) => {
         </div>
 
         <div className="button-container">
-        <button className="back-btn" onClick={onBack}>
-          ⬅ 목록으로
-        </button>
+          <button className="back-btn" onClick={onBack}>
+            ⬅ 목록으로
+          </button>
         </div>
       </div>
     </div>

@@ -9,7 +9,7 @@ public interface AttendanceService {
 
     List<Attendance> getAttendanceByClassAndDate(int classId, String date); // ✅ 특정 날짜 출석 데이터 조회
 
-    void updateAttendanceState(int attendanceId, String state); // ✅ 출석 상태 변경
+    void updateAttendanceState(int attendanceId, String state, String studentId);// ✅ 출석 상태 변경
 
     void updateAttendanceReason(int attendanceId, String reason); // ✅ 출석 사유 변경
 
@@ -24,6 +24,8 @@ public interface AttendanceService {
     // 학생의 월별 출석 기록 조회
     List<Attendance> getMonthlyAttendance(String studentId, String month);
     
-    // 지난 출석 데이터 조회
+ // 지난 출석 데이터 조회
     List<Attendance> getPastAttendance(String studentId, String endDate);
+    
+    void checkAndSendFAlert(String studentId);  // 메소드 추가
 }

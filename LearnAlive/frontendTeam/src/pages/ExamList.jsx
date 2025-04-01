@@ -74,9 +74,9 @@ const ExamList = () => {
     <div className='post-container'>
       {viewMode === 'list' && (
         <>
-          <h2>📝 시험 목록</h2>
+          <h2 className='title-bar'>📝 시험 목록</h2>
           {user.role === 'professor' && (
-            <button onClick={() => setViewMode('create')}>
+            <button onClick={() => setViewMode('create')} className='normal-button'>
               💁‍♀️ 시험 추가
             </button>
           )}
@@ -95,19 +95,9 @@ const ExamList = () => {
               <tbody>
                 {exams.map((exam) => (
                   <tr key={exam.examId}>
-                    <td>
-                      <button
-                        onClick={() => handleExamClick(exam)}
-                        style={{
-                          background: 'none',
-                          border: 'none',
-                          color: 'blue',
-                          textDecoration: 'underline',
-                          cursor: 'pointer',
-                        }}
-                      >
+                    <td onClick={() => handleExamClick(exam)}
+                        className='post-title'>
                         {exam.title}
-                      </button>
                     </td>
                     <td>{exam.profName || '-'}</td>
                     <td>{exam.questionCount || '-'}</td>
@@ -123,7 +113,7 @@ const ExamList = () => {
                       {user.role === 'student' ? (
                         exam.score || '미응시'
                       ) : (
-                        <button onClick={() => openExamResults(exam.examId)}>
+                        <button onClick={() => openExamResults(exam.examId)} className='normal-button'>
                           점수 조회
                         </button>
                       )}

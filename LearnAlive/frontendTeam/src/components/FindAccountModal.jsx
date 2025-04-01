@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { findProfessorId, resetProfessorPassword } from "../api/professorApi"; // ✅ api 분리된 부분 import
-
+import { findProfessorId, resetProfessorPassword } from "../api/professorApi";
+import { findStudentId, resetStudentPassword } from "../api/studentApi"; // 학생 API import
 
 const FindAccountModal = ({ onClose }) => {
+  // 계정 유형 선택 state: "professor" 또는 "student"
+  const [accountType, setAccountType] = useState("professor");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [userId, setUserId] = useState("");
@@ -12,14 +14,19 @@ const FindAccountModal = ({ onClose }) => {
   const [resetMessage, setResetMessage] = useState("");
   const [findIdMessage, setFindIdMessage] = useState("");
 
-  // 아이디 찾기 기능 수정: 실패 시 모달 내에 메시지 출력
+  // 아이디 찾기 기능
   const handleFindId = async () => {
     if (!name || !email) {
       setFindIdMessage("이름과 이메일을 입력하세요.");
       return;
     }
     try {
-      const response = await findProfessorId(name, email); // ✅ 변경
+      let response;
+      if (accountType === "professor") {
+        response = await findProfessorId(name, email);
+      } else {
+        response = await findStudentId(name, email);
+      }
       const { success, userId } = response;
       if (success) {
         setUserId(userId);
@@ -33,14 +40,18 @@ const FindAccountModal = ({ onClose }) => {
   };
 
   // 비밀번호 재설정 기능
-  // ✅ 비밀번호 재설정 - API로 분리된 함수 호출
   const handleResetPassword = async () => {
     if (!idInput || !name || !phone || !newPassword) {
       alert("아이디, 이름, 전화번호와 새 비밀번호를 입력하세요.");
       return;
     }
     try {
-      const response = await resetProfessorPassword(idInput, name, phone, newPassword); // ✅ 변경
+      let response;
+      if (accountType === "professor") {
+        response = await resetProfessorPassword(idInput, name, phone, newPassword);
+      } else {
+        response = await resetStudentPassword(idInput, name, phone, newPassword);
+      }
       const { success } = response;
       if (success) {
         setResetMessage("비밀번호가 성공적으로 재설정되었습니다.");
@@ -57,6 +68,32 @@ const FindAccountModal = ({ onClose }) => {
       <div style={styles.modalContent}>
         <button onClick={onClose} style={styles.closeButton}>✖</button>
         <h2>회원정보 찾기</h2>
+
+        {/* 계정 유형 선택 */}
+        <div style={styles.radioGroup}>
+          <label style={styles.radioLabel}>
+            <input
+              type="radio"
+              name="accountType"
+              value="professor"
+              checked={accountType === "professor"}
+              onChange={() => setAccountType("professor")}
+              style={styles.radioInput}
+            />
+            교수자
+          </label>
+          <label style={{ ...styles.radioLabel, marginLeft: "12px" }}>
+            <input
+              type="radio"
+              name="accountType"
+              value="student"
+              checked={accountType === "student"}
+              onChange={() => setAccountType("student")}
+              style={styles.radioInput}
+            />
+            학습자
+          </label>
+        </div>
 
         {/* 아이디 찾기 섹션 */}
         <div style={styles.section}>
@@ -77,7 +114,6 @@ const FindAccountModal = ({ onClose }) => {
           />
           <button onClick={handleFindId} style={styles.button}>아이디 찾기</button>
           {userId && <p>찾은 아이디: <strong>{userId}</strong></p>}
-          {/* 아이디가 없고, 오류 메시지가 있을 경우 표시 */}
           {!userId && findIdMessage && <p style={{ color: "red" }}>{findIdMessage}</p>}
         </div>
 
@@ -138,7 +174,7 @@ const styles = {
     backgroundColor: "#fff",
     padding: "15px",
     borderRadius: "8px",
-    width: "320px",
+    width: "350px",
     textAlign: "center",
     position: "relative",
   },
@@ -150,6 +186,23 @@ const styles = {
     border: "none",
     fontSize: "16px",
     cursor: "pointer",
+  },
+  radioGroup: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: "12px",
+  },
+  radioLabel: {
+    fontSize: "14px",
+    display: "flex",
+    alignItems: "center",
+    cursor: "pointer",
+  },
+  radioInput: {
+    width: "16px",
+    height: "16px",
+    marginRight: "4px",
   },
   section: {
     marginBottom: "12px",
@@ -163,7 +216,7 @@ const styles = {
     width: "100%",
     padding: "8px",
     marginTop: "8px",
-    backgroundColor: "#007bff",
+    backgroundColor: "#00C1AF",
     color: "#fff",
     border: "none",
     cursor: "pointer",

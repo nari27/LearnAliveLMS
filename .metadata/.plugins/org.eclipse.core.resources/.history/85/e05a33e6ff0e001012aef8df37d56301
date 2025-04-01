@@ -1,0 +1,78 @@
+package com.lms.attendance.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Service;
+
+import com.lms.attendance.model.AlarmList;
+import com.lms.attendance.model.CourseRegistrationCount;
+import com.lms.attendance.model.WarningMessage;
+import com.lms.attendance.repository.AlarmListMapper;
+import com.lms.attendance.repository.CourseMapper;
+
+@Service
+public class WebSocketService {
+
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
+
+    @Autowired
+    private CourseMapper courseMapper;
+    
+    @Autowired
+    private AlarmListMapper alarmListMapper; 
+
+    // 신청 인원 전체를 다시 조회해서 브로드캐스트
+    public void broadcastUpdatedCounts() {
+        List<CourseRegistrationCount> counts = courseMapper.getPreRegistrationCounts();
+        messagingTemplate.convertAndSend("/topic/registrationCounts", counts);
+    }
+    
+    // ✅ 본 수강신청 인원 브로드캐스트
+    public void broadcastFinalCounts() {
+        List<CourseRegistrationCount> counts = courseMapper.getFinalRegistrationCounts();
+        messagingTemplate.convertAndSend("/topic/finalCounts", counts);
+    }
+    
+ // F학점 알림 전송 및 DB 저장
+    public void sendFGradeWarning(String studentId, String content, int classId) {
+        WarningMessage message = new WarningMessage("⚠️ F학점 경고", content);
+
+        // 1. 실시간 WebSocket 전송 (학생에게)
+        messagingTemplate.convertAndSendToUser(
+            studentId,
+            "/topic/alerts", // 사용자별로 WebSocket 알림 전송
+            message
+        );
+
+        // 2. DB 저장 (로그인 안 해있어도 볼 수 있게)
+        AlarmList alarm = new AlarmList();
+        alarm.setUserId(studentId);
+        alarm.setClassId(classId);
+        alarm.setType("WARNING");
+        alarm.setTitle(message.getTitle());
+        alarm.setCreatedAt(new java.sql.Timestamp(System.currentTimeMillis()).toString());
+        alarm.setIsRead(false);  // 초기 값은 읽지 않은 상태
+
+        alarmListMapper.insertAlarm(alarm); // 알림 DB에 저장
+
+        // 3. 교수자에게도 알림 전송
+        // 수정된 부분: 학생 ID로 교수 ID 조회
+        String professorId = courseMapper.findProfessorIdByStudentId(studentId);  // 학생 ID로 교수 ID 조회
+        if (professorId != null) {
+            messagingTemplate.convertAndSendToUser(
+                professorId,
+                "/topic/alerts",
+                new WarningMessage("📢 출석 경고 알림", "학생 " + studentId + "의 출결 상태가 기준치를 초과했습니다.")
+            );
+
+            // 교수자 알림 DB에 저장
+            alarm.setUserId(professorId);
+            alarm.setTitle("학생 " + studentId + " 출석 경고");
+            alarmListMapper.insertAlarm(alarm);  // 교수자 알림 저장
+        }
+    }
+
+}

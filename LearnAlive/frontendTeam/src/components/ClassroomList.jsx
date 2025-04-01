@@ -31,7 +31,6 @@ const ClassroomList = () => {
     fetchData();
   }, [user?.userId, user?.role]);
   
-
   if (!user) {
     return (
       <div className="classroom-container">
@@ -92,10 +91,15 @@ const ClassroomList = () => {
         </div>
       )}
       {user.role === "student" && (
+      <div>
         <Link to="/pre-registration">
           <button className="normal-button">예비 수강신청</button>
         </Link>
-      )}
+        <Link to="/final-registration" style={{ marginLeft: "10px" }}>
+          <button className="normal-button">본 수강신청</button>
+        </Link>
+      </div>
+    )}
 
       <ul className="classroom-list">
         {classrooms.length > 0 ? (

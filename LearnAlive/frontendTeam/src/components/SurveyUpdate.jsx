@@ -345,7 +345,7 @@ useEffect(() => {
                     </button>
                   </div>
                 ))}
-                <button onClick={() => addOption(q.id)}>+ 선택지 추가</button>
+                <button onClick={() => addOption(q.id)} className="normal-button">+ 선택지 추가</button>
               </div>
             )}
 
@@ -432,7 +432,7 @@ useEffect(() => {
           </div>
         ))}
       </div>
-      <button onClick={addQuestion}>+ 질문 추가</button>
+      <button onClick={addQuestion} className="normal-button">+ 질문 추가</button>
       <br></br><br></br><br></br><br></br>
       <button className="submit-survey-btn" onClick={handleUpdateSurvey}>
         설문 수정

@@ -201,7 +201,7 @@ const moveQuestion = (index, direction) => {
 
 
   return (
-    <div className="survey-create-page">
+    <div>
       <button className="back-button" onClick={onBack} style={{ display: "block", marginLeft: "auto" }}>⬅ 뒤로가기</button>
       <h2>📋 설문조사 만들기</h2>
       <br></br>
@@ -225,14 +225,16 @@ const moveQuestion = (index, direction) => {
 
       <div className="question-item">
       <label>설문 시작 시간:</label>
-      <input type="datetime-local" value={startTime} onChange={(e) => setStartTime(e.target.value)} />
+      <input type="datetime-local" value={startTime} onChange={(e) => setStartTime(e.target.value)} style={{ width: "500px", height: "40px" }} />
       <label>설문 종료 시간:</label>
-      <input type="datetime-local" value={endTime} onChange={(e) => setEndTime(e.target.value)} />
+      <input type="datetime-local" value={endTime} onChange={(e) => setEndTime(e.target.value)} style={{ width: "500px", height: "40px" }} />
     </div>
 
       <div className="question-section">
         {questions.map((q, index) => (
           <div key={q.id} className="question-item">
+              {q.isRequired && <p className="info-box required-info">⚠️필수</p>}
+            <div className="question-header">
             <div className="move-buttons">
                 <button 
                   onClick={() => moveQuestion(index, "up")} 
@@ -250,9 +252,8 @@ const moveQuestion = (index, direction) => {
                 </button>
                 {/* <span className="change-question-order-span">문항 순서 변경</span> */}
               </div>
-            <div className="question-header">
               <strong>문항 {index + 1}</strong>
-              <button className="delete-question" onClick={() => deleteQuestion(q.id)}>×</button>
+              <button className="delete-button" onClick={() => deleteQuestion(q.id)}>×</button>
             </div>
   
             <div className="style-toolbar">
@@ -369,10 +370,11 @@ const moveQuestion = (index, direction) => {
                           q2.id === q.id ? { ...q2, options: updatedOptions } : q2
                         ));
                       }}
+                      style={{ width: "100%" }}
                     />
                     {/* ✅ 선택지 삭제 버튼 */}
                     <button
-                      className="delete-question"
+                      className="delete-button"
                       onClick={() => {
                         const updatedOptions = q.options.filter((_, index) => index !== i);
                         setQuestions(questions.map(q2 =>
@@ -384,24 +386,44 @@ const moveQuestion = (index, direction) => {
                     </button>
                   </div>
                 ))}
-                <button onClick={() => addOption(q.id)}>+ 선택지 추가</button>
+                <button onClick={() => addOption(q.id)} className="normal-button">+ 선택지 추가</button>
               </div>
             )}
 
   
-            {/* ✅ 다중 선택 최소/최대 선택 개수 설정 */}
             {q.allowMultiple && (
               <div className="multiple-choice-settings">
-                <label>최소 선택:</label>
-                <input type="number" min="1" max={q.options.length} value={q.minSelect || 1} onChange={(e) => setQuestions(questions.map(q2 =>
-                  q2.id === q.id ? { ...q2, minSelect: parseInt(e.target.value) } : q2
-                ))} />
-                <label>최대 선택:</label>
-                <input type="number" min={q.minSelect || 1} max={q.options.length} value={q.maxSelect || q.options.length} onChange={(e) => setQuestions(questions.map(q2 =>
-                  q2.id === q.id ? { ...q2, maxSelect: parseInt(e.target.value) } : q2
-                ))} />
+                <div className="choice-setting-group">
+                  <label>최소 선택:</label>
+                  <input
+                    type="number"
+                    min="1"
+                    max={q.options.length}
+                    value={q.minSelect || 1}
+                    onChange={(e) =>
+                      setQuestions(questions.map((q2) =>
+                        q2.id === q.id ? { ...q2, minSelect: parseInt(e.target.value) } : q2
+                      ))
+                    }
+                  />
+                </div>
+                <div className="choice-setting-group">
+                  <label>최대 선택:</label>
+                  <input
+                    type="number"
+                    min={q.minSelect || 1}
+                    max={q.options.length}
+                    value={q.maxSelect || q.options.length}
+                    onChange={(e) =>
+                      setQuestions(questions.map((q2) =>
+                        q2.id === q.id ? { ...q2, maxSelect: parseInt(e.target.value) } : q2
+                      ))
+                    }
+                  />
+                </div>
               </div>
             )}
+
 
             {/* ✅ 선형 배율 미리보기 */}
             {q.questionType === "linear_scale" && (
@@ -454,24 +476,45 @@ const moveQuestion = (index, direction) => {
             )}
 
 
+                          {/* ✅ 선형 배율 설정 */}
+                          {q.questionType === "linear_scale" && (
+                <div className="linear-scale-settings">
+                  <div className="scale-pair">
+                    <label>최소값:</label>
+                    <input
+                      type="number"
+                      min="1"
+                      max="10"
+                      value={q.minValue || 1}
+                      onChange={(e) =>
+                        setQuestions(questions.map(q2 =>
+                          q2.id === q.id ? { ...q2, minValue: parseInt(e.target.value) } : q2
+                        ))
+                      }
+                    />
+                  </div>
 
-            {/* ✅ 선형 배율 설정 */}
-            {q.questionType === "linear_scale" && (
-              <div className="linear-scale-settings">
-                <label>최소값:</label>
-                <input type="number" min="1" max="10" value={q.minValue || 1} onChange={(e) => setQuestions(questions.map(q2 =>
-                  q2.id === q.id ? { ...q2, minValue: parseInt(e.target.value) } : q2
-                ))} />
-                <label>최대값:</label>
-                <input type="number" min={q.minValue || 1} max="10" value={q.maxValue || 5} onChange={(e) => setQuestions(questions.map(q2 =>
-                  q2.id === q.id ? { ...q2, maxValue: parseInt(e.target.value) } : q2
-                ))} />
-              </div>
-            )}
+                  <div className="scale-pair">
+                    <label>최대값:</label>
+                    <input
+                      type="number"
+                      min={q.minValue || 1}
+                      max="10"
+                      value={q.maxValue || 5}
+                      onChange={(e) =>
+                        setQuestions(questions.map(q2 =>
+                          q2.id === q.id ? { ...q2, maxValue: parseInt(e.target.value) } : q2
+                        ))
+                      }
+                    />
+                  </div>
+                </div>
+              )}
+
           </div>
         ))}
       </div>
-      <button onClick={addQuestion}>+ 질문 추가</button>
+      <button onClick={addQuestion} className="normal-button">+ 질문 추가</button>
       <br></br><br></br><br></br><br></br>
       <div className="survey-buttons">
       <button

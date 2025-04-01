@@ -37,7 +37,7 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 15px;
     margin: 3px;
     white-space: nowrap;
 }
@@ -222,18 +222,6 @@ input, select {
     opacity: 0.8;
   }
 
-/* ✅ 닫기 버튼 */
-.close-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: red;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-}
-
 /* ✅ 테이블 컨테이너 (스크롤 가능) */
 .table-container {
     flex-grow: 1;
@@ -296,4 +284,65 @@ input, select {
   
   .register-button:hover {
     background-color: #5a0013;
+  }
+
+  .normal-button {
+    font-size: 15px !important;
+    border-radius: 8px;
+    background-color: #00C1AF !important;
+    border: 2px solid #00887A !important;
+    font-weight: bold;
+    color: white !important;
+}
+
+.normal-button:hover {
+    background-color: #00887A !important;
+}
+
+
+/* 삭제 버튼 */
+.delete-button {
+    background-color: #363A43 !important; /* 기본 버튼 색상 */
+    color: white !important;
+    border: 2px solid black !important;
+    font-size: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .delete-button:hover {
+    background-color: black !important;
+  }
+  
+  .like-button {
+    background-color: #2138DF; /* 기본 버튼 색상 */
+    color: white;
+    border: 2px solid #1929A4;
+    font-size: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+ }
+
+ .edit-button {
+    background-color: #D8A300; /* 기본 버튼 색상 */
+    color: white;
+    border: 2px solid #9E7700;
+    font-size: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+ }
+
+ .edit-button:hover {
+    background-color: #9E7700;
+ }
+
+ .linear-scale-settings input {
+    box-sizing: border-box;
+  }
+
+  .multiple-choice-settings {
+    justify-content: space-between;
   }

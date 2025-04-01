@@ -4,7 +4,10 @@ const ExamResults = ({ examResults = [], onBack }) => {
   return (
     <div>
       <div>
-        <h3>📊 학생 시험 결과</h3>
+      <button onClick={onBack} className="back-button" style={{ display: "block", marginLeft: "auto" }}>
+        ⬅ 돌아가기
+      </button>
+        <h3 className='title-bar'>📊 학생 시험 결과</h3>
         <table>
           <thead>
             <tr>
@@ -29,7 +32,6 @@ const ExamResults = ({ examResults = [], onBack }) => {
             )}
           </tbody>
         </table>
-        <button onClick={onBack}>닫기</button>
       </div>
     </div>
   );

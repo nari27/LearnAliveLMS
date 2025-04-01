@@ -12,6 +12,7 @@ import SurveyDetail from "./components/SurveyDetail";
 import AddPostPage from "./components/AddPostPage";
 import ClassroomDetail from "./pages/ClassroomDetail";
 import PreRegistrationPage from "./pages/PreRegistrationPage";
+import FinalRegistrationPage from "./components/FinalRegistrationPage";
 
 import ProfessorStatus from "./pages/ProfessorStatus";  
 import ManageNotice from "./pages/ManageNotice";  
@@ -37,19 +38,27 @@ import CalendarPage from "./pages/CalendarPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { NotificationProvider } from "./context/NotificationContext";
+import NotificationListener from "./components/NotificationListener";
+import { useAuth } from "./context/AuthContext"; 
+
+import ChatBot from './components/Chatbot'; 
   
 function App() {
+  const auth = useAuth(); // ✅ useAuth() 결과 전체를 받기
+
   return (
     <AuthProvider> {/* ✅ 여기서 Provider 감싸기 */}
     <NotificationProvider>
       <Router>
         <Header />
         <ToastContainer />
-        {/* {user?.classId && <NotificationListener classId={classId} />} */}
+        {/* ✅ 항상 렌더링되는 NotificationListener (로그인 유저가 있는 경우만) */}
+        {auth?.user?.id && <NotificationListener userId={auth.user.id} />}
 
         <main style={{ minHeight: '80vh' }}>
         <Routes>
           <Route path="/pre-registration" element={<PreRegistrationPage />} />
+          <Route path="/final-registration" element={<FinalRegistrationPage />} />
 
           <Route path="/" element={<Dashboard />} />
           <Route path="/admin/university" element={<AdminUniversityDepartmentManagement />} />
@@ -89,6 +98,11 @@ function App() {
         </main>
         <Footer />
       </Router>
+
+      {/* 💬 ChatBot은 Router 밖에서 띄워야 position: fixed가 제대로 작동해요! */}
+      <div id="chatbot-wrapper">
+        <ChatBot />
+      </div>
       </NotificationProvider>
     </AuthProvider>
   );

@@ -13,8 +13,13 @@ export const fetchAttendanceByDate = async (classId, date) => {
 };
 
 
-export const updateAttendanceState = (attendanceId, state) =>
-  axios.put(`${API_URL}/${attendanceId}/state`, { state });
+export const updateAttendanceState = async (attendanceId, state, studentId) => {
+  const response = await axios.put(`${API_URL}/${attendanceId}/state`, {
+    state,
+    studentId 
+  });
+  return response.data;
+};
 
 export const updateAttendanceReason = (attendanceId, reason) =>
   axios.put(`${API_URL}/${attendanceId}/reason`, { reason });

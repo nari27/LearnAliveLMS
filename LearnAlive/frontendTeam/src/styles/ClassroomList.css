@@ -21,13 +21,6 @@
   text-align: center;
 }
 
-/* 버튼 컨테이너 */
-.button-group {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-bottom: 20px;
-}
 
 /* 강의실 리스트 */
 .classroom-list {
@@ -75,21 +68,6 @@
 
 .classroom-link:hover {
   color: #0056b3;
-}
-
-/* 삭제 버튼 */
-.delete-button {
-  background-color: #363A43; /* 기본 버튼 색상 */
-  color: white;
-  border: 2px solid black;
-  font-size: 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.delete-button:hover {
-  background-color: black;
 }
 
 /* 로그인 필요 컨테이너 */

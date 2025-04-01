@@ -73,6 +73,9 @@ const ExamResult = ({ examId, classId, onBack}) => {
 
   return (
     <div className="exam-container">
+            <button onClick={onBack} className="back-button" style={{ display: "block", marginLeft: "auto" }}>
+        ⬅ 돌아가기
+      </button>
       <h2 className="exam-title">{result.exam.title} (시험 결과)</h2>
       <div className="exam-info-field">
         <span>
@@ -152,7 +155,7 @@ const ExamResult = ({ examId, classId, onBack}) => {
 
           return (
             <div key={index}>
-              <div className="question-header">
+              <div>
                 <h2>Q{index + 1}.</h2>
                 {isCorrect ? (
                   <div

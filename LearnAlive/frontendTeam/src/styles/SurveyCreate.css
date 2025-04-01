@@ -108,8 +108,7 @@ box-sizing: border-box; /* 🔹 패딩 포함 크기 계산 */
 }
 
 .option-item input {
-  flex: 1; /* 🔹 가변적으로 너비 설정 */
-  width: 100%;
+  flex: 1;         /* ✅ input이 남은 공간을 모두 차지하게 함 */
   box-sizing: border-box;
 }
 
@@ -185,28 +184,13 @@ box-sizing: border-box; /* 🔹 패딩 포함 크기 계산 */
 }
 
 .toggle-switch input:checked + .slider {
-  background-color: #4caf50;
+  background-color: #00C1AF;
 }
 
 .toggle-switch input:checked + .slider::before {
   transform: translateX(20px);
 }
 
-/* 🚀 버튼 스타일 (이 컴포넌트에서만 적용) */
-.survey-create-page button {
-  background: #4caf50;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-.survey-create-page button:hover {
-  background: #45a049;
-}
 
 /* ✅ 동그라미 개수에 맞춰 flex로 균등 배치 */
 .linear-scale-preview {
@@ -227,7 +211,7 @@ box-sizing: border-box; /* 🔹 패딩 포함 크기 계산 */
   left: calc(100% / (var(--scale-count) * 2));  /* 첫 번째 동그라미까지 */
   right: calc(100% / (var(--scale-count) * 2)); /* 마지막 동그라미까지 */
   height: 2px;
-  background-color: #ff9800;
+  background-color: #00C1AF;
   z-index: 1;
   transform: translateY(-50%);
 }
@@ -247,7 +231,7 @@ box-sizing: border-box; /* 🔹 패딩 포함 크기 계산 */
   width: 18px;
   height: 18px;
   background-color: white;
-  border: 2px solid #ff9800;
+  border: 2px solid #00C1AF;
   border-radius: 50%;
   position: relative;
   z-index: 3;
@@ -263,26 +247,6 @@ box-sizing: border-box; /* 🔹 패딩 포함 크기 계산 */
   font-size: 14px;
   color: #333;
   text-align: center;
-}
-
-/* ✅ 설문 저장 버튼 스타일 (더 높은 우선순위 부여) */
-.survey-create-page .submit-survey-btn {
-  display: block;
-  margin: 20px auto;
-  background: #A71A2B;
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 8px;
-  font-size: 18px;
-  font-weight: bold;
-  cursor: pointer;
-  text-align: center;
-}
-
-/* ✅ 호버 효과 */
-.survey-create-page .submit-survey-btn:hover {
-  background: #7C0019;
 }
 
 /* ✅ 새로운 박스 스타일 (설문 제목용) */
@@ -315,7 +279,7 @@ box-sizing: border-box; /* 🔹 패딩 포함 크기 계산 */
   left: 0;
   width: 100%;
   height: 10px; /* 색 띠 높이 */
-  background-color: #F2BE7D; /* 색상 */
+  background-color: #00C1AF; /* 색상 */
   border-radius: 10px 10px 0 0; /* 상단 모서리 둥글게 */
 }
 
@@ -403,8 +367,10 @@ display: none !important; /* ✅ 빈 <b>, <u> 태그 숨김 */
   white-space: nowrap;
 }
 
-.option-input {
-height: 40px !important;
+.option-item .option-input {
+  flex: 1;
+  height: 40px !important;
+  box-sizing: border-box;
 }
 
 .back-button {
@@ -439,7 +405,7 @@ transition: background-color 0.2s, transform 0.1s;
 }
 
 .style-button.active {
-background-color: #4caf50 !important; /* ✅ 활성화 상태일 때 (눌렀을 때) 녹색 */
+background-color: #00C1AF !important; /* ✅ 활성화 상태일 때 (눌렀을 때) 녹색 */
 color: white; /* ✅ 글자색 흰색으로 변경 */
 transform: scale(1.05);
 }
@@ -473,7 +439,7 @@ margin-right: 5px;
 padding: 2px 6px;
 font-size: 14px;
 cursor: pointer;
-background-color: #45a050;
+background-color: #2138DF;
 }
 
 .change-question-order-span {

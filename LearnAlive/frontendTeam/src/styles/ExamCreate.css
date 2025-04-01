@@ -1,44 +1,20 @@
 /* 공통 스타일을 적용 */
-.input-field {
-  width: 100%;
+.Qinput-field {
+  display: flex;
+  max-width: 600px;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   margin-top: 10px;
   box-sizing: border-box;
   font-size: 17px;
-  margin-bottom: 20px;
 }
 
 .choice-box {
   display: flex;
   align-items: center;
   margin-bottom: 8px; /* 선택지 간격 */
-}
-
-/* 선택지 input 스타일을 동일하게 적용 */
-.choice-input {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-bottom: 10px;
-  margin-top: 10px;
-  box-sizing: border-box;
-  font-size: 17px;
-}
-.question-input {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-bottom: 10px;
-  margin-top: 10px;
-  box-sizing: border-box;
-  font-size: 17px;
-  resize: vertical; /* 세로로 크기 조절 가능 */
-  overflow: auto; /* 넘칠 경우 스크롤 */
 }
 
 .question-box {
@@ -52,23 +28,8 @@
 }
 
 .question-header {
-  background-color: lightsteelblue;
-}
-
-/* 버튼 공통 스타일 */
-button {
-  background-color: #2138DF;
+  background-color: #00C1AF !important;
   color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: rgb(39, 148, 215); /* 어두운 하늘색 */
 }
 
 .add-question-btn:hover,
@@ -78,7 +39,7 @@ button:hover {
 }
 
 th {
-  background-color: #2138DF; /* 헤더 배경색 하늘색 */
+  background-color: #2138df; /* 헤더 배경색 하늘색 */
   padding: 10px;
   border: 1px solid #ddd;
 }
@@ -106,4 +67,9 @@ td {
 
 .exam-title-link:hover {
   color: #007bff; /* 마우스 올리면 파란색으로 변경 */
+}
+
+.Qradio-1 {
+  max-width: 20px;
+  margin-bottom: 20px;
 }

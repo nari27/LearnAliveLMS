@@ -111,7 +111,7 @@
       border: 2px solid #ccc;
       border-radius: 5px;
       width: 100%; /* 인풋의 너비를 조정할 수 있습니다. */
-      max-width: 250px; /* 인풋의 최대 너비 설정 */
+      box-sizing: border-box; /* ✅ 보더와 패딩을 너비에 포함시킴 */
     }
     
     .modal button {
@@ -162,18 +162,34 @@
     gap: 5px; /* 체크박스와 텍스트 간격 조정 */
   }
   
-  .todo-input {
-    padding: 8px; /* 여백 추가 */
-    display: flex; /* 인풋과 버튼을 가로로 나열 */
-    align-items: center; /* 세로 중앙 정렬 */
-    gap: 10px ; /* 인풋과 버튼 사이에 간격을 추가 */
-    width: 100%; /* 인풋의 너비를 조정할 수 있습니다. */
-    max-width: 250px; /* 인풋의 최대 너비 설정 */
+  .todo-list {
+    padding: 10px;
+    margin: 20px auto; /* 가운데 정렬을 위한 margin */
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    box-sizing: border-box;
   }
-  
+  .todo-input {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .todo-input input {
+    flex: 1;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+
   input {
     width: 100%; /* 인풋의 너비를 조정할 수 있습니다. */
-    max-width: 250px; /* 인풋의 최대 너비 설정 */
   }
   
   .todo-item input[type="checkbox"] {
@@ -232,7 +248,6 @@
   .survey-slide {
     background: white;
     padding: 10px;
-    margin: 4px;
     border-radius: 6px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     font-size: 14px;

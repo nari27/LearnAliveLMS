@@ -73,6 +73,42 @@
     background: #1929A4;
 }
 
+.menu-add-button {
+    width: 100% !important;
+    padding: 12px !important;
+    margin: 8px 0 !important;
+    background: #00C0AE !important;
+    color: white !important;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer !important;
+    font-size: 16px !important;
+    text-align: left !important;
+    transition: 0.3s !important;
+}
+
+.menu-add-button:hover {
+    background-color: #008578 !important;
+}
+
+.menu-delete-button {
+    width: 100% !important;
+    padding: 12px !important;
+    margin: 8px 0 !important;
+    background: #363A43 !important;
+    color: white !important;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer !important;
+    font-size: 16px !important;
+    text-align: left !important;
+    transition: 0.3s !important;
+}
+
+.menu-delete-button:hover {
+    background-color: black !important;
+}
+
 /* ✅ 메인 컨텐츠 (목차 오른쪽 공간) */
 .classroom-content {
     flex-grow: 1;

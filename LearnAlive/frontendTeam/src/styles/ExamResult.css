@@ -20,8 +20,9 @@
 }
 
 .question-title-2 {
-  margin-left: 70px;
+  margin-left: 60px;
   position: absolute;
+  width: 75%;
 }
 
 .question-text {
@@ -34,11 +35,7 @@
 .result-text {
   margin-top: 40px;
   margin-bottom: 30px;
-  margin-left: 70px;
-}
-
-.option {
-  margin-left: 70px;
+  margin-left: 50px;
 }
 
 .exam-container {
@@ -87,7 +84,7 @@
 .result-summary {
   position: absolute;
   top: 10px; /* 부모의 위쪽에서 50px */
-  right: 100px; /* 부모의 왼쪽에서 100px */
+  right: 30px; /* 부모의 왼쪽에서 100px */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -105,7 +102,7 @@
   top: 90px; /* 부모의 위쪽에서 50px */
   right: 30px; /* 부모의 왼쪽에서 100px */
   flex-direction: column;
-  width: 40%;
+  width: 30%;
   padding: 10px;
   padding-bottom: 0px;
   background: #f9f9f9;
@@ -115,14 +112,12 @@
 }
 
 .timer-header {
-  margin-left: 30px;
-  gap: 70px;
+  gap: 30px;
   display: flex;
   align-items: center;
 }
 
 .timer {
-  margin-left: 10px;
   font-size: 23px;
   padding-top: 0px;
   color: #555;
@@ -143,7 +138,7 @@
 }
 
 .answer-item {
-  gap: 10px;
+  gap: 7px;
   height: 20px;
   display: flex;
   align-items: center;
@@ -152,4 +147,10 @@
   border-radius: 20px;
   font-size: 10px;
   text-align: center; /* 중앙 정렬 */
+}
+
+.Qoption1 {
+  max-width: 20px;
+  margin-left: 50px;
+  margin-bottom: 20px;
 }

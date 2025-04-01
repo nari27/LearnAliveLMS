@@ -115,4 +115,33 @@ public interface StudentMapper {
                                 @Param("remarks") String remarks);
 
 
-}
+  //✅ [추가] 학습자 아이디 찾기: 이름과 이메일로 학생 정보 조회
+    @Select("SELECT * FROM Student WHERE name = #{name} AND email = #{email}")
+    @Results({
+        @Result(column = "student_id", property = "studentId"),
+        @Result(column = "university", property = "university"),
+        @Result(column = "department", property = "department"),
+        @Result(column = "name", property = "name"),
+        @Result(column = "phone", property = "phone"),
+        @Result(column = "email", property = "email"),
+        @Result(column = "password", property = "password")
+    })
+    Student findStudentByNameAndEmail(@Param("name") String name, @Param("email") String email);
+
+    // ✅ [추가] 학습자 비밀번호 재설정을 위한 정보 조회: 학생 ID, 이름, 전화번호로 학생 정보 조회
+    @Select("SELECT * FROM Student WHERE student_id = #{studentId} AND name = #{name} AND phone = #{phone}")
+    @Results({
+        @Result(column = "student_id", property = "studentId"),
+        @Result(column = "university", property = "university"),
+        @Result(column = "department", property = "department"),
+        @Result(column = "name", property = "name"),
+        @Result(column = "phone", property = "phone"),
+        @Result(column = "email", property = "email"),
+        @Result(column = "password", property = "password")
+    })
+    Student findByIdAndNameAndPhone(@Param("studentId") String studentId, @Param("name") String name, @Param("phone") String phone);
+
+    // ✅ [추가] 학습자 비밀번호 재설정: 새 비밀번호로 업데이트 (암호화된 비밀번호 사용)
+    @Update("UPDATE Student SET password = #{encryptedPassword} WHERE student_id = #{studentId}")
+    void updateStudentPassword(@Param("studentId") String studentId, @Param("encryptedPassword") String encryptedPassword);
+    }

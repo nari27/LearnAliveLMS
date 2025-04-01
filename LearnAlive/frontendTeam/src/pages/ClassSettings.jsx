@@ -36,7 +36,7 @@ const ClassSettings = () => {
 
   return (
     <div className="class-settings-container">
-      <h2>📌 강의실 출석 시간 설정</h2>
+      <h2 style={{textAlign: 'center', marginBottom: '30px'}}>📌 강의실 출석 시간 설정</h2>
       {message && <p className="message">{message}</p>}
 
       <div className="settings-box"> {/* ✅ 박스 추가 */}
@@ -67,8 +67,8 @@ const ClassSettings = () => {
       </div>
 
       <div className="button-group">
-        <button onClick={handleSubmit}>저장</button>
-        <button className="cancel-button" onClick={() => navigate(-1)}>뒤로 가기</button> {/* ✅ 회색 버튼 */}
+        <button onClick={handleSubmit} className="normal-button">저장</button>
+        <button className="delete-button" onClick={() => navigate(-1)}>뒤로 가기</button> {/* ✅ 회색 버튼 */}
       </div>
       <br></br><br></br><br></br><br></br><br></br>
     </div>
