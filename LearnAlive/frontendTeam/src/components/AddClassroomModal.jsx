@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+
 const AddClassroomModal = ({ onClose, onAddClassroom }) => {
   const [className, setClassName] = useState("");
   const [professors, setProfessors] = useState([]);
@@ -19,15 +20,13 @@ const AddClassroomModal = ({ onClose, onAddClassroom }) => {
   const [errors, setErrors] = useState({});  // ✅ 에러 상태 추가
 
 
-
-
   useEffect(() => {
     axios.get("http://localhost:8080/api/professors", {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }  // Bearer 추가
     })
     .then((res) => setProfessors(res.data))
     .catch((err) => console.error(err));
-  }, []);  
+  }, []);
 
   const handleSubmit = () => {
     const newErrors = {};
@@ -152,10 +151,12 @@ const AddClassroomModal = ({ onClose, onAddClassroom }) => {
     </select>
   </div>
 
+  <hr></hr>
+
   <div className="input-group">
   <label className="classroom-label">수업 요일 (복수 선택)</label>
   <div className="checkbox-group">
-    {['월', '화', '수', '목', '금', '토', '일'].map((day) => (
+    {['월', '화', '수', '목', '금'].map((day) => (
       <label key={day}>
         <input
           type="checkbox"
@@ -174,6 +175,8 @@ const AddClassroomModal = ({ onClose, onAddClassroom }) => {
   </div>
   {errors.daysOfWeek && <p className="error-message">{errors.daysOfWeek}</p>}
 </div>
+
+<hr></hr>
 
   <div className="input-group">
   <label className="classroom-label">시작 시간</label>
@@ -200,6 +203,8 @@ const AddClassroomModal = ({ onClose, onAddClassroom }) => {
   <input type="time" className="modal-input" value={lateEnd} onChange={(e) => setLateEnd(e.target.value)} />
 </div>
 
+<hr></hr>
+
 <div className="input-group">
   <label className="classroom-label">권장 학년 (복수 선택 가능)</label>
   <div className="checkbox-group">
@@ -225,7 +230,10 @@ const AddClassroomModal = ({ onClose, onAddClassroom }) => {
   {errors.recommendedGrade && <p className="error-message">{errors.recommendedGrade}</p>}
 </div>
 
+<hr></hr>
+
   <div className="input-group">
+  <div className="checkbox-group">
     <label className="classroom-label">
       <input
         type="checkbox"
@@ -234,6 +242,7 @@ const AddClassroomModal = ({ onClose, onAddClassroom }) => {
       />
       필수 과목 여부
     </label>
+    </div>
   </div>
   <br></br>
   <br></br>

@@ -346,3 +346,29 @@ input, select {
   .multiple-choice-settings {
     justify-content: space-between;
   }
+
+  .checkbox-group {
+    display: flex;
+    justify-content: center;     /* ✅ 가운데 정렬 */
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 12px;
+  }
+  
+  .checkbox-group label {
+    display: flex;
+    flex-direction: column;      /* ✅ 체크박스 위, 텍스트 아래 */
+    align-items: center;
+    font-size: 14px;
+    background-color: #f2f2f2;
+    padding: 12px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    min-width: 60px;             /* ✅ 박스 사이즈 균일하게 */
+  }
+  
+  .checkbox-group input[type="checkbox"] {
+    transform: scale(1.4);
+    margin-bottom: 6px;
+  }
+  

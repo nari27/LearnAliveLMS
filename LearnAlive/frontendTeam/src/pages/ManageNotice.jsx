@@ -73,9 +73,9 @@ const ManageNotice = () => {
 
   return (
     <div style={styles.container}>
+      <button style={{ display: "block", marginLeft: "auto" }} onClick={() => navigate("/")} className="back-button">뒤로가기</button>
       <h2 style={styles.heading}>📢 공지사항 관리</h2>
-      <button style={styles.backButton} onClick={() => navigate("/")}>뒤로가기</button>
-
+    
       <div style={styles.form}>
         <label style={styles.label}>공지사항 제목</label>
         <input
@@ -98,7 +98,7 @@ const ManageNotice = () => {
           {selectedNoticeId ? (
             <button style={styles.editButton} onClick={handleEdit}>저장</button>
           ) : (
-            <button style={styles.addButton} onClick={handleAdd}>추가</button>
+            <button style={styles.addButton} onClick={handleAdd} className="normal-button">추가</button>
           )}
         </div>
       </div>
@@ -109,8 +109,8 @@ const ManageNotice = () => {
             <h3>{notice.title}</h3>
             <p>{notice.content}</p>
             <div style={styles.noticeButtons}>
-              <button style={styles.selectButton} onClick={() => handleSelectNotice(notice)}>수정</button>
-              <button style={styles.deleteButton} onClick={() => handleDelete(notice.notice_id)}>삭제</button>
+              <button onClick={() => handleSelectNotice(notice)} className="edit-button">수정</button>
+              <button onClick={() => handleDelete(notice.notice_id)} className="delete-button">삭제</button>
             </div>
           </li>
         ))}

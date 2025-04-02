@@ -2445,3 +2445,4 @@ Caused by: org.eclipse.aether.transfer.ArtifactNotFoundException: Could not find
 2025-04-02 03:03:08,199 [Worker-10: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
 2025-04-02 03:03:08,212 [Worker-10: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 6 resources from src\main\resources to target\classes
 2025-04-02 03:03:08,217 [Worker-10: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory I:\TeamWorkspace\LearnAliveLMS-main\LearnAlive\src\test\resources
+2025-04-02 03:07:51,825 [Worker-1: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
