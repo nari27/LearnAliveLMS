@@ -56,17 +56,26 @@ const [registerRemarks, setRegisterRemarks] = useState("");
   };
   
   //학생 등록 기능
-const handleRegisterToClass = async (studentId) => {
-  try {
-    console.log("등록할 Class ID:", selectedClassId);
-    await registerStudentToClass(studentId, selectedClassId, registerRemarks);
-    alert("수강생 등록 완료");
-    fetchStudentsByClass(selectedClassId).then(setStudents);
-    setRegisterRemarks("");  // 입력창 초기화
-  } catch (error) {
-    console.error("수강생 강의실 등록 실패:", error);
-  }
-};
+  const handleRegisterToClass = async (studentId) => {
+    try {
+      console.log("등록할 Class ID:", selectedClassId);
+      await registerStudentToClass(studentId, selectedClassId, registerRemarks);
+      alert("수강생 등록 완료");
+  
+      const updatedStudents = await fetchStudentsByClass(selectedClassId);
+      setStudents(updatedStudents);
+      setEditingData(
+        updatedStudents.reduce((acc, student) => {
+          acc[student.studentId] = { ...student };
+          return acc;
+        }, {})
+      );
+      setRegisterRemarks("");  // 입력창 초기화
+    } catch (error) {
+      console.error("수강생 강의실 등록 실패:", error);
+    }
+  };
+  
 
 
   const handleSort = (key) => {

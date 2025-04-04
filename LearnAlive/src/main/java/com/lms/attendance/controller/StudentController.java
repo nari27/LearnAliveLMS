@@ -75,8 +75,8 @@ public class StudentController {
     // ✅ 강의실 등록 (학생 본인만)
     @PostMapping("/register-to-class")
     public ResponseEntity<?> registerStudentToClass(@RequestBody StudentClassRequest request) {
-        if (!isSelfOrAdmin(request.getStudentId())) {
-            return ResponseEntity.status(403).body("본인만 수강 등록이 가능합니다.");
+        if (!isProfessorOrAdmin()) {
+            return ResponseEntity.status(403).body("접근 권한이 없습니다.");
         }
         studentService.registerStudentToClass(request.getStudentId(), request.getClassId(), request.getRemarks());
         return ResponseEntity.ok("강의실 수강 등록 완료");

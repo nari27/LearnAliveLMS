@@ -56,3 +56,10 @@ export const fetchPastAttendance = async (studentId, endDate) => {
   });
   return response.data;
 };
+
+export const fetchAttendanceData = async (classId, month) => {
+  const response = await axios.get(`${API_URL}/class/${classId}/month`, {
+    params: { month }, // 전달받은 month 사용
+  });
+  return response.data;
+};

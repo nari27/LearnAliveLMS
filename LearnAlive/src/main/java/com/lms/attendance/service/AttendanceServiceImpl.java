@@ -158,4 +158,9 @@ public class AttendanceServiceImpl implements AttendanceService {
         }
     }
 
+    //출석 통합 분석
+    public List<Attendance> getMonthlyAttendanceForClass(int classId, String month) {
+        return attendanceMapper.findAttendanceByClassForMonth(classId, month);
+    }
+    
 }

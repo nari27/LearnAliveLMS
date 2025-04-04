@@ -96,3 +96,34 @@ export const getUsersAllPosts = async (userId) => {
   const response = await axios.get(`${API_BASE_URL}/user/${userId}/posts`);
   return response.data;
 };
+
+  //모든 게시판 조회
+export const fetchPostBoards = async (classId) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/boards`, {
+      params: { classId },
+    });
+    console.log("게시판 목록 조회 응답:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("❌ 게시판 목록 조회 실패:", error);
+    throw error;
+  }
+};
+
+/**
+ * 월별 게시글 조회 (특정 게시판 & 월)
+ * GET /api/posts/{boardId}/month?month=YYYY-MM
+ */
+export const fetchPostsByBoardAndMonth = async (boardId, month) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/${boardId}/month`, {
+      params: { month },
+    });
+    console.log("월별 게시글 조회 응답 데이터:", response.data); // 여기에 로그 추가
+    return response.data;
+  } catch (error) {
+    console.error("❌ 월별 게시글 조회 실패:", error);
+    throw error;
+  }
+};

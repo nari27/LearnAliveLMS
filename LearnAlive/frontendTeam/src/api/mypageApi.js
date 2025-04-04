@@ -9,12 +9,13 @@ export const getUserById = async (userId, role) => {
 };
 
 // 사용자 정보 업데이트 (POST 요청)
-export const updateUser = async (userId, email, phone) => {
+export const updateUser = async (userId, role, email, phone) => {
   const response = await axios.post(`${API_BASE_URL}/update-user`, {
     userId,
+    role,
     email,
     phone,
-  });
+  })
   return response.data;
 };
 

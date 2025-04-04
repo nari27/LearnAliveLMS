@@ -71,11 +71,6 @@ public ResponseEntity<?> login(@RequestBody LoginRequest request) {
 
         // ✅ 관리자도 토큰 발급!
         String token = jwtUtil.generateToken(request.getUserId(), role);
-        
-        // ✅ 로그 찍기
-        System.out.println("✅ 관리자 로그인 성공");
-        System.out.println("🎫 발급된 토큰: " + token);
-        System.out.println("🔐 역할: " + role);
 
         return ResponseEntity.ok(Map.of(
                 "success", true,
@@ -106,11 +101,6 @@ public ResponseEntity<?> login(@RequestBody LoginRequest request) {
     // ✅ 여기서 토큰 발급
     String token = jwtUtil.generateToken(request.getUserId(), role);
 
- // ✅ 로그 찍기
-    System.out.println("✅ 사용자 로그인 성공");
-    System.out.println("🎫 발급된 토큰: " + token);
-    System.out.println("👤 userId: " + request.getUserId() + ", 역할: " + role);
-    
     return ResponseEntity.ok(Map.of(
             "success", true,
             "message", "로그인 성공",

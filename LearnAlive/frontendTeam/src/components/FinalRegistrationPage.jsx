@@ -215,22 +215,26 @@ const totalCredits = useMemo(() => {
 
       
       <div className="pagination">
-        {currentPage > 1 && (
-            <button onClick={() => setCurrentPage(currentPage - 1)}>
-            ◀ 이전
-            </button>
-        )}
-
+        <button
+          onClick={() => setCurrentPage((prev) => prev - 1)}
+          disabled={currentPage === 1}
+          className={currentPage === 1 ? "disabled-button" : ""}
+        >
+          ◀ 이전
+        </button>
+      
         <span style={{ margin: '0 1rem' }}>
-            [ {currentPage} / {totalPages} ]
+          [ {currentPage} / {totalPages} ]
         </span>
-
-        {currentPage < totalPages && (
-            <button onClick={() => setCurrentPage(currentPage + 1)}>
-            다음 ▶
-            </button>
-        )}
-        </div>
+      
+        <button
+          onClick={() => setCurrentPage((prev) => prev + 1)}
+          disabled={currentPage === totalPages}
+          className={currentPage === totalPages ? "disabled-button" : ""}
+        >
+          다음 ▶
+        </button>
+      </div>
 
 
 

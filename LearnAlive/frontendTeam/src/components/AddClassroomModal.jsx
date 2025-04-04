@@ -19,13 +19,18 @@ const AddClassroomModal = ({ onClose, onAddClassroom }) => {
   const [daysOfWeek, setDaysOfWeek] = useState([]);
   const [errors, setErrors] = useState({});  // ✅ 에러 상태 추가
 
-
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    console.log(":포장: 현재 토큰:", token); // :왼쪽을_가리키는_손_모양: 콘솔에서 확인용
     axios.get("http://localhost:8080/api/professors", {
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }  // Bearer 추가
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
     .then((res) => setProfessors(res.data))
-    .catch((err) => console.error(err));
+    .catch((err) => {
+      console.error(":x: 교수자 불러오기 실패:", err);
+    });
   }, []);
 
   const handleSubmit = () => {

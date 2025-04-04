@@ -12,6 +12,16 @@ const ClassroomList = () => {
   const [showClassroomModal, setShowClassroomModal] = useState(false);
   const [showStudentModal, setShowStudentModal] = useState(false);
 
+  const itemsPerPage = 5; // 한 페이지에 보여줄 강의실 수
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const indexOfLastClass = currentPage * itemsPerPage;
+  const indexOfFirstClass = indexOfLastClass - itemsPerPage;
+  const currentClassrooms = classrooms.slice(indexOfFirstClass, indexOfLastClass);
+
+  const totalPages = Math.ceil(classrooms.length / itemsPerPage);
+
+
   useEffect(() => {
     const fetchData = async () => {
       if (!user?.userId) return;
@@ -102,8 +112,8 @@ const ClassroomList = () => {
     )}
 
       <ul className="classroom-list">
-        {classrooms.length > 0 ? (
-          classrooms.map((classroom) => (
+        {currentClassrooms.length > 0 ? (
+          currentClassrooms.map((classroom) => (
             <li key={classroom.classId} className="classroom-item">
 
               {/* 모든 강의실 클릭 시 ClassroomDetail로 이동 */}
@@ -133,6 +143,30 @@ const ClassroomList = () => {
           </div>
         )}
       </ul>
+
+      {totalPages > 1 && (
+        <div className="pagination">
+        <button
+          onClick={() => setCurrentPage((prev) => prev - 1)}
+          disabled={currentPage === 1}
+          className={currentPage === 1 ? "disabled-button" : ""}
+        >
+          ◀ 이전
+        </button>
+      
+        <span style={{ margin: '0 1rem' }}>
+          [ {currentPage} / {totalPages} ]
+        </span>
+      
+        <button
+          onClick={() => setCurrentPage((prev) => prev + 1)}
+          disabled={currentPage === totalPages}
+          className={currentPage === totalPages ? "disabled-button" : ""}
+        >
+          다음 ▶
+        </button>
+      </div>
+      )}
 
       {/* ✅ 강의실 추가 모달 */}
       {showClassroomModal && (

@@ -48,7 +48,7 @@ const MyProfile = () => {
 
   const handleSave = async () => {
     try {
-      const updatedUser = await updateUser(user.userId, email, phone);
+      const updatedUser = await updateUser(user.userId, user.role, email, phone);
       setUser(updatedUser);
       setUserData(updatedUser);
       alert("내 정보가 변경되었습니다.");

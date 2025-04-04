@@ -35,7 +35,7 @@ const NoticeDetail = () => {
         <h2 style={styles.noticeTitle}>{notice.title}</h2>
         <div style={styles.noticeDate}>📅 작성일: {notice.created_at?.split("T")[0]}</div>
       </div>
-      <div style={styles.noticeContent}>{notice.content}</div>
+      <div style={styles.noticeContent}> {notice.content.split('\n').map((line, index) => ( <p key={index} style={{ marginBottom: "8px" }}>{line}</p> ))} </div>
     </div>
   );
 };

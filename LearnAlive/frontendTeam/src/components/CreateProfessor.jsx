@@ -19,7 +19,7 @@ const CreateProfessor = ({ professor, onClose, onProfessorAdded, onProfessorUpda
       setEmail(professor.email);
       setPhone(professor.phone || "");
       setUniversity(professor.university || "");
-      setCurrentPassword(professor.password || "");
+      setCurrentPassword(""); // ✅ 수정 모드시 초기 비밀번호 입력창은 비워두기
     } else {
       setProfId("");
       setName("");
@@ -33,6 +33,12 @@ const CreateProfessor = ({ professor, onClose, onProfessorAdded, onProfessorUpda
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // ✅ 교수자 수정일 때 비밀번호가 입력되지 않았으면 경고 후 종료
+    if (professor && currentPassword.trim() === "") {
+      alert("비밀번호를 수정해주세요");
+      return;
+    }
 
     const professorData = {
       prof_id: profId,
@@ -106,16 +112,23 @@ const CreateProfessor = ({ professor, onClose, onProfessorAdded, onProfessorUpda
       </div>
 
       <div className={styles.formGroup}>
-        <label htmlFor="currentPassword">{professor ? "현재 비밀번호 :" : "비밀번호 :"}</label>
-        <input type="password" id="currentPassword" className={styles.formControl} value={currentPassword}
-          onChange={(e) => setCurrentPassword(e.target.value)} required />
+        <label htmlFor="currentPassword">{professor ? "새 비밀번호 :" : "비밀번호 :"}</label>
+        <input
+          type="password"
+          id="currentPassword"
+          className={styles.formControl}
+          value={currentPassword}
+          onChange={(e) => setCurrentPassword(e.target.value)}
+          required
+          placeholder={professor ? "새로운 비밀번호를 입력해주세요" : "비밀번호를 입력해주세요"}
+        />
       </div>
 
       <div className={styles.buttonGroup}>
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="normal-button">
           {professor ? "수정하기" : "교수자 생성"}
         </button>
-        <button type="button" className="btn btn-secondary" onClick={onClose}>
+        <button type="button" style={{marginRight: '10px'}} className="delete-button" onClick={onClose}>
           취소
         </button>
       </div>

@@ -24,4 +24,7 @@ public class Classroom {
     // 다중 선택 리스트로 관리
     private List<String> recommendedGrade;
     private List<String> daysOfWeek;
+
+    // 추가: 강의 설명 필드
+    private String description;
 }

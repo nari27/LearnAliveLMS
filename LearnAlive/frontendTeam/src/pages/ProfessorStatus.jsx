@@ -93,11 +93,22 @@ const ProfessorStatus = () => {
   }
 
   return (
-    <div className="container mt-5">
-      <h2>[교수자 현황]</h2>
+    <div style={{padding: '20px'}}>
+      {/* 메인 타이틀 스타일 */}
+      <h1
+        style={{
+          fontSize: '2.5rem',
+          color: '#4a4a4a',
+          textAlign: 'center',
+          marginBottom: '20px',
+          borderBottom: '2px solid #ddd',
+          paddingBottom: '10px'
+        }}
+      >
+        교수자 관리
+      </h1>
       {isLoggedIn ? (
         <>
-          <p>안녕하세요, {username}님! ({role})</p>
           <button className="btn btn-primary" onClick={handleCreateProfessorClick}>
             교수자 생성
           </button>
@@ -125,7 +136,7 @@ const ProfessorStatus = () => {
                   <td>{professor.university}</td>
                   <td>
                     <button
-                      className="btn btn-warning"
+                      className="edit-button"
                       onClick={() => handleEditProfessor(professor)}
                     >
                       수정
@@ -133,7 +144,7 @@ const ProfessorStatus = () => {
                   </td>
                   <td>
                     <button
-                      className="btn btn-danger"
+                      className="delete-button"
                       onClick={() => handleDeleteProfessor(professor.prof_id)}
                     >
                       삭제

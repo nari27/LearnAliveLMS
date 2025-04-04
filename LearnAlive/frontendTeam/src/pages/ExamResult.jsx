@@ -73,7 +73,7 @@ const ExamResult = ({ examId, classId, onBack}) => {
 
   return (
     <div className="exam-container">
-            <button onClick={onBack} className="back-button" style={{ display: "block", marginLeft: "auto" }}>
+      <button onClick={onBack} className="back-button" style={{ display: "block", marginLeft: "auto" }}>
         ⬅ 돌아가기
       </button>
       <h2 className="exam-title">{result.exam.title} (시험 결과)</h2>
@@ -141,6 +141,7 @@ const ExamResult = ({ examId, classId, onBack}) => {
 
       <br></br>
       <h3>시험 문제 ({result.exam.questionCount}문항)</h3>
+      <br></br><br></br>
       <div className="question-results">
         {result.exam.questions.map((question, index) => {
           //학생 답 찾기
@@ -154,73 +155,102 @@ const ExamResult = ({ examId, classId, onBack}) => {
           const score = isCorrect ? '5/5' : '0/5';
 
           return (
-            <div key={index}>
+            <div key={index} style={{ position: 'relative', marginBottom: '30px' }}>
               <div>
-                <h2>Q{index + 1}.</h2>
-                {isCorrect ? (
-                  <div
-                    style={{
-                      position: 'absolute',
-                      left: '6px',
-                      top: '50%',
-                      transform: 'translateY(-50%)',
-                      width: '60px', // 원 크기
-                      height: '60px',
-                      border: '3px solid red', // 얇은 선으로 원 만들기
-                      borderRadius: '50%', // 원형 모양
-                    }}
-                  ></div>
-                ) : (
-                  <div
-                    style={{
-                      position: 'absolute',
-                      left: '30px',
-                      top: '50%',
-                      transform: 'translateY(-50%) rotate(40deg)', // 대각선 회전
-                      width: '3px', // 선 두께 (얇게 조정 가능)
-                      height: '80px', // 선 길이
-                      backgroundColor: 'red',
-                    }}
-                  ></div>
-                )}
-                <div className="question-title-2">{question.questionTitle}</div>
-                <span
-                  className={`score ${score === '0/5' ? 'incorrect' : ''}`}
-                  style={{ fontSize: '20px', marginLeft: '10px' }}
+                {/* Q번호 + 제목 + 점수 같은 줄에 정렬 */}
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '10px',
+                  }}
                 >
-                  {score}
-                </span>
-              </div>
-
-              <div className="question-text">{question.questionText}</div>
-
-              {['answer1', 'answer2', 'answer3', 'answer4'].map((key, i) => (
+                  {/* 왼쪽: Q번호 + 정오표시 + 문제제목 */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <h2 style={{ margin: 0 }}>Q{index + 1}.</h2>
+                    {isCorrect ? (
+                      <div
+                        style={{
+                          position: 'absolute',
+                          left: '-3%',
+                          top: '7%',
+                          transform: 'translateY(-50%)',
+                          width: '60px',
+                          height: '60px',
+                          border: '3px solid red',
+                          borderRadius: '50%',
+                        }}
+                      ></div>
+                    ) : (
+                      <div
+                        style={{
+                          position: 'absolute',
+                          left: '3%',
+                          top: '7%',
+                          transform: 'translateY(-50%) rotate(40deg)',
+                          width: '3px',
+                          height: '80px',
+                          backgroundColor: 'red',
+                        }}
+                      ></div>
+                    )}
+                    <div className="question-title-2">{question.questionTitle}</div>
+                  </div>
+          
+                  {/* 오른쪽: 점수 */}
+                  <span
+                    className={`score ${score === '0/5' ? 'incorrect' : ''}`}
+                    style={{ fontSize: '20px' }}
+                  >
+                    {score}
+                  </span>
+                </div>
+          
+                <div className="question-text">{question.questionText}</div>
+          
+                {['answer1', 'answer2', 'answer3', 'answer4'].map((key, i) => (
                 <div
                   key={i}
                   className={`option ${
                     question.correctAnswer === i + 1 ? 'correct' : ''
                   }`}
+                  style={{ marginBottom: '6px', marginLeft: '60px' }}
                 >
-                  <label>
+                  <label
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      fontSize: '16px',
+                      cursor: 'default',
+                      whiteSpace: 'nowrap', // ✅ 줄바꿈 방지!
+                    }}
+                  >
                     <input
                       type="radio"
                       name={`question-${index}`}
                       value={i + 1}
                       checked={studentAnswer && studentAnswer.answer === i + 1}
                       disabled
+                      style={{ marginRight: '8px',  transform: 'scale(1.2)', }}
                     />
                     {i + 1}. {question[key]}
                   </label>
                 </div>
               ))}
-              <p className="result-text">
-                {studentAnswer &&
-                studentAnswer.answer === question.correctAnswer
-                  ? `✅ 정답 : ${studentAnswer.answer}`
-                  : `❌ 오답 / 정답: ${question.correctAnswer}`}
-              </p>
+
+          
+                <p className="result-text">
+                  {studentAnswer &&
+                  studentAnswer.answer === question.correctAnswer
+                    ? `✅ 정답 : ${studentAnswer.answer}`
+                    : `❌ 오답 / 정답: ${question.correctAnswer}`}
+                </p>
+              </div>
             </div>
           );
+          
         })}
       </div>
 

@@ -13,18 +13,19 @@ import com.lms.attendance.model.MyPage;
 
 @Mapper
 public interface MyProfileMapper {
-    @Select("SELECT * FROM Professor WHERE prof_id = #{userId}")
-    @Results({
-        @Result(property = "userId", column = "prof_id"),
-        @Result(property = "role", column = "role"),
-        @Result(property = "name", column = "name"),
-        @Result(property = "university", column = "university"),
-        @Result(property = "department", column = "department"),
-        @Result(property = "email", column = "email"),
-        @Result(property = "phone", column = "phone"),
-        @Result(property = "password", column = "password")
-    })
-    MyPage findProfessorById(@Param("userId") String userId);
+	@Select("SELECT *, 'professor' as role FROM Professor WHERE prof_id = #{userId}")
+	@Results({
+	    @Result(property = "userId", column = "prof_id"),
+	    @Result(property = "role", column = "role"),
+	    @Result(property = "name", column = "name"),
+	    @Result(property = "university", column = "university"),
+	    @Result(property = "department", column = "department"),
+	    @Result(property = "email", column = "email"),
+	    @Result(property = "phone", column = "phone"),
+	    @Result(property = "password", column = "password")
+	})
+	MyPage findProfessorById(@Param("userId") String userId);
+
 
     @Select("SELECT * FROM Student WHERE student_id = #{userId}")
     @Results({

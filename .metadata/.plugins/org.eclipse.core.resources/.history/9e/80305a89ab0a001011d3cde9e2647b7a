@@ -1,5 +1,0 @@
-package com.lms.attendance.typehandler;
-
-public class ListToJsonTypeHandler {
-
-}

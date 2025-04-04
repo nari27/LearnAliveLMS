@@ -1,18 +1,12 @@
 package com.lms.attendance.service;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lms.attendance.model.Board;
 import com.lms.attendance.model.Post;
 import com.lms.attendance.repository.PostMapper;
 
@@ -67,6 +61,16 @@ public class PostService {
             return postMapper.getUsersAllPosts(userId);
         }
 
+     // 게시판 목록 조회 (classId 기준)
+        public List<Board> getBoardsByClassId(int classId) {
+            return postMapper.findBoardsByClassId(classId);
+        }
+        
+        // 게시글 조회 (특정 게시판, 월별 조회)
+        public List<Post> getPostsByBoardAndMonth(int boardId, String month) {
+            // month 값에 "%"를 붙여 SQL의 LIKE 검색에 활용 (예: "2025-04%")
+            return postMapper.findPostsByBoardAndMonth(boardId, month + "%");
+        }
         
     }
 	

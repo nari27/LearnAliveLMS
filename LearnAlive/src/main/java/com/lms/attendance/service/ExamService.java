@@ -85,4 +85,9 @@ public class ExamService {
             throw new IllegalStateException("이미 퀴즈 게시판이 존재합니다.");
         }
     }
+    
+ // ✅ classId 기준으로 모든 시험 목록 조회
+    public List<Exam> getAllExamsByClassId(int classId) {
+        return examMapper.findAllByClassId(classId); // ✅ 해당 클래스의 시험 목록만 가져오기
+    }
 }

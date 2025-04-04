@@ -21,6 +21,7 @@ import "../styles/ClassroomDetail.css";
 import "../styles/post.css";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import IntegratedAnalysis from "../pages/IntegratedAnalysis";
 
 
 const ClassroomDetail = () => {
@@ -192,6 +193,9 @@ const ClassroomDetail = () => {
         case "teamActivity":
           setActiveComponent(<TeamActivity classId={classId} />);
           break;
+        case "integratedAnalysis":
+        setActiveComponent(<IntegratedAnalysis />);
+        break;
         default:
           setActiveComponent(null);
       }
@@ -278,6 +282,12 @@ const ClassroomDetail = () => {
             팀 활동
           </button>
 
+          <button
+            className="menu-button"
+            onClick={() => setSelectedMenu("integratedAnalysis")}
+          >
+            통합 분석
+          </button>
 
           {/* 추가 메뉴: 메인으로 */}
           {/* <Link to="/">

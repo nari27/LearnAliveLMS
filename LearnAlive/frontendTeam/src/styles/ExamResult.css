@@ -23,18 +23,20 @@
   margin-left: 60px;
   position: absolute;
   width: 75%;
+  font-size: 20px;
 }
 
 .question-text {
+  margin-top: 15px;
   margin-bottom: 30px;
-  margin-left: 70px;
+  margin-left: 61px;
   font-size: 17px;
   white-space: pre-wrap; /* 줄바꿈과 공백을 그대로 유지하면서 화면 크기에 맞게 자동으로 줄바꿈 */
 }
 
 .result-text {
   margin-top: 40px;
-  margin-bottom: 30px;
+  margin-bottom: 70px;
   margin-left: 50px;
 }
 

@@ -20,10 +20,11 @@ import com.lms.attendance.model.Classroom;
 public interface ClassMapper {
 
 	//사용자의 강의실 정보 가져오기
-	@Select("(SELECT c.class_id AS classId, c.class_name AS className, c.prof_id AS profId "
-			+ "FROM Class c JOIN student_class sc ON c.class_id = sc.class_id WHERE sc.student_id = #{userId}) "
-			+ "UNION " + "(SELECT c.class_id AS classId, c.class_name AS className, c.prof_id AS profId "
-			+ "FROM Class c WHERE c.prof_id = #{userId})")
+	@Select("(SELECT c.class_id AS classId, c.class_name AS className, c.prof_id AS profId, c.description AS description " +
+	        "FROM class c JOIN student_class sc ON c.class_id = sc.class_id WHERE sc.student_id = #{userId}) " +
+	        "UNION " +
+	        "(SELECT c.class_id AS classId, c.class_name AS className, c.prof_id AS profId, c.description AS description " +
+	        "FROM class c WHERE c.prof_id = #{userId})")
 	List<Classroom> findClassesByUserId(String userId);
 
 	//강의실 추가

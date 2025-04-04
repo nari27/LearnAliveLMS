@@ -107,4 +107,21 @@ public interface ExamMapper {
         @Result(property = "updatedAt", column = "updated_at")
     })
     ExamBoard getExamBoardByClassId(@Param("classId") int classId);
+    
+ // ✅ classId로 전체 시험 목록 가져오기
+    @Select("SELECT * FROM exam WHERE class_id = #{classId}")
+    @Results({
+        @Result(property = "examId", column = "exam_id"),
+        @Result(property = "classId", column = "class_id"),
+        @Result(property = "profId", column = "prof_id"),
+        @Result(property = "profName", column = "prof_name"),
+        @Result(property = "title", column = "title"),
+        @Result(property = "startTime", column = "start_time"),
+        @Result(property = "endTime", column = "end_time"),
+        @Result(property = "createdAt", column = "created_at"),
+        @Result(property = "updatedAt", column = "updated_at"),
+        @Result(property = "questionCount", column = "question_count")
+    })
+    List<Exam> findAllByClassId(@Param("classId") int classId);
+
 }

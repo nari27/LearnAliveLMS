@@ -6,11 +6,12 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import com.lms.attendance.model.Board;
 import com.lms.attendance.model.Post;
 
 @Mapper
@@ -96,4 +97,30 @@ public interface PostMapper {
 	@Update("UPDATE Post SET likes = likes - 1 WHERE post_id = #{postId}")
 	void decrementLikes(@Param("postId") int postId);
 
+	
+	// ✅ 클래스에 속한 게시판 목록 조회
+    @Select("SELECT * FROM board WHERE class_id = #{classId}")
+    @Results({
+        @Result(property = "boardId", column = "board_id"),
+        @Result(property = "boardName", column = "board_name"),
+        @Result(property = "createdAt", column = "created_at"),
+        @Result(property = "updatedAt", column = "updated_at")
+    })
+    List<Board> findBoardsByClassId(@Param("classId") int classId);
+    
+    // ✅ 특정 게시판의 게시글 조회 (월별)
+    @Select("SELECT * FROM post WHERE board_id = #{boardId} AND created_at LIKE #{month}")
+    @Results({
+        @Result(property = "postId", column = "post_id"),
+        @Result(property = "boardId", column = "board_id"),
+        @Result(property = "title", column = "title"),
+        @Result(property = "content", column = "content"),
+        @Result(property = "author", column = "author"),
+        @Result(property = "createdAt", column = "created_at"),
+        @Result(property = "likeCount", column = "like_count"),
+        @Result(property = "view", column = "view")
+    })
+    List<Post> findPostsByBoardAndMonth(@Param("boardId") int boardId, @Param("month") String month);
+
+	
 }

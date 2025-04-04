@@ -32,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lms.attendance.model.AlarmMessage;
+import com.lms.attendance.model.Board;
 import com.lms.attendance.model.Post;
 import com.lms.attendance.service.AlarmSender;
 import com.lms.attendance.service.BoardService;
@@ -211,4 +212,26 @@ public class PostController {
 		List<Post> posts = postService.getUsersAllPosts(userId);
 		return ResponseEntity.ok(posts);
 	}
+	
+	
+	 // ✅ 게시판 목록 조회 (classId 기준)
+    @GetMapping("/boards")
+    public ResponseEntity<List<Board>> getPostBoards(@RequestParam("classId") int classId) {
+        List<Board> boards = postService.getBoardsByClassId(classId);
+        return ResponseEntity.ok(boards);
+    }
+    
+    // ✅ 게시글 조회 (특정 게시판 & 월별, month는 "YYYY-MM" 형식)
+    @GetMapping("/{boardId}/month")
+    public ResponseEntity<List<Post>> getPostsByBoardAndMonth(
+            @PathVariable("boardId") int boardId,
+            @RequestParam("month") String month) {
+        List<Post> posts = postService.getPostsByBoardAndMonth(boardId, month + "%");
+        // 로그 찍기
+        System.out.println(">>> [DEBUG] 조회된 게시글 수: " + posts.size());
+        posts.forEach(post -> System.out.println(">>> [DEBUG] post: " + post));
+        return ResponseEntity.ok(posts);
+    }
+
+
 }

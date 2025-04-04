@@ -28,4 +28,6 @@ public interface AttendanceService {
     List<Attendance> getPastAttendance(String studentId, String endDate);
     
     void checkAndSendFAlert(String studentId);  // 메소드 추가
+    
+    List<Attendance> getMonthlyAttendanceForClass(int classId, String month);
 }

@@ -92,3 +92,15 @@ export const deleteExamBoard = (boardId) => {
   return axios.delete(`/api/exams/board/${boardId}`);
 };
 
+// ✅ 학번(studentId) 없이 classId만으로 모든 시험 조회
+export const fetchAllExams = async (classId) => {
+  try {
+    const response = await axios.get(`${API_URL}/all`, {
+      params: { classId },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("❌ 전체 시험 목록 조회 실패:", error);
+    throw error;
+  }
+};

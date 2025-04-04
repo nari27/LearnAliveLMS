@@ -121,5 +121,11 @@ public class ExamController {
         return ResponseEntity.ok(results);
     }
 
-    
+ // ✅ classId로 전체 시험 목록 조회 (studentId 없이)
+    @GetMapping("/all")
+    public ResponseEntity<List<Exam>> getAllExams(@RequestParam("classId") int classId) {
+        List<Exam> exams = examService.getAllExamsByClassId(classId);
+        return ResponseEntity.ok(exams); // ✅ 배열 형태로 바로 반환
+    }
+
 }

@@ -184,4 +184,24 @@ public interface AttendanceMapper {
 			@Select("SELECT * FROM Attendance WHERE attendance_id = #{attendanceId}")
 			Attendance getAttendanceById(@Param("attendanceId") int attendanceId);
 
+			
+			@Select("""
+				    SELECT
+				        a.attendance_id,
+				        a.student_id,
+				        s.name,
+				        a.class_id,
+				        a.date,
+				        a.state,
+				        a.reason,
+				        a.created_at,
+				        a.updated_at
+				    FROM Attendance a
+				    JOIN Student s ON a.student_id = s.student_id
+				    WHERE a.class_id = #{classId}
+				      AND a.date LIKE CONCAT(#{month}, '%')
+				""")
+				@ResultMap("AttendanceResultMap")
+				List<Attendance> findAttendanceByClassForMonth(@Param("classId") int classId, @Param("month") String month);
+
 }

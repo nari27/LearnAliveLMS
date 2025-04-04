@@ -107,7 +107,7 @@ const ManageNotice = () => {
         {notices.map((notice) => (
           <li key={notice.notice_id} style={styles.noticeItem}>
             <h3>{notice.title}</h3>
-            <p>{notice.content}</p>
+            <div> {notice.content.split('\n').map((line, index) => ( <p key={index} style={{ marginBottom: '8px' }}>{line}</p> ))} </div>
             <div style={styles.noticeButtons}>
               <button onClick={() => handleSelectNotice(notice)} className="edit-button">수정</button>
               <button onClick={() => handleDelete(notice.notice_id)} className="delete-button">삭제</button>

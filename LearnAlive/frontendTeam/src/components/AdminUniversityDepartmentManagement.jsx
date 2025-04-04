@@ -164,7 +164,7 @@ const AdminUniversityDepartmentManagement = () => {
         {/* 대학 관리 섹션 */}
         <div style={{ marginBottom: '40px' }}>
           <div>
-            <h5 style={{ fontWeight: 'bold', color: '#333', marginBottom: '15px' }}>대학 관리</h5>
+            <h2 style={{ fontWeight: 'bold', color: '#333', marginBottom: '15px' }}>대학 관리</h2>
           </div>
           <div>
             <form onSubmit={handleAddUniversity}>
@@ -194,15 +194,7 @@ const AdminUniversityDepartmentManagement = () => {
               </div>
               <div>
                 <button
-                  style={{
-                    padding: '8px 16px',
-                    fontSize: '1rem',
-                    border: 'none',
-                    borderRadius: '4px',
-                    backgroundColor: '#007BFF',
-                    color: '#fff',
-                    cursor: 'pointer'
-                  }}
+                  className='normal-button'
                   type="submit"
                 >
                   추가
@@ -241,10 +233,11 @@ const AdminUniversityDepartmentManagement = () => {
                               setEditingUniversity(univ);
                               setEditUniversityName(univ.universityName);
                             }}
+                            className='edit-button'
                           >
                             수정
                           </button>
-                          <button onClick={() => handleDeleteUniversity(univ.universityId)}>삭제</button>
+                          <button onClick={() => handleDeleteUniversity(univ.universityId)} className='delete-button'>삭제</button>
                         </>
                       )}
                     </td>
@@ -263,7 +256,7 @@ const AdminUniversityDepartmentManagement = () => {
         {/* 학과 관리 섹션 */}
         <div>
           <div>
-            <h5 style={{ fontWeight: 'bold', color: '#333', marginBottom: '15px' }}>학과 관리</h5>
+            <h2 style={{ fontWeight: 'bold', color: '#333', marginBottom: '15px' }}>학과 관리</h2>
           </div>
           <div>
             <form onSubmit={handleAddDepartment}>
@@ -324,15 +317,7 @@ const AdminUniversityDepartmentManagement = () => {
               </div>
               <div>
                 <button
-                  style={{
-                    padding: '8px 16px',
-                    fontSize: '1rem',
-                    border: 'none',
-                    borderRadius: '4px',
-                    backgroundColor: '#28a745',
-                    color: '#fff',
-                    cursor: 'pointer'
-                  }}
+                  className='normal-button'
                   type="submit"
                 >
                   추가
@@ -373,10 +358,11 @@ const AdminUniversityDepartmentManagement = () => {
                               setEditingDepartment(dept);
                               setEditDepartmentName(dept.departmentName);
                             }}
+                            className='edit-button'
                           >
                             수정
                           </button>
-                          <button onClick={() => handleDeleteDepartment(dept.departmentId)}>삭제</button>
+                          <button onClick={() => handleDeleteDepartment(dept.departmentId)} className='delete-button'>삭제</button>
                         </>
                       )}
                     </td>

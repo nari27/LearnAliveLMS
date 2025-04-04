@@ -58,7 +58,10 @@ export const updateClassGrade = async (classId, score, grade) => {
 };
 
 export const updateClassDescription = async (classId, description) => {
-  const response = await axios.put(`${API_BASE_URL}/${classId}/description`, { description });
+  const response = await axios.put(
+    `${API_BASE_URL}/${classId}/description`,
+    { description }
+  );
   return response.data;
 };
 
