@@ -77,9 +77,10 @@
 - `교수자`: 강의실 운영, 출결 관리, 시험 출제, 게시판 제어
 - `학부생`: 수강 신청, 출석, 게시판 활동, 팀 활동, 시험 응시
 
-### ERD / 요구사항 명세 / 플로우차트
-👉 [ERD 및 요구사항 명세 보기](https://www.figma.com/design/WOBNLCfkcLOltITfUSnO3Z/Untitled?m=dev&t=unpGOldBTlfgy3fj-1)  
-👉 [WBS - 작업 분장 및 일정](https://www.figma.com/design/WOBNLCfkcLOltITfUSnO3Z/Untitled?m=dev&t=unpGOldBTlfgy3fj-1)
+## 📘 프로젝트 문서 보기
+
+- [LMS 프로젝트 소개 PDF 보러가기](docs/LMS%20프로젝트%20소개.pdf)
+
 
 ---
 
