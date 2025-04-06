@@ -81,29 +81,27 @@
 
 - [📄 LMS 프로젝트 소개 PPT](https://github.com/nari27/LearnAliveLMS/blob/main/docs/LMS%20%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%8C%E1%85%A6%E1%86%A8%E1%84%90%E1%85%B3%20%E1%84%89%E1%85%A9%E1%84%80%E1%85%A2.pdf)
 
-## 🎨 화면 설계
-
-- [🖼️ Figma에서 LMS 디자인 보기](https://www.figma.com/design/WOBNLCfkcLOltITfUSnO3Z/LearnAliveLMS?node-id=0-1&p=f&t=uMVc2Jh6Jd0fBcZK-0)
+- [🖼️ 화면 설계_Figma](https://www.figma.com/design/WOBNLCfkcLOltITfUSnO3Z/LearnAliveLMS?node-id=0-1&p=f&t=uMVc2Jh6Jd0fBcZK-0)
 
 ---
 
 ## Learn Alive의 특징
 
-## 데이터 시각화 및 분석
+##1. 데이터 시각화 및 분석
 - Google Chart 활용한 출석률/성적 시각화
 - 게시글 좋아요 수 기반 인기 게시판 제공
 - 설문 게시판 막대/파이차트 시각화 자동 생성
 
-## 자동화 시스템
+##2. 자동화 시스템
 시험 응시 후 실시간 자동 채점 및 점수 확인
 
-## 출석 시스템
+##3. 출석 시스템
 출석률 관리 및 통계 기능 
 
-## F학점 경고 알림
+##4. F학점 경고 알림
 학습자의 학업 위험도 파악 및 알림 제공
 
-## 사용자 중심의 UI/UX
+##5. 사용자 중심의 UI/UX
 역할별 대시보드, 직관적인 레이아웃 설계
 
 ---
