@@ -77,11 +77,13 @@
 - `교수자`: 강의실 운영, 출결 관리, 시험 출제, 게시판 제어
 - `학부생`: 수강 신청, 출석, 게시판 활동, 팀 활동, 시험 응시
 
-## 📘 프로젝트 문서
+## 🗂️ 프로젝트 산출물
 
-- [📄 LMS 프로젝트 소개 PPT](https://github.com/nari27/LearnAliveLMS/blob/main/docs/LMS%20%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%8C%E1%85%A6%E1%86%A8%E1%84%90%E1%85%B3%20%E1%84%89%E1%85%A9%E1%84%80%E1%85%A2.pdf)
+- [LMS 프로젝트 소개 PPT](https://github.com/nari27/LearnAliveLMS/blob/main/docs/LMS%20%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%8C%E1%85%A6%E1%86%A8%E1%84%90%E1%85%B3%20%E1%84%89%E1%85%A9%E1%84%80%E1%85%A2.pdf)
 
-- [🖼️ 화면 설계_Figma](https://www.figma.com/design/WOBNLCfkcLOltITfUSnO3Z/LearnAliveLMS?node-id=0-1&p=f&t=uMVc2Jh6Jd0fBcZK-0)
+- [화면 설계_Figma](https://www.figma.com/design/WOBNLCfkcLOltITfUSnO3Z/LearnAliveLMS?node-id=0-1&p=f&t=uMVc2Jh6Jd0fBcZK-0)
+
+- [프로젝트 흐름도 (플로우차트)](https://github.com/nari27/LearnAliveLMS/blob/main/docs/Flow%20Chart(%E1%84%92%E1%85%B3%E1%84%85%E1%85%B3%E1%86%B7%E1%84%83%E1%85%A9).pdf)
 
 ---
 
