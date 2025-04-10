@@ -1,4 +1,4 @@
-# 📚 Learn Alive - LMS 프로젝트
+# Learn Alive - LMS 프로젝트
 
 > 프로젝트 기간: 2025.02-2025.04  
 > 작업자: 5명
