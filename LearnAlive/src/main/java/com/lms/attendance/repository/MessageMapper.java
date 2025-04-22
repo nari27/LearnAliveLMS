@@ -2,9 +2,7 @@ package com.lms.attendance.repository;
 
 import com.lms.attendance.model.AddressBook;
 import com.lms.attendance.model.Message;
-
 import java.util.List;
-
 import org.apache.ibatis.annotations.*;
 
 @Mapper

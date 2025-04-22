@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchExamDetail, updateExam, deleteExam } from '../api/examApi';
 import '../styles/ExamDetail.css';
+import PropTypes from 'prop-types';
 
 const ExamDetail = ({ examId: propExamId, onUpdated, onBack }) => {
   const { examId: paramExamId } = useParams();
@@ -118,7 +119,11 @@ const ExamDetail = ({ examId: propExamId, onUpdated, onBack }) => {
 
   return (
     <div className="exam-container">
-      <button onClick={onBack} className="back-button" style={{ display: "block", marginLeft: "auto" }}>
+      <button
+        onClick={onBack}
+        className="back-button"
+        style={{ display: 'block', marginLeft: 'auto' }}
+      >
         ⬅ 돌아가기
       </button>
       <h2 className="exam-title">시험 상세보기</h2>
@@ -254,6 +259,7 @@ const ExamDetail = ({ examId: propExamId, onUpdated, onBack }) => {
                             onChange={() =>
                               handleCorrectAnswerChange(index, i + 1)
                             }
+                            disabled={!isEditing}
                           />
                           {i + 1}. {question[answer]}
                         </label>
@@ -304,6 +310,12 @@ const ExamDetail = ({ examId: propExamId, onUpdated, onBack }) => {
       </div>
     </div>
   );
+};
+
+ExamDetail.propTypes = {
+  examId: PropTypes.number.isRequired,
+  onUpdated: PropTypes.func.isRequired,
+  onBack: PropTypes.func.isRequired,
 };
 
 export default ExamDetail;

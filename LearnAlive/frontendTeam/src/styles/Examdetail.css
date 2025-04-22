@@ -106,7 +106,6 @@
 }
 
 .Qtitle textarea {
-  margin-left: 10px;
   max-width: 450px; /* 원하는 최대 너비 설정 */
   min-width: 450px; /* 최소 너비 설정 */
   padding: 8px; /* 내부 여백 추가 */

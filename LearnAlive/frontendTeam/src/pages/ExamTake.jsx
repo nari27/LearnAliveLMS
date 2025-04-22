@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
 import { fetchExamDetail, submitExam } from '../api/examApi';
 import { useAuth } from '../context/AuthContext';
 import '../styles/ExamTake.css';
+import PropTypes from 'prop-types';
 
-const ExamTake = ({ examId, classId, onBack, onExamSubmitted }) => {
+const ExamTake = ({ examId, onBack, onExamSubmitted }) => {
   const { user } = useAuth();
-  const navigate = useNavigate();
   const [exam, setExam] = useState(null);
   const [answers, setAnswers] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -163,6 +162,8 @@ const ExamTake = ({ examId, classId, onBack, onExamSubmitted }) => {
               <div className="question-header-1">
                 <h3 className="question-number-1">Q{index + 1}.</h3>
                 <div className="question-title-1">{question.questionTitle}</div>
+                {/* 오른쪽: 점수 */}
+                <span className="score1">0/5</span>
               </div>
               <div className="question-text">{question.questionText}</div>
               {['answer1', 'answer2', 'answer3', 'answer4'].map((key, i) => (
@@ -190,7 +191,7 @@ const ExamTake = ({ examId, classId, onBack, onExamSubmitted }) => {
             onClick={handleSubmit}
             disabled={isSubmitting}
           >
-            {isSubmitting ? '제출 중...' : '시험 제출'}
+            시험 제출
           </button>
         </div>
 
@@ -202,6 +203,12 @@ const ExamTake = ({ examId, classId, onBack, onExamSubmitted }) => {
       </div>
     </div>
   );
+};
+
+ExamTake.propTypes = {
+  examId: PropTypes.number.isRequired,
+  onBack: PropTypes.func.isRequired,
+  onExamSubmitted: PropTypes.func.isRequired,
 };
 
 export default ExamTake;

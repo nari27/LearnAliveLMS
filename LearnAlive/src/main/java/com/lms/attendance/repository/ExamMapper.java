@@ -1,17 +1,7 @@
 package com.lms.attendance.repository;
 
 import java.util.List;
-
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-
+import org.apache.ibatis.annotations.*;
 import com.lms.attendance.model.Exam;
 import com.lms.attendance.model.ExamBoard;
 import com.lms.attendance.model.ExamQuestion;
@@ -108,7 +98,7 @@ public interface ExamMapper {
     })
     ExamBoard getExamBoardByClassId(@Param("classId") int classId);
     
- // ✅ classId로 전체 시험 목록 가져오기
+    // classId로 전체 시험 목록 가져오기
     @Select("SELECT * FROM exam WHERE class_id = #{classId}")
     @Results({
         @Result(property = "examId", column = "exam_id"),

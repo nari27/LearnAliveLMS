@@ -1,16 +1,13 @@
 package com.lms.attendance.service;
 
 import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.lms.attendance.model.Exam;
 import com.lms.attendance.model.ExamQuestion;
 import com.lms.attendance.model.StudentExamResult;
 import com.lms.attendance.repository.ExamMapper;
 import com.lms.attendance.repository.ExamQuestionMapper;
-
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -71,12 +68,12 @@ public class ExamService {
         }
     }
     
- // examId 기준으로 모든 학생의 시험 결과 조회
+	// examId 기준으로 모든 학생의 시험 결과 조회
     public List<StudentExamResult> getExamResultsByExamId(int examId) {
     	return examMapper.findExamResultsByExamId(examId);  // examId로 시험 결과 목록을 가져오는 메서드 호출
     }
     
- // 퀴즈 게시판 생성 (Exam_Board 테이블에 등록)
+    // 퀴즈 게시판 생성 (Exam_Board 테이블에 등록)
     public void createQuizBoard(int classId) {
         // 중복 방지를 위해 조회 후 생성
         if (examMapper.getExamBoardByClassId(classId) == null) {
@@ -86,7 +83,7 @@ public class ExamService {
         }
     }
     
- // ✅ classId 기준으로 모든 시험 목록 조회
+    // classId 기준으로 모든 시험 목록 조회
     public List<Exam> getAllExamsByClassId(int classId) {
         return examMapper.findAllByClassId(classId); // ✅ 해당 클래스의 시험 목록만 가져오기
     }

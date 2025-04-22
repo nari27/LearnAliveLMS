@@ -10,7 +10,6 @@ import com.lms.attendance.repository.ExamSubmissionMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +19,6 @@ import java.util.List;
 @Transactional
 public class ExamSubmissionService {
     private final ExamSubmissionMapper examSubmissionMapper;
-//    private final ExamMapper examMapper;
-//    private final ExamQuestionMapper examQuestionMapper;
     private final ExamService examService;
 
     // 시험 제출 및 자동 채점
@@ -84,10 +81,6 @@ public class ExamSubmissionService {
     	}
     }
 
-    // 특정 학생의 시험 제출 내역 조회
-//    public ExamSubmission getStudentSubmission(int examId, String studentId) {
-//        return examSubmissionMapper.getStudentSubmission(examId, studentId);
-//    }
     
     public ExamResult getExamResult(int examId, String studentId) {
         ExamResult examResult = new ExamResult();
@@ -105,9 +98,5 @@ public class ExamSubmissionService {
         examResult.setExamSubmission(examSubmission);
         examResult.setAnswers(answers);
         return examResult;
-    }
-
-    
-
-    
+    }    
 }

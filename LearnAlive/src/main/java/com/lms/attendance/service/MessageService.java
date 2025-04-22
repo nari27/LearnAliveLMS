@@ -1,10 +1,8 @@
 package com.lms.attendance.service;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.lms.attendance.model.AddressBook;
 import com.lms.attendance.model.Message;
 import com.lms.attendance.repository.MessageMapper;

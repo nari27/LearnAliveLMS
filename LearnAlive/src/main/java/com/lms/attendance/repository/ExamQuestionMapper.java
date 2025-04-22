@@ -1,9 +1,7 @@
 package com.lms.attendance.repository;
 
 import java.util.List;
-
 import org.apache.ibatis.annotations.*;
-
 import com.lms.attendance.model.ExamQuestion;
 
 @Mapper

@@ -1,13 +1,10 @@
 package com.lms.attendance.repository;
 
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 public interface LikeMapper {
 	
-	  // 특정 게시글에 특정 유저가 좋아요를 눌렀는지 확인
+	// 특정 게시글에 특정 유저가 좋아요를 눌렀는지 확인
     @Select("SELECT COUNT(*) > 0 FROM likes WHERE post_id = #{postId} AND user_id = #{userId}")
     boolean isLiked(@Param("postId") int postId, @Param("userId") String userId);
     

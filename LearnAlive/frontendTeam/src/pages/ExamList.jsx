@@ -3,10 +3,10 @@ import { fetchExams, ExamResultsByExamId } from '../api/examApi';
 import { useAuth } from '../context/AuthContext';
 import { useParams } from 'react-router-dom';
 import ExamCreate from './ExamCreate';
-import ExamDetail from './ExamDetail'; // 교수자 시험 상세 컴포넌트 (별도 구현 필요)
-import ExamResult from './ExamResult'; // 학생 시험 결과 화면
-import ExamTake from './ExamTake'; // 학생 시험 응시 화면
-import ExamResults from '../components/ExamResults'; // 교수자용 전체 시험 결과
+import ExamDetail from './ExamDetail';
+import ExamResult from './ExamResult';
+import ExamTake from './ExamTake';
+import ExamResults from '../components/ExamResults';
 
 const ExamList = () => {
   const { classId } = useParams();
@@ -71,12 +71,15 @@ const ExamList = () => {
   if (!user) return <p>로그인 해주세요.</p>;
 
   return (
-    <div className='post-container'>
+    <div className="post-container">
       {viewMode === 'list' && (
         <>
-          <h2 className='title-bar'>📝 시험 목록</h2>
+          <h2 className="title-bar">📝 시험 목록</h2>
           {user.role === 'professor' && (
-            <button onClick={() => setViewMode('create')} className='normal-button'>
+            <button
+              onClick={() => setViewMode('create')}
+              className="normal-button"
+            >
               💁‍♀️ 시험 추가
             </button>
           )}
@@ -95,16 +98,16 @@ const ExamList = () => {
               <tbody>
                 {exams.map((exam) => (
                   <tr key={exam.examId}>
-                    <td onClick={() => handleExamClick(exam)}
-                        className='post-title'>
-                        {exam.title}
+                    <td
+                      onClick={() => handleExamClick(exam)}
+                      className="post-title"
+                    >
+                      {exam.title}
                     </td>
                     <td>{exam.profName || '-'}</td>
                     <td>{exam.questionCount || '-'}</td>
                     <td>
-                      {exam.startTime
-                        ? exam.startTime.replace('T', ' ')
-                        : '-'}
+                      {exam.startTime ? exam.startTime.replace('T', ' ') : '-'}
                     </td>
                     <td>
                       {exam.endTime ? exam.endTime.replace('T', ' ') : '-'}
@@ -113,7 +116,10 @@ const ExamList = () => {
                       {user.role === 'student' ? (
                         exam.score || '미응시'
                       ) : (
-                        <button onClick={() => openExamResults(exam.examId)} className='normal-button'>
+                        <button
+                          onClick={() => openExamResults(exam.examId)}
+                          className="normal-button"
+                        >
                           점수 조회
                         </button>
                       )}
@@ -148,7 +154,10 @@ const ExamList = () => {
           examId={selectedExamId}
           classId={classId}
           onBack={() => setViewMode('list')}
-          onExamSubmitted={() => setViewMode('result')}
+          onExamSubmitted={() => {
+            setViewMode('result');
+            window.scrollTo(0, 0);
+          }}
         />
       )}
 
@@ -156,7 +165,10 @@ const ExamList = () => {
         <ExamResult
           examId={selectedExamId}
           classId={classId}
-          onBack={() => setViewMode('list')}
+          onBack={() => {
+            setViewMode('list');
+            refreshExams();
+          }}
         />
       )}
 

@@ -20,8 +20,8 @@ public interface ExamSubmissionMapper {
     void insertExamAnswer(ExamAnswer answer);
 
     // 3. 정답 조회
-//    @Select("SELECT correct_answer FROM Exam_Question WHERE question_id = #{questionId}")
-//    int getCorrectAnswer(int questionId);
+    //    @Select("SELECT correct_answer FROM Exam_Question WHERE question_id = #{questionId}")
+    //    int getCorrectAnswer(int questionId);
     
     @Select("SELECT * FROM Exam_Question WHERE exam_id = #{examId} ORDER BY question_id ASC")
     @Results({
@@ -57,7 +57,7 @@ public interface ExamSubmissionMapper {
     ExamSubmission getStudentSubmission(@Param("examId") int examId, @Param("studentId") String studentId);
 
     
- // 학생 답변 조회
+    // 학생 답변 조회
     @Select("SELECT * FROM Exam_Answer WHERE student_id = #{studentId} AND exam_id = #{examId}")
     @Results({
         @Result(property = "answerId", column = "answer_id"),

@@ -4,7 +4,6 @@ const API_URL = 'http://localhost:8080/api/messages';
 
 // 쪽지 보내기
 export const sendMessage = async (messageData) => {
-  console.log('보내는 데이터:', messageData); // 확인용 로그 추가
   return await axios.post(`${API_URL}/send`, messageData);
 };
 

@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { createExam } from '../api/examApi';
 import { useNavigate, useParams } from 'react-router-dom';
 import '../styles/ExamCreate.css';
+import PropTypes from 'prop-types';
 
 const ExamCreate = ({ onBack }) => {
   const [examTitle, setExamTitle] = useState('');
@@ -99,10 +100,6 @@ const ExamCreate = ({ onBack }) => {
         alert(`문제 ${i + 1}의 제목을 입력해주세요.`);
         return;
       }
-      if (!q.text.trim()) {
-        alert(`문제 ${i + 1}의 내용을 입력해주세요.`);
-        return;
-      }
       if (q.options.some((option) => !option.trim())) {
         alert(`문제 ${i + 1}의 모든 선택지를 입력해주세요.`);
         return;
@@ -115,7 +112,7 @@ const ExamCreate = ({ onBack }) => {
 
     const examData = {
       classId,
-      profId, // 여기에 교수 ID 추가
+      profId,
       profName,
       title: examTitle,
       startTime,
@@ -152,9 +149,13 @@ const ExamCreate = ({ onBack }) => {
   return (
     <div>
       <div className="exam-container">
-      <button onClick={onBack} className="back-button" style={{ display: "block", marginLeft: "auto" }}>
-        ⬅ 돌아가기
-      </button>
+        <button
+          onClick={onBack}
+          className="back-button"
+          style={{ display: 'block', marginLeft: 'auto' }}
+        >
+          ⬅ 돌아가기
+        </button>
         <h2>📝 시험 만들기</h2>
         <br></br>
         <input
@@ -259,6 +260,10 @@ const ExamCreate = ({ onBack }) => {
       </div>
     </div>
   );
+};
+
+ExamCreate.propTypes = {
+  onBack: PropTypes.func.isRequired,
 };
 
 export default ExamCreate;

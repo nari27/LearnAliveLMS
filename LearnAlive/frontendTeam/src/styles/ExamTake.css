@@ -56,13 +56,13 @@
 
 .question-title-1 {
   margin-top: 5px;
-  margin-left: 20px;
+  margin-left: 15px;
 }
 
 .option,
 .question-title-1,
 .question-text {
-  width: 70%;
+  width: 80%;
 }
 
 .option {
@@ -118,4 +118,9 @@
   border-radius: 20px;
   font-size: 10px;
   text-align: center; /* 중앙 정렬 */
+}
+
+.score1 {
+  margin-top: 5px;
+  margin-left: 50px;
 }

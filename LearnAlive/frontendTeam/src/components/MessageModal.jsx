@@ -146,7 +146,7 @@ const MessageModal = ({ isOpen, onClose }) => {
 
     try {
       await sendMessage(newMessage);
-      setActiveTab('sent'); // ✅ 메시지 전송 후 보낸 메시지함으로 이동
+      setActiveTab('sent'); // 메시지 전송 후 보낸 메시지함으로 이동
     } catch (error) {
       console.error('메시지 전송에 실패했습니다:', error);
     }
@@ -209,11 +209,13 @@ const MessageModal = ({ isOpen, onClose }) => {
   return (
     <div className="overlay-1">
       <div className="modal-1">
-      <div className="close-button-container">
-        <button onClick={onClose} className="close-button">X</button>
-      </div>
+        <div className="close-button-container">
+          <button onClick={onClose} className="close-button">
+            X
+          </button>
+        </div>
         <h3 className="title-bar">
-            {activeTab === 'received'
+          {activeTab === 'received'
             ? '받은 쪽지'
             : activeTab === 'sent'
             ? '보낸 쪽지'
@@ -272,15 +274,15 @@ const MessageModal = ({ isOpen, onClose }) => {
               className="textarea"
             />
             <div className="button-group">
-            <button onClick={handleSendMessage} className="sendButton">
+              <button onClick={handleSendMessage} className="sendButton">
                 보내기
-            </button>
-            <button
+              </button>
+              <button
                 onClick={() => handleTabClick('received')}
                 className="cancelButton"
-            >
+              >
                 취소
-            </button>
+              </button>
             </div>
           </div>
         ) : activeTab === 'addressBook' ? (
@@ -428,7 +430,7 @@ MessageModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   messages: PropTypes.arrayOf(
     PropTypes.shape({
-      messageId: PropTypes.number.isRequired, // message_id가 숫자형임을 반영
+      messageId: PropTypes.number.isRequired,
       senderName: PropTypes.string.isRequired,
       receiverName: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,

@@ -10,6 +10,4 @@ public class ExamSubmission {
     private String studentId;
     private LocalDateTime submittedAt;
     private int score; // 채점 결과
-
-//    private List<ExamAnswer> answers; // 학생이 제출한 답안 목록
 }

@@ -11,5 +11,4 @@ public class ExamAnswer {
     private int examId;
     private int answer;
     private Boolean isCorrect; // 정답 여부
-
 }
